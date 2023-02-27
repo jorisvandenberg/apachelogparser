@@ -6,5 +6,14 @@ import (
 
 func main() {
 	args := getargs()
-	fmt.Printf("%+v", args)
+	db := createdb(args.dbpath)
+	defer db.Close()
+	tx := initialisedb(db)
+	
+
+	err := tx.Commit()
+	if err != nil {
+		fmt.Printf("%s\n", err.Error())
+	}
+	fmt.Printf("%+v", db)
 }
