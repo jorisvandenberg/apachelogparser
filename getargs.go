@@ -24,13 +24,16 @@ type args struct {
 	number_of_days_per_day   int
 	number_of_days_per_week  int
 	number_of_days_per_month int
+	truncatealreadyloaded bool
 }
 
 func getargs() args {
 	var output args
 	runtypePtr := flag.String("runtype", `all`, "options: all, onlylogparse, onlystats. Default: all")
+	truncatealreadyloadedPtr := flag.Bool("truncatealreadyloaded", false, "if set, the \"alreadyloaded\" table will be truncated if combined with runtype all or onlylogparse")
 	flag.Parse()
 	output.runtype = *runtypePtr
+	output.truncatealreadyloaded = *truncatealreadyloadedPtr
 	var configfilepath string
 	if _, err := os.Stat("config.ini"); err == nil {
 		fmt.Printf("found a config.ini file in the current path... using that one\n")

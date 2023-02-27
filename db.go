@@ -8,6 +8,7 @@ import (
 
 )
 
+
 func createdb(dbnaam string) *sql.DB {
 	db, err := sql.Open("sqlite3", dbnaam)
 	if err != nil {
