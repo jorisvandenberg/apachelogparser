@@ -215,7 +215,7 @@ func parseme(line string,  maxvisittimestamp int, args args) {
 		}
 
 	} else {
-		fmt.Printf("unable to parse line %s %s", len(match), line)
+		fmt.Printf("unable to parse line %d %s", len(match), line)
 	}
 }
 
