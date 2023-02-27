@@ -15,6 +15,7 @@ type args struct {
 	dbpath string
 	timeformat string 
 	mydomain          string
+	parseregex string
 	ignoredips        []string
 	ignoredhostagents []string
 	ignoredreferrers  []string
@@ -24,6 +25,15 @@ type args struct {
 	number_of_days_per_day   int
 	number_of_days_per_week  int
 	number_of_days_per_month int
+	parserfield_ip int
+	parserfield_datetime int
+	parserfield_method int
+	parserfield_request int
+	parserfield_httpversion int
+	parserfield_returncode int
+	parserfield_httpsize int
+	parserfield_referrer int
+	parserfield_useragent int
 	truncatealreadyloaded bool
 }
 
@@ -75,6 +85,16 @@ func getargs() args {
 
 	output.logfilepath = cfg.Section("input").Key("logfilepath").String()
 	output.logfileregex = cfg.Section("input").Key("logfileregex").String()
+	output.parseregex = cfg.Section("input").Key("parseregex").String()
+	output.parserfield_ip, _ = cfg.Section("input").Key("parserfield_ip").Int()
+	output.parserfield_datetime, _ = cfg.Section("input").Key("parserfield_datetime").Int()
+	output.parserfield_method, _ = cfg.Section("input").Key("parserfield_method").Int()
+	output.parserfield_request, _ = cfg.Section("input").Key("parserfield_request").Int()
+	output.parserfield_httpversion, _ = cfg.Section("input").Key("parserfield_httpversion").Int()
+	output.parserfield_returncode, _ = cfg.Section("input").Key("parserfield_returncode").Int()
+	output.parserfield_httpsize, _ = cfg.Section("input").Key("parserfield_httpsize").Int()
+	output.parserfield_referrer, _ = cfg.Section("input").Key("parserfield_referrer").Int()
+	output.parserfield_useragent, _ = cfg.Section("input").Key("parserfield_useragent").Int()
 
 	output.outputpath = cfg.Section("output").Key("outputpath").String()
 	output.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
