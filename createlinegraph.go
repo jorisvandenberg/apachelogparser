@@ -1,40 +1,34 @@
 package main
 
 import (
-	//"io"
-	"math/rand"
 	"os"
-
 	"github.com/go-echarts/go-echarts/v2/charts"
-	//"github.com/go-echarts/go-echarts/v2/components"
 	"github.com/go-echarts/go-echarts/v2/opts"
 )
 
-var (
-	itemCntLine = 6
-	fruits      = []string{"Apple", "Banana", "Peach ", "Lemon", "Pear", "Cherry"}
-)
 
-func generateLineItems() []opts.LineData {
-	items := make([]opts.LineData, 0)
-	for i := 0; i < itemCntLine; i++ {
-		items = append(items, opts.LineData{Value: rand.Intn(300)})
-	}
-	return items
-}
 
-func createlinegraph(args args) {
+
+func createlinegraph(XValues []string, YValues map[string][]int, title string, subtitle string, args args, filename string) {
 		line := charts.NewLine()
 		line.SetGlobalOptions(
 			charts.WithTitleOpts(opts.Title{
-				Title:    "title and label options",
-				Subtitle: "go-echarts is an awesome chart library written in Golang",
-				Link:     "https://github.com/go-echarts/go-echarts",
+				Title:    title,
+				Subtitle: subtitle,
+				//Link:     "https://github.com/go-echarts/go-echarts",
 			}),
 		)
+		for serienaam, serievalues := range YValues {
+			items := make([]opts.LineData, 0)
+			for _, serievalue := range serievalues {
+				items = append(items, opts.LineData{Value: serievalue})
+			}
+			line.SetXAxis(XValues).AddSeries(serienaam, items).SetSeriesOptions(charts.WithLabelOpts(opts.Label{Show: true,}),)
+		}
+
 		line.SetGlobalOptions(
 			charts.WithInitializationOpts(opts.Initialization{
-				PageTitle:  "mijn pagina titel",
+				PageTitle:  title,
 				Width:      `95vw`,
 				Height:     `95vh`,
 				AssetsHost: args.assethost,
@@ -45,14 +39,7 @@ func createlinegraph(args args) {
 				Right: "5%",
 			}),
 		)
-		line.SetXAxis(fruits).
-			AddSeries("Category A", generateLineItems()).
-			SetSeriesOptions(
-				charts.WithLabelOpts(opts.Label{
-					Show: true,
-				}),
-			)
 		
-	f, _ := os.Create("./output/linchaart.html")
+	f, _ := os.Create(args.outputpath + filename)
 			_ = line.Render(f)
 }
