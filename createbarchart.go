@@ -21,6 +21,7 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 		bar.SetXAxis(XValues).AddSeries(serienaam, items)
 	}
 	bar.SetGlobalOptions(
+		//https://github.com/go-echarts/go-echarts/blob/ad9b214d3d71d5a1a0e02c2a706df9b23acdcbf6/charts/base.go#L21
 		charts.WithInitializationOpts(opts.Initialization{
 			PageTitle: title,
 			Width: `95vw`,
