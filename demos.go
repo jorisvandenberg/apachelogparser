@@ -1,5 +1,9 @@
 package main
 
+func demolinegraph(args args) {
+	createlinegraph(args) 
+}
+
 func demobarchart(args args) {
 	XValues := []string{"Januari", "Februari", "March", "April"}
 	YValues := make(map[string][]int)

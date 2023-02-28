@@ -27,5 +27,6 @@ func main() {
 
 	demobarchart(args)
 	demotable(args)
+	demolinegraph(args)
 	createindex(args)
 }
