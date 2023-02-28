@@ -22,6 +22,8 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 	}
 	bar.SetGlobalOptions(
 		//https://github.com/go-echarts/go-echarts/blob/ad9b214d3d71d5a1a0e02c2a706df9b23acdcbf6/charts/base.go#L21
+		//https://github.com/go-echarts/go-echarts/blob/1dee3e5ca83599ebae7d62f4afb3e1113ebda667/opts/global.go#L20
+		//https://github.com/go-echarts/go-echarts/blob/1dee3e5ca83599ebae7d62f4afb3e1113ebda667/opts/global.go#L157
 		charts.WithInitializationOpts(opts.Initialization{
 			PageTitle: title,
 			Width: `95vw`,
