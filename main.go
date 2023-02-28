@@ -10,7 +10,7 @@ func main() {
 	defer db.Close()
 	tx := initialisedb(db)
 	loadquerydb(tx)
-	filltemplatedb() 
+	filltemplatedb()
 	if args.truncatealreadyloaded == true {
 		truncatealreadyloaded()
 	}

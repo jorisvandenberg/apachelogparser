@@ -47,7 +47,7 @@ func filltemplatedb() {
 		</script>
 	</body>
 </html>`
-html_index := `<!DOCTYPE html>
+	html_index := `<!DOCTYPE html>
 <html>
 	<body>
 				{{range .}}

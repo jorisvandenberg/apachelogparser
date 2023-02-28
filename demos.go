@@ -11,7 +11,7 @@ func demolinegraph(args args) {
 	YValues["Last year"] = append(YValues["Last year"], 25)
 	YValues["Last year"] = append(YValues["Last year"], 17)
 	YValues["Last year"] = append(YValues["Last year"], 14)
-	createlinegraph(XValues, YValues, "this is a demo", "yup, a demo", args, "demolinegraph.html") 
+	createlinegraph(XValues, YValues, "this is a demo", "yup, a demo", args, "demolinegraph.html")
 }
 
 func demobarchart(args args) {
@@ -31,17 +31,17 @@ func demobarchart(args args) {
 func demoboxplot(args args) {
 	XValues := []string{"Januari", "Februari", "March", "April"}
 	YValues := make(map[string][][]int)
-	YValues["This year"] = append(YValues["This year"], []int{7,14,8,9,99,44} )
-	YValues["This year"] = append(YValues["This year"], []int{8,12,7,8,94,45} )
-	YValues["This year"] = append(YValues["This year"], []int{8,12,7,8,94,45} )
-	YValues["This year"] = append(YValues["This year"], []int{8,12,7,8,94,45} )
+	YValues["This year"] = append(YValues["This year"], []int{7, 14, 8, 9, 99, 44})
+	YValues["This year"] = append(YValues["This year"], []int{8, 12, 7, 8, 94, 45})
+	YValues["This year"] = append(YValues["This year"], []int{8, 12, 7, 8, 94, 45})
+	YValues["This year"] = append(YValues["This year"], []int{8, 12, 7, 8, 94, 45})
 
-	YValues["Last year"] = append(YValues["Last year"], []int{7,14,8,9,99,44} )
-	YValues["Last year"] = append(YValues["Last year"], []int{8,12,7,8,94,45} )
-	YValues["Last year"] = append(YValues["Last year"], []int{8,12,7,8,94,45} )
-	YValues["Last year"] = append(YValues["Last year"], []int{8,12,7,8,94,45} )
+	YValues["Last year"] = append(YValues["Last year"], []int{7, 14, 8, 9, 99, 44})
+	YValues["Last year"] = append(YValues["Last year"], []int{8, 12, 7, 8, 94, 45})
+	YValues["Last year"] = append(YValues["Last year"], []int{8, 12, 7, 8, 94, 45})
+	YValues["Last year"] = append(YValues["Last year"], []int{8, 12, 7, 8, 94, 45})
 
-	createboxplot(XValues, YValues, args , "my demo boxplot", "demoboxplot.html")
+	createboxplot(XValues, YValues, args, "my demo boxplot", "demoboxplot.html")
 }
 func demotable(args args) {
 	MyHeaders := map[string]string{
