@@ -4,6 +4,7 @@ import (
 	"os"
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
+	"fmt"
 )
 
 var (
@@ -27,15 +28,21 @@ func generateBoxPlotItems(boxPlotData [][]int) []opts.BoxPlotData {
 }
 
 
-func createboxplot()  {
+func createboxplot(XValues []string, YValues map[string][][]int)  {
 	bp := charts.NewBoxPlot()
 	bp.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{Title: "boxplot with multi-series"}),
 	)
 
-	bp.SetXAxis(bpX[:2]).
-		AddSeries("series1", generateBoxPlotItems(bpY[:2])).
-		AddSeries("series2", generateBoxPlotItems(bpY[2:]))
+	for serienaam, serievalues := range YValues {
+		items := make([]opts.BoxPlotData, 0)
+		for _, serievalue := range serievalues {
+			items = append(items, opts.BoxPlotData{Value: serievalue})
+		}
+		//fmt.Printf("%+v\n", items)
+		//fmt.Printf("%+v\n\n\n", generateBoxPlotItems(bpY[:2]))
+		bp.SetXAxis(XValues).AddSeries(serienaam, items)
+	}
 		//f, _ := os.Create(args.outputpath + filename)
 		f, _ := os.Create("./output/bp.html")
 		_ = bp.Render(f)
