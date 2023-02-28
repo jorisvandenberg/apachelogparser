@@ -20,4 +20,5 @@ func main() {
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
+	demobarchart(args) 
 }

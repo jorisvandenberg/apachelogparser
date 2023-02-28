@@ -16,6 +16,7 @@ type args struct {
 	timeformat string 
 	mydomain          string
 	parseregex string
+	assethost string
 	ignoredips        []string
 	ignoredhostagents []string
 	ignoredreferrers  []string
@@ -97,6 +98,7 @@ func getargs() args {
 	output.parserfield_useragent, _ = cfg.Section("input").Key("parserfield_useragent").Int()
 
 	output.outputpath = cfg.Section("output").Key("outputpath").String()
+	output.assethost = cfg.Section("output").Key("assethost").String()
 	output.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
 	output.number_of_days_per_hour, _ = cfg.Section("output").Key("number_of_days_per_hour").Int()
 	output.number_of_days_per_day, _ = cfg.Section("output").Key("number_of_days_per_day").Int()
