@@ -13,3 +13,31 @@ func demobarchart(args args) {
 	YValues["Last year"] = append(YValues["Last year"], 14)
 	createbarchart(XValues, YValues, "this is a demo", "yup, a demo", args, "demobarchart.html")
 }
+
+
+func demotable(args args) {
+	MyHeaders := map[string]string{
+		"Title_1": "kolom 1",
+		"Title_2": "kolom 2",
+	}
+
+	myTable := Table{
+		Pagetitle:       "tadaa",
+		Pagedescription: "blahblah",
+		Headers:         MyHeaders,
+		Data:            []map[string]string{},
+	}
+
+	MyData := map[string]string{
+		"Value_1": "record 1.1",
+		"Value_2": "record 1.2",
+	}
+	myTable.Data = append(myTable.Data, MyData)
+	MyData = map[string]string{
+		"Value_1": "record 2.1",
+		"Value_2": "record 2.2",
+	}
+	myTable.Data = append(myTable.Data, MyData)
+
+	createtable(args, "demotable.html", "this is a title", myTable)
+}

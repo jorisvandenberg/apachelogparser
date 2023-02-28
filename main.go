@@ -10,6 +10,7 @@ func main() {
 	defer db.Close()
 	tx := initialisedb(db)
 	loadquerydb(tx)
+	filltemplatedb() 
 	if args.truncatealreadyloaded == true {
 		truncatealreadyloaded()
 	}
@@ -25,4 +26,6 @@ func main() {
 	}
 
 	demobarchart(args)
+	demotable(args)
+	createindex(args)
 }
