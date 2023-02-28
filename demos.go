@@ -28,7 +28,9 @@ func demobarchart(args args) {
 	createbarchart(XValues, YValues, "this is a demo", "yup, a demo", args, "demobarchart.html")
 }
 
-
+func demoboxplot(args args) {
+	createboxplot()
+}
 func demotable(args args) {
 	MyHeaders := map[string]string{
 		"Title_1": "kolom 1",
