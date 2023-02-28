@@ -42,4 +42,9 @@ func createlinegraph(XValues []string, YValues map[string][]int, title string, s
 		
 	f, _ := os.Create(args.outputpath + filename)
 			_ = line.Render(f)
+			MyPageForIndex := page_forindex{
+				Title: title,
+				Url:   filename,
+			}
+			indexpages = append(indexpages, MyPageForIndex)
 }
