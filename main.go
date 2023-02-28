@@ -13,6 +13,9 @@ func main() {
 	if (args.truncatealreadyloaded == true) {
 		truncatealreadyloaded()
 	}
+	if (args.emptyoutputpath == true) {
+		emptydir(args.outputpath, ".html")
+	}
 	if (args.runtype == "all" || args.runtype == "onlylogparse") {
 		parselogs(args)
 	}
@@ -20,8 +23,6 @@ func main() {
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
-	if (args.emptyoutputpath == true) {
-		emptydir(args.outputpath, ".html")
-	}
+	
 	demobarchart(args) 
 }
