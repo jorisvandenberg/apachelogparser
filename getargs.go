@@ -36,6 +36,7 @@ type args struct {
 	parserfield_referrer int
 	parserfield_useragent int
 	truncatealreadyloaded bool
+	emptyoutputpath bool
 }
 
 func getargs() args {
@@ -104,6 +105,7 @@ func getargs() args {
 	output.number_of_days_per_day, _ = cfg.Section("output").Key("number_of_days_per_day").Int()
 	output.number_of_days_per_week, _ = cfg.Section("output").Key("number_of_days_per_week").Int()
 	output.number_of_days_per_month, _ = cfg.Section("output").Key("number_of_days_per_month").Int()
+	output.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
 
 	output.dbpath = cfg.Section("general").Key("dbpath").String()
 	output.timeformat = cfg.Section("general").Key("timeformat").String()

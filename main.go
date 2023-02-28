@@ -20,5 +20,8 @@ func main() {
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
+	if (args.emptyoutputpath == true) {
+		emptydir(args.outputpath, ".html")
+	}
 	demobarchart(args) 
 }
