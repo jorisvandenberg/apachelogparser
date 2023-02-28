@@ -10,19 +10,19 @@ func main() {
 	defer db.Close()
 	tx := initialisedb(db)
 	loadquerydb(tx)
-	if (args.truncatealreadyloaded == true) {
+	if args.truncatealreadyloaded == true {
 		truncatealreadyloaded()
 	}
-	if (args.emptyoutputpath == true) {
+	if args.emptyoutputpath == true {
 		emptydir(args.outputpath, ".html")
 	}
-	if (args.runtype == "all" || args.runtype == "onlylogparse") {
+	if args.runtype == "all" || args.runtype == "onlylogparse" {
 		parselogs(args)
 	}
 	err := tx.Commit()
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
-	
-	demobarchart(args) 
+
+	demobarchart(args)
 }

@@ -25,9 +25,9 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 		//https://github.com/go-echarts/go-echarts/blob/1dee3e5ca83599ebae7d62f4afb3e1113ebda667/opts/global.go#L20
 		//https://github.com/go-echarts/go-echarts/blob/1dee3e5ca83599ebae7d62f4afb3e1113ebda667/opts/global.go#L157
 		charts.WithInitializationOpts(opts.Initialization{
-			PageTitle: title,
-			Width: `95vw`,
-			Height: `95vh`, 
+			PageTitle:  title,
+			Width:      `95vw`,
+			Height:     `95vh`,
 			AssetsHost: args.assethost,
 		}),
 		charts.WithLegendOpts(opts.Legend{

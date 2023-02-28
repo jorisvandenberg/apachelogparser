@@ -2,12 +2,10 @@ package main
 
 import (
 	"database/sql"
-	"os"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
-
+	"os"
 )
-
 
 func createdb(dbnaam string) *sql.DB {
 	db, err := sql.Open("sqlite3", dbnaam)

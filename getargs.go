@@ -2,41 +2,41 @@ package main
 
 import (
 	"flag"
-	"os"
 	"fmt"
 	"gopkg.in/ini.v1"
+	"os"
 )
 
 type args struct {
-	runtype string
-	logfilepath string
-	outputpath string
-	logfileregex string
-	dbpath string
-	timeformat string 
-	mydomain          string
-	parseregex string
-	assethost string
-	ignoredips        []string
-	ignoredhostagents []string
-	ignoredreferrers  []string
-	ignoredrequests   []string
+	runtype                  string
+	logfilepath              string
+	outputpath               string
+	logfileregex             string
+	dbpath                   string
+	timeformat               string
+	mydomain                 string
+	parseregex               string
+	assethost                string
+	ignoredips               []string
+	ignoredhostagents        []string
+	ignoredreferrers         []string
+	ignoredrequests          []string
 	number_of_days_detailed  int
 	number_of_days_per_hour  int
 	number_of_days_per_day   int
 	number_of_days_per_week  int
 	number_of_days_per_month int
-	parserfield_ip int
-	parserfield_datetime int
-	parserfield_method int
-	parserfield_request int
-	parserfield_httpversion int
-	parserfield_returncode int
-	parserfield_httpsize int
-	parserfield_referrer int
-	parserfield_useragent int
-	truncatealreadyloaded bool
-	emptyoutputpath bool
+	parserfield_ip           int
+	parserfield_datetime     int
+	parserfield_method       int
+	parserfield_request      int
+	parserfield_httpversion  int
+	parserfield_returncode   int
+	parserfield_httpsize     int
+	parserfield_referrer     int
+	parserfield_useragent    int
+	truncatealreadyloaded    bool
+	emptyoutputpath          bool
 }
 
 func getargs() args {
@@ -57,10 +57,10 @@ func getargs() args {
 		os.Exit(1)
 	}
 	cfg, err := ini.Load(configfilepath)
-		if err != nil {
-			fmt.Printf("Fail to read file: %v", err)
-			os.Exit(1)
-		}
+	if err != nil {
+		fmt.Printf("Fail to read file: %v", err)
+		os.Exit(1)
+	}
 	var ignorevisitorips_list []string
 	var ignorehostagents_list []string
 	var ignoredreferrers_list []string

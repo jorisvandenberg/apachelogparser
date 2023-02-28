@@ -1,19 +1,19 @@
 package main
 
 import (
+	"bufio"
+	"compress/gzip"
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"regexp"
-	"crypto/sha256"
-	"io"
-	"encoding/hex"
-	"compress/gzip"
-	"bufio"
 	"time"
 )
 
-func insertrow( ip string, datumtijd string, method string, request string, httpversion string, returncode string, httpsize string, referrer string, useragent string, maxtimestamp int, args args) {
+func insertrow(ip string, datumtijd string, method string, request string, httpversion string, returncode string, httpsize string, referrer string, useragent string, maxtimestamp int, args args) {
 	longForm := args.timeformat
 	/*
 		create user and return userid or return userid of existing user (userid)
@@ -101,8 +101,7 @@ func insertrow( ip string, datumtijd string, method string, request string, http
 	}
 }
 
-
-func truncatealreadyloaded () {
+func truncatealreadyloaded() {
 	stmt_truncatealreadyloaded := myquerydb["stmt_truncatealreadyloaded"].stmt
 
 	_, err := stmt_truncatealreadyloaded.Exec()
@@ -146,7 +145,7 @@ func getfiles(regex string, pathS string) []string {
 					fmt.Printf("%s\n", err.Error())
 				}
 				defer filehandle.Close()
-				
+
 				hash := sha256.New()
 				if _, err := io.Copy(hash, filehandle); err != nil {
 					fmt.Printf("%s\n", err.Error())
@@ -155,7 +154,7 @@ func getfiles(regex string, pathS string) []string {
 				stmt_countalreadyloaded := myquerydb["stmt_countalreadyloaded"].stmt
 				var countalreadyloaded int
 				stmt_countalreadyloaded.QueryRow(filehash).Scan(&countalreadyloaded)
-				
+
 				if countalreadyloaded == 0 {
 					files = append(files, f.Name())
 					fmt.Printf("%s added to the todo list\n", f.Name())
@@ -170,10 +169,10 @@ func getfiles(regex string, pathS string) []string {
 	return files
 }
 
-func parseme(line string,  maxvisittimestamp int, args args) {
+func parseme(line string, maxvisittimestamp int, args args) {
 	re := regexp.MustCompile(args.parseregex)
 	match := re.FindStringSubmatch(line)
-	
+
 	if len(match) == 10 {
 		ip := match[args.parserfield_ip]
 		datumtijd := match[args.parserfield_datetime]
