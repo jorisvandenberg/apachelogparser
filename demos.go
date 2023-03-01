@@ -1,5 +1,14 @@
 package main
 
+func demopiechart(args args) {
+	XValues := []string{"Januari", "Februari", "March", "April"}
+	YValues := make(map[string]int)
+	YValues["a"] = 5
+	YValues["b"] = 9
+	YValues["c"] = 15
+	createpiechart(XValues, YValues, "this is a demo", "yup, a demo", args, "demopiegraph.html")
+}
+
 func demolinegraph(args args) {
 	XValues := []string{"Apple", "Banana", "Peach ", "Lemon"}
 	YValues := make(map[string][]int)

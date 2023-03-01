@@ -29,5 +29,6 @@ func main() {
 	demotable(args)
 	demolinegraph(args)
 	demoboxplot(args)
+	demopiechart(args)
 	createindex(args)
 }
