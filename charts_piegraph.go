@@ -4,21 +4,8 @@ import (
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
 	"os"
-	"math/rand"
 )
 
-var (
-	itemCntPie = 4
-	seasons    = []string{"Spring", "Summer", "Autumn ", "Winter"}
-)
-
-func generatePieItems() []opts.PieData {
-	items := make([]opts.PieData, 0)
-	for i := 0; i < itemCntPie; i++ {
-		items = append(items, opts.PieData{Name: seasons[i], Value: rand.Intn(100)})
-	}
-	return items
-}
 
 func createpiechart(XValues []string, YValues map[string]int, title string, subtitle string, args args, filename string) {
 	pie := charts.NewPie()
