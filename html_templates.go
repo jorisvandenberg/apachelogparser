@@ -3,6 +3,24 @@ package main
 var templatedb = make(map[string]string)
 
 func filltemplatedb() {
+	html_page := `<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{{.Pagetitle}}</title>
+	</head>
+	<body>
+		<h1>{{.Pagetitle}}</h1>
+		<p>{{.Pagedescription}}</p>
+		<div>
+
+				{{range .Paragraphs}}
+				<p>{{.}}</p>
+				{{end}}
+		</div>
+
+	</body>
+</html>`
 	table_tmpl := `<!DOCTYPE html>
 <html>
 	<head>
@@ -58,4 +76,5 @@ func filltemplatedb() {
 
 	templatedb["table_tmpl"] = table_tmpl
 	templatedb["html_index"] = html_index
+	templatedb["html_page"] = html_page
 }

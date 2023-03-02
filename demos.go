@@ -5,6 +5,16 @@ import (
 	"io"
 	"github.com/go-echarts/go-echarts/v2/components"
 )
+
+func demowritehtmlpage(args args) {
+	var newpage HtmlPage
+	newpage.Pagetitle = "my demo page"
+	newpage.Pagedescription = "this is a simple demo page"
+	newpage.Paragraphs = append(newpage.Paragraphs, "this is the first paragraph")
+	newpage.Paragraphs = append(newpage.Paragraphs, "and this is the second paragraph")
+	createhtmltable(args, "demosimplepage.html",  newpage)
+}
+
 func demowritemulti(args args) {
 	XValues := []string{"Januari", "Februari", "March", "April"}
 	YValues := make(map[string]int)

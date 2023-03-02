@@ -31,5 +31,6 @@ func main() {
 	demoboxplot(args)
 	demopiechart(args)
 	demowritemulti(args)
+	demowritehtmlpage(args)
 	createindex(args)
 }
