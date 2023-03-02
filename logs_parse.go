@@ -154,12 +154,12 @@ func getfiles(regex string, pathS string) []string {
 				stmt_countalreadyloaded := myquerydb["stmt_countalreadyloaded"].stmt
 				var countalreadyloaded int
 				stmt_countalreadyloaded.QueryRow(filehash).Scan(&countalreadyloaded)
-
+				t := time.Now()
 				if countalreadyloaded == 0 {
 					files = append(files, f.Name())
-					fmt.Printf("%s added to the todo list\n", f.Name())
+					mylog = append(mylog, t.Format("2006-01-02 15:04:05") + " => " + f.Name() + " added to the todo list")
 				} else {
-					fmt.Printf("%s was already parsed in the past... skipping\n", f.Name())
+					mylog = append(mylog, t.Format("2006-01-02 15:04:05") + " => " + f.Name() + " was already parsed in the past... skipping")
 				}
 
 			}

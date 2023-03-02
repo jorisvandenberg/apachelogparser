@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
+var mylog []string
+
 func main() {
 	args := getargs()
 	db := createdb(args.dbpath)
@@ -33,4 +35,5 @@ func main() {
 	demowritemulti(args)
 	demowritehtmlpage(args)
 	createindex(args)
+	writelog(args)
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 func emptydir(path string, extension string) {
@@ -19,14 +20,17 @@ func emptydir(path string, extension string) {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
-	fmt.Println("Reading " + path)
+	t := time.Now()
+	mylog = append(mylog, t.Format("2006-01-02 15:04:05") + " => starting the output directory cleanup")
+	mylog = append(mylog, t.Format("2006-01-02 15:04:05") + " => Reading " + path)
+	
 
 	for _, file := range files {
 		if file.Mode().IsRegular() {
 			if filepath.Ext(file.Name()) == extension {
 				os.Remove(path + file.Name())
-				fmt.Println("Deleted ", file.Name())
+				t := time.Now()
+				mylog = append(mylog, t.Format("2006-01-02 15:04:05") + " => Deleted " + file.Name())
 			}
 		}
 	}

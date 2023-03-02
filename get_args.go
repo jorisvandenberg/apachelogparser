@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gopkg.in/ini.v1"
 	"os"
+	"time"
 )
 
 type args struct {
@@ -37,6 +38,7 @@ type args struct {
 	parserfield_useragent    int
 	truncatealreadyloaded    bool
 	emptyoutputpath          bool
+	writelog				 bool
 }
 
 func getargs() args {
@@ -47,11 +49,13 @@ func getargs() args {
 	output.runtype = *runtypePtr
 	output.truncatealreadyloaded = *truncatealreadyloadedPtr
 	var configfilepath string
+	var logconfig string
+	t := time.Now()
 	if _, err := os.Stat("config.ini"); err == nil {
-		fmt.Printf("found a config.ini file in the current path... using that one\n")
+		logconfig = t.Format("2006-01-02 15:04:05") + " => found a config.ini file in the current path... using that one"
 		configfilepath = "config.ini"
 	} else if _, err := os.Stat("/etc/apachelogparser/config.ini"); err == nil {
-		fmt.Printf("found a config.ini file: /etc/apachelogparser/config.ini... using that one\n")
+		logconfig = t.Format("2006-01-02 15:04:05") + " => found a config.ini file: /etc/apachelogparser/config.ini... using that one"
 		configfilepath = "/etc/apachelogparser/config.ini"
 	} else {
 		os.Exit(1)
@@ -106,9 +110,15 @@ func getargs() args {
 	output.number_of_days_per_week, _ = cfg.Section("output").Key("number_of_days_per_week").Int()
 	output.number_of_days_per_month, _ = cfg.Section("output").Key("number_of_days_per_month").Int()
 	output.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
+	
 
 	output.dbpath = cfg.Section("general").Key("dbpath").String()
 	output.timeformat = cfg.Section("general").Key("timeformat").String()
 	output.mydomain = cfg.Section("general").Key("mydomain").String()
+	output.writelog, _ = cfg.Section("general").Key("writelog").Bool()
+
+	if (output.writelog){
+		mylog = append(mylog, logconfig)
+	}
 	return output
 }
