@@ -1,5 +1,29 @@
 package main
 
+import (
+	"os"
+	"io"
+	"github.com/go-echarts/go-echarts/v2/components"
+)
+func demowritemulti(args args) {
+	XValues := []string{"Januari", "Februari", "March", "April"}
+	YValues := make(map[string]int)
+	YValues["a"] = 5
+	YValues["b"] = 9
+	YValues["c"] = 15
+	page := components.NewPage()
+	page.AddCharts(
+		createpiechart(XValues, YValues, "this is a demo", "yup, a demo", args, "magniet1.html", false),
+		createpiechart(XValues, YValues, "this is a demo", "yup, a demo", args, "magniet2.html", false),
+	)
+	f, err := os.Create("./output/piechartz.html")
+	if err != nil {
+		panic(err)
+	}
+	page.Render(io.MultiWriter(f))
+
+}
+
 func demopiechart(args args) {
 	XValues := []string{"Januari", "Februari", "March", "April"}
 	YValues := make(map[string]int)
