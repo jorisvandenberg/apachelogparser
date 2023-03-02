@@ -54,7 +54,7 @@ func demolinegraph(args args) {
 	YValues["Last year"] = append(YValues["Last year"], 25)
 	YValues["Last year"] = append(YValues["Last year"], 17)
 	YValues["Last year"] = append(YValues["Last year"], 14)
-	createlinegraph(XValues, YValues, "this is a demo", "yup, a demo", args, "demolinegraph.html")
+	createlinegraph_html(XValues, YValues, "this is a demo", "yup, a demo", args, "demolinegraph.html")
 }
 
 func demobarchart(args args) {
