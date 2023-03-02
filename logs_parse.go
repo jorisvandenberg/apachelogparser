@@ -157,9 +157,9 @@ func getfiles(regex string, pathS string) []string {
 				t := time.Now()
 				if countalreadyloaded == 0 {
 					files = append(files, f.Name())
-					mylog = append(mylog, t.Format("2006-01-02 15:04:05") + " => " + f.Name() + " added to the todo list")
+					mylog = append(mylog, t.Format("2006-01-02 15:04:05")+" => "+f.Name()+" added to the todo list")
 				} else {
-					mylog = append(mylog, t.Format("2006-01-02 15:04:05") + " => " + f.Name() + " was already parsed in the past... skipping")
+					mylog = append(mylog, t.Format("2006-01-02 15:04:05")+" => "+f.Name()+" was already parsed in the past... skipping")
 				}
 
 			}

@@ -8,10 +8,10 @@ import (
 type HtmlPage struct {
 	Pagetitle       string
 	Pagedescription string
-	Paragraphs         []string
+	Paragraphs      []string
 }
 
-func createhtmltable(args args, outputfilename string,  myHtmlPage HtmlPage) {
+func createhtmltable(args args, outputfilename string, myHtmlPage HtmlPage) {
 	t, err := template.New("mytemplate").Parse(templatedb["html_page"])
 	if err != nil {
 		panic(err)

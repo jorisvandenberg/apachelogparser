@@ -6,7 +6,6 @@ import (
 	"os"
 )
 
-
 func createpiechart(XValues []string, YValues map[string]int, title string, subtitle string, args args, filename string, writehtml ...bool) *charts.Pie {
 	pie := charts.NewPie()
 	pie.SetGlobalOptions(
@@ -24,21 +23,20 @@ func createpiechart(XValues []string, YValues map[string]int, title string, subt
 				Formatter: "{b}: {c}",
 			}),
 		)
-		writehtml_optional := true
-		if (len(writehtml) > 0) {
-			writehtml_optional = writehtml[0]
+	writehtml_optional := true
+	if len(writehtml) > 0 {
+		writehtml_optional = writehtml[0]
+	}
+	if writehtml_optional {
+		f, _ := os.Create(args.outputpath + filename)
+		_ = pie.Render(f)
+
+		MyPageForIndex := page_forindex{
+			Title: title,
+			Url:   filename,
 		}
-		if (writehtml_optional) {
-			f, _ := os.Create(args.outputpath + filename)
-			_ = pie.Render(f)
-	
-			MyPageForIndex := page_forindex{
-				Title: title,
-				Url:   filename,
-			}
-			indexpages = append(indexpages, MyPageForIndex)
-		}
-		return pie
-		
+		indexpages = append(indexpages, MyPageForIndex)
+	}
+	return pie
 
 }

@@ -38,17 +38,17 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 	)
 
 	writehtml_optional := true
-	if (len(writehtml) > 0) {
+	if len(writehtml) > 0 {
 		writehtml_optional = writehtml[0]
 	}
-	if (writehtml_optional) {
+	if writehtml_optional {
 		f, _ := os.Create(args.outputpath + filename)
-	_ = bar.Render(f)
-	MyPageForIndex := page_forindex{
-		Title: title,
-		Url:   filename,
-	}
-	indexpages = append(indexpages, MyPageForIndex)
+		_ = bar.Render(f)
+		MyPageForIndex := page_forindex{
+			Title: title,
+			Url:   filename,
+		}
+		indexpages = append(indexpages, MyPageForIndex)
 	}
 	return bar
 }

@@ -24,17 +24,17 @@ func createboxplot(XValues []string, YValues map[string][][]int, args args, titl
 
 	}
 	writehtml_optional := true
-	if (len(writehtml) > 0) {
+	if len(writehtml) > 0 {
 		writehtml_optional = writehtml[0]
 	}
-	if (writehtml_optional) {
+	if writehtml_optional {
 		f, _ := os.Create(args.outputpath + filename)
-	_ = bp.Render(f)
-	MyPageForIndex := page_forindex{
-		Title: title,
-		Url:   filename,
-	}
-	indexpages = append(indexpages, MyPageForIndex)
+		_ = bp.Render(f)
+		MyPageForIndex := page_forindex{
+			Title: title,
+			Url:   filename,
+		}
+		indexpages = append(indexpages, MyPageForIndex)
 	}
 	return bp
 }

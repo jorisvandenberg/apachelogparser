@@ -1,9 +1,9 @@
 package main
 
 import (
-	"os"
-	"io"
 	"github.com/go-echarts/go-echarts/v2/components"
+	"io"
+	"os"
 )
 
 func demowritehtmlpage(args args) {
@@ -12,7 +12,7 @@ func demowritehtmlpage(args args) {
 	newpage.Pagedescription = "this is a simple demo page"
 	newpage.Paragraphs = append(newpage.Paragraphs, "this is the first paragraph")
 	newpage.Paragraphs = append(newpage.Paragraphs, "and this is the second paragraph")
-	createhtmltable(args, "demosimplepage.html",  newpage)
+	createhtmltable(args, "demosimplepage.html", newpage)
 }
 
 func demowritemulti(args args) {
