@@ -1,5 +1,9 @@
 # Version for this file.
-version: 1
+version: 2
+
+env:
+  - GO111MODULE=on
+  - CGO_ENABLED=0
 
 # (Optional) Flags for the compiler.
 flags:
