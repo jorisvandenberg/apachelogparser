@@ -9,6 +9,7 @@ main
 builds/
 output/
 demologs/
+apachelogparser
 
 # Test binary, built with `go test -c`
 *.test
