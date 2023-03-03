@@ -10,6 +10,8 @@ import (
 )
 
 func ZipWriter(inputfolder string, outputfile string) {
+	t := time.Now()
+	mylog = append(mylog,  t.Format("2006-01-02 15:04:05") + " => received request to create zipfile " + outputfile + " from all files in directory " + inputfolder)
     outFile, err := os.Create(outputfile)
     if err != nil {
         fmt.Println(err)
@@ -42,6 +44,7 @@ func addFiles(w *zip.Writer, basePath, baseInZip string) {
 
     for _, file := range files {
         fmt.Println(basePath + file.Name())
+		mylog = append(mylog,  t.Format("2006-01-02 15:04:05") + " => adding file " + basePath + file.Name() + " to the ziplist")
         if !file.IsDir() {
             dat, err := ioutil.ReadFile(basePath + file.Name())
             if err != nil {
