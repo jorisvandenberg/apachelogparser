@@ -6,6 +6,16 @@ import (
 	"os"
 )
 
+func writedemographs(args args) {
+	demobarchart(args)
+	demotable(args)
+	demolinegraph(args)
+	demoboxplot(args)
+	demopiechart(args)
+	demowritemulti(args)
+	demowritehtmlpage(args)
+}
+
 func demowritehtmlpage(args args) {
 	var newpage HtmlPage
 	newpage.Pagetitle = "my demo page"

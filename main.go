@@ -13,27 +13,27 @@ func main() {
 	tx := initialisedb(db)
 	loadquerydb(tx)
 	filltemplatedb()
-	if args.truncatealreadyloaded == true {
+	if args.truncatealreadyloaded {
 		truncatealreadyloaded()
 	}
-	if args.emptyoutputpath == true {
+	if args.emptyoutputpath {
 		emptydir(args.outputpath, ".html")
 	}
 	if args.runtype == "all" || args.runtype == "onlylogparse" {
 		parselogs(args)
+	} 
+	if args.runtype == "all" || args.runtype == "onlystats" {
+		generatestats(args)
 	}
 	err := tx.Commit()
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
 
-	demobarchart(args)
-	demotable(args)
-	demolinegraph(args)
-	demoboxplot(args)
-	demopiechart(args)
-	demowritemulti(args)
-	demowritehtmlpage(args)
+	if args.demographs {
+		writedemographs(args)
+	}
+	
 	createindex(args)
 	writelog(args)
 }

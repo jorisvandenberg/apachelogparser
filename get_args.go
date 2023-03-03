@@ -39,15 +39,18 @@ type args struct {
 	truncatealreadyloaded    bool
 	emptyoutputpath          bool
 	writelog                 bool
+	demographs				 bool
 }
 
 func getargs() args {
 	var output args
 	runtypePtr := flag.String("runtype", `all`, "options: all, onlylogparse, onlystats. Default: all")
 	truncatealreadyloadedPtr := flag.Bool("truncatealreadyloaded", false, "if set, the \"alreadyloaded\" table will be truncated if combined with runtype all or onlylogparse")
+	demographsPtr := flag.Bool("demographs", false, "write a bunch of demographs to the output dir")
 	flag.Parse()
 	output.runtype = *runtypePtr
 	output.truncatealreadyloaded = *truncatealreadyloadedPtr
+	output.demographs = *demographsPtr
 	var configfilepath string
 	var logconfig string
 	t := time.Now()
