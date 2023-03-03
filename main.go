@@ -36,4 +36,7 @@ func main() {
 	
 	createindex(args)
 	writelog(args)
+	if args.zipoutput {
+		ZipWriter(args.outputpath, args.zippath)
+	}
 }

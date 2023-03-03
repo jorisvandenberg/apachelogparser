@@ -40,6 +40,8 @@ type args struct {
 	emptyoutputpath          bool
 	writelog                 bool
 	demographs				 bool
+	zipoutput				 bool
+	zippath					 string
 }
 
 func getargs() args {
@@ -120,6 +122,8 @@ func getargs() args {
 	output.number_of_days_per_week, _ = cfg.Section("output").Key("number_of_days_per_week").Int()
 	output.number_of_days_per_month, _ = cfg.Section("output").Key("number_of_days_per_month").Int()
 	output.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
+	output.zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
+	output.zippath = cfg.Section("output").Key("zippath").String()
 
 	output.dbpath = cfg.Section("general").Key("dbpath").String()
 	output.timeformat = cfg.Section("general").Key("timeformat").String()
