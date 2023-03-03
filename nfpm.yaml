@@ -22,3 +22,4 @@ contents:
   dst: /usr/bin/apachelogparser
 - src: ./config.ini
   dst: /etc/apachelogparser/config.ini
+  type: config|noreplace
