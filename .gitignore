@@ -6,7 +6,7 @@
 *.dylib
 *.zip
 main
-build/
+builds/
 output/
 demologs/
 

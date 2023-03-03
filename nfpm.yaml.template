@@ -1,0 +1,24 @@
+# nfpm example configuration file
+#
+# check https://nfpm.goreleaser.com/configuration for detailed usage
+#
+name: "apachelogparser"
+arch: "amd64"
+platform: "linux"
+version: "vmyversion"
+section: "default"
+priority: "extra"
+provides:
+- apachelogparser
+maintainer: "Joris Vandenberg <joris.vandenberg@scarlet.be>"
+description: |
+  apachelogparser is a simple apache combined logfile parser
+    The data is stored in a SQLite database and simple statistics are included
+vendor: "Joris Vandenberg"
+homepage: "https://jorisvandenberg.github.io/"
+license: "apache2.0"
+contents:
+- src: ./builds/apachelogparser
+  dst: /usr/bin/apachelogparser
+- src: ./config.ini
+  dst: /etc/apachelogparser/config.ini
