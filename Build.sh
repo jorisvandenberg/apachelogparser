@@ -5,7 +5,8 @@
 rm ./builds/*
 
 #compile experimental: need CGO for go-sqlite, can't use cgo due to portability issues
-GOOS=linux GOARCH=amd64 go build -a -ldflags "-linkmode external -extldflags '-static' -s -w" -o builds/apachelogparser.tmp .
+#GOOS=linux GOARCH=amd64 go build -a -ldflags "-linkmode external -extldflags '-static' -s -w" -o builds/apachelogparser.tmp .
+GOOS=linux GOARCH=amd64 go build -o builds/apachelogparser.tmp .
 GOOS=windows GOARCH=amd64 go build -o builds/apachelogparser.exe .
 
 #compress the linux binary, this will be the one i distribute the most (due to most webservers running on linux)

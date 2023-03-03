@@ -5,7 +5,7 @@
 name: "apachelogparser"
 arch: "amd64"
 platform: "linux"
-version: "v0.0.1"
+version: "v"
 section: "default"
 priority: "extra"
 provides:

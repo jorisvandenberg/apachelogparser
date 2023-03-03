@@ -34,8 +34,9 @@ func main() {
 		writedemographs(args)
 	}
 	
-	createindex(args)
 	writelog(args)
+	createindex(args)
+	
 	if args.zipoutput {
 		ZipWriter(args.outputpath, args.zippath)
 	}
