@@ -4,7 +4,7 @@
 #clean up the old builds
 rm ./builds/*
 
-#compile
+#compile experimental: need CGO for go-sqlite, can't use cgo due to portability issues
 GOOS=linux GOARCH=amd64 go build -a -ldflags "-linkmode external -extldflags '-static' -s -w" -o builds/apachelogparser.tmp .
 GOOS=windows GOARCH=amd64 go build -o builds/apachelogparser.exe .
 
