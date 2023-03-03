@@ -54,7 +54,10 @@ func filltemplatedb() {
 	</head>
 	<body>
 		<h1>{{.Pagetitle}}</h1>
-		<p>{{.Pagedescription}}</p>
+		<h2>{{.Pagedescription}}</h2>
+		{{range .Pagecontent}}
+		<p>{{.}}</p>
+		{{end}}
 		<p>
 		<table  id="myTable" class="tablesorter" border = "1">
 		<thead>
@@ -80,6 +83,7 @@ func filltemplatedb() {
 			$("#myTable").tablesorter();
 		  });
 		</script>
+		<p>{{.Pagefooter}}</p>
 	</body>
 </html>`
 	html_index := `<!DOCTYPE html>

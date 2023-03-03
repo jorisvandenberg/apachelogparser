@@ -23,7 +23,9 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args args) {
 	}
 	myTable := Table{
 		Pagetitle:       "Number of raw 2xx and 3xx hits per hour over th last " + strconv.Itoa(args.number_of_days_detailed) + " days",
-		Pagedescription: "Count of all raw succesfull hits (filtering out all 4xx and 5xx return codes). We limit the output to the number of days that were defined in your config.ini file with a sliding window (so if you run this tool at 15:34 you'll get stats untill 15:34 x days ago). only hits that were actually loaded are shown, so if you filtered out certain lines in your config.ini they'll never be shown!",
+		Pagedescription: "Count of all raw succesfull hits (filtering out all 4xx and 5xx return codes).",
+		Pagecontent: []string{"We limit the output to the number of days that were defined in your config.ini file with a sliding window (so if you run this tool at 15:34 you'll get stats untill 15:34 x days ago)."},
+		Pagefooter: "only hits that were actually loaded are shown, so if you filtered out certain lines in your config.ini they'll never be shown!",
 		Headers:         MyHeaders,
 		Data:            []map[string]string{},
 	}

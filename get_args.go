@@ -45,15 +45,21 @@ type args struct {
 func getargs() args {
 	var output args
 	runtypePtr := flag.String("runtype", `all`, "options: all, onlylogparse, onlystats. Default: all")
+	customconfigPtr := flag.String("config", `default`, "the full path to a custom configfile")
 	truncatealreadyloadedPtr := flag.Bool("truncatealreadyloaded", false, "if set, the \"alreadyloaded\" table will be truncated if combined with runtype all or onlylogparse")
 	demographsPtr := flag.Bool("demographs", false, "write a bunch of demographs to the output dir")
 	flag.Parse()
 	output.runtype = *runtypePtr
 	output.truncatealreadyloaded = *truncatealreadyloadedPtr
 	output.demographs = *demographsPtr
+	
 	var configfilepath string
 	var logconfig string
 	t := time.Now()
+	if (*customconfigPtr != `default`) {
+		configfilepath = *customconfigPtr
+		logconfig = t.Format("2006-01-02 15:04:05") + " => path for config file was added as a parameter, using that one: " + configfilepath
+	} else {
 	if _, err := os.Stat("config.ini"); err == nil {
 		logconfig = t.Format("2006-01-02 15:04:05") + " => found a config.ini file in the current path... using that one"
 		configfilepath = "config.ini"
@@ -63,6 +69,7 @@ func getargs() args {
 	} else {
 		os.Exit(1)
 	}
+}
 	cfg, err := ini.Load(configfilepath)
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)
