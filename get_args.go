@@ -39,9 +39,9 @@ type args struct {
 	truncatealreadyloaded    bool
 	emptyoutputpath          bool
 	writelog                 bool
-	demographs				 bool
-	zipoutput				 bool
-	zippath					 string
+	demographs               bool
+	zipoutput                bool
+	zippath                  string
 }
 
 func getargs() args {
@@ -54,24 +54,24 @@ func getargs() args {
 	output.runtype = *runtypePtr
 	output.truncatealreadyloaded = *truncatealreadyloadedPtr
 	output.demographs = *demographsPtr
-	
+
 	var configfilepath string
 	var logconfig string
 	t := time.Now()
-	if (*customconfigPtr != `default`) {
+	if *customconfigPtr != `default` {
 		configfilepath = *customconfigPtr
 		logconfig = t.Format("2006-01-02 15:04:05") + " => path for config file was added as a parameter, using that one: " + configfilepath
 	} else {
-	if _, err := os.Stat("config.ini"); err == nil {
-		logconfig = t.Format("2006-01-02 15:04:05") + " => found a config.ini file in the current path... using that one"
-		configfilepath = "config.ini"
-	} else if _, err := os.Stat("/etc/apachelogparser/config.ini"); err == nil {
-		logconfig = t.Format("2006-01-02 15:04:05") + " => found a config.ini file: /etc/apachelogparser/config.ini... using that one"
-		configfilepath = "/etc/apachelogparser/config.ini"
-	} else {
-		os.Exit(1)
+		if _, err := os.Stat("config.ini"); err == nil {
+			logconfig = t.Format("2006-01-02 15:04:05") + " => found a config.ini file in the current path... using that one"
+			configfilepath = "config.ini"
+		} else if _, err := os.Stat("/etc/apachelogparser/config.ini"); err == nil {
+			logconfig = t.Format("2006-01-02 15:04:05") + " => found a config.ini file: /etc/apachelogparser/config.ini... using that one"
+			configfilepath = "/etc/apachelogparser/config.ini"
+		} else {
+			os.Exit(1)
+		}
 	}
-}
 	cfg, err := ini.Load(configfilepath)
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)

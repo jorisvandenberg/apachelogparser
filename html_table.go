@@ -8,8 +8,8 @@ import (
 type Table struct {
 	Pagetitle       string
 	Pagedescription string
-	Pagecontent []string
-	Pagefooter string
+	Pagecontent     []string
+	Pagefooter      string
 	Headers         map[string]string
 	Data            []map[string]string
 }

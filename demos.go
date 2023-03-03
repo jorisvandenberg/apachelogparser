@@ -116,8 +116,8 @@ func demotable(args args) {
 	myTable := Table{
 		Pagetitle:       "tadaa",
 		Pagedescription: "blahblah",
-		Pagefooter: "the end",
-		Pagecontent: []string{"one", "this istwo", "three"},
+		Pagefooter:      "the end",
+		Pagecontent:     []string{"one", "this istwo", "three"},
 		Headers:         MyHeaders,
 		Data:            []map[string]string{},
 	}

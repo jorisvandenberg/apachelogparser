@@ -21,7 +21,7 @@ func main() {
 	}
 	if args.runtype == "all" || args.runtype == "onlylogparse" {
 		parselogs(args)
-	} 
+	}
 	if args.runtype == "all" || args.runtype == "onlystats" {
 		generatestats(args)
 	}
@@ -33,10 +33,10 @@ func main() {
 	if args.demographs {
 		writedemographs(args)
 	}
-	
+
 	writelog(args)
 	createindex(args)
-	
+
 	if args.zipoutput {
 		ZipWriter(args.outputpath, args.zippath)
 	}
