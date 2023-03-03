@@ -51,6 +51,25 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   year, month, day, hour" 
 	querymap["stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed"] += " ORDER BY" 
 	querymap["stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   year asc, month asc, day asc, hour asc;" 
+	
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] =  " SELECT"                                                            			 //select 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   strftime('%Y', datetime(visit_timestamp, 'unixepoch')) as year," 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   strftime('%m', datetime(visit_timestamp, 'unixepoch')) as month," 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   strftime('%d', datetime(visit_timestamp, 'unixepoch')) as day," 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   strftime('%H', datetime(visit_timestamp, 'unixepoch')) as hour," 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   COUNT(distinct(user)) as count" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += " FROM" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   visit" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += " WHERE" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   visit_timestamp > ?" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "  AND" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   statuscode > 199" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "  AND" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   statuscode < 400" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += " GROUP BY" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   year, month, day, hour" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += " ORDER BY" 
+	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   year asc, month asc, day asc, hour asc;" 
                                                           
 	for naam, sql := range querymap {
 		stmt, err := tx.Prepare(sql)
