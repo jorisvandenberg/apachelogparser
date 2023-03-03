@@ -5,8 +5,8 @@
 rm ./builds/*
 
 #compile
-CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o builds/apachelogparser.tmp .
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o builds/apachelogparser.exe .
+GOOS=linux GOARCH=amd64 go build -a -ldflags "-linkmode external -extldflags '-static' -s -w" -o builds/apachelogparser.tmp .
+GOOS=windows GOARCH=amd64 go build -o builds/apachelogparser.exe .
 
 #compress the linux binary, this will be the one i distribute the most (due to most webservers running on linux)
 upx -f --brute -o builds/apachelogparser builds/apachelogparser.tmp
