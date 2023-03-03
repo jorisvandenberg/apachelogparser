@@ -3,6 +3,23 @@ package main
 var templatedb = make(map[string]string)
 
 func filltemplatedb() {
+	baseTpl := `
+<div class="container">
+    <div class="item" id="{{ .ChartID }}" style="width:{{ .Initialization.Width }};height:{{ .Initialization.Height }};"></div>
+</div>
+{{- range .JSAssets.Values }}
+   <script src="{{ . }}"></script>
+{{- end }}
+<script type="text/javascript">
+    "use strict";
+    let goecharts_{{ .ChartID | safeJS }} = echarts.init(document.getElementById('{{ .ChartID | safeJS }}'), "{{ .Theme }}");
+    let option_{{ .ChartID | safeJS }} = {{ .JSON }};
+    goecharts_{{ .ChartID | safeJS }}.setOption(option_{{ .ChartID | safeJS }});
+    {{- range .JSFunctions.Fns }}
+    {{ . | safeJS }}
+    {{- end }}
+</script>
+`
 	html_page := `<!DOCTYPE html>
 <html>
 	<head>
@@ -77,4 +94,5 @@ func filltemplatedb() {
 	templatedb["table_tmpl"] = table_tmpl
 	templatedb["html_index"] = html_index
 	templatedb["html_page"] = html_page
+	templatedb["baseTpl"] = baseTpl
 }

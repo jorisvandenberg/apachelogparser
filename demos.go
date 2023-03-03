@@ -31,7 +31,11 @@ func demowritemulti(args args) {
 		panic(err)
 	}
 	page.Render(io.MultiWriter(f))
-
+	MyPageForIndex := page_forindex{
+		Title: "blahblah",
+		Url:   "piechartz.html",
+	}
+	indexpages = append(indexpages, MyPageForIndex)
 }
 
 func demopiechart(args args) {
@@ -54,7 +58,14 @@ func demolinegraph(args args) {
 	YValues["Last year"] = append(YValues["Last year"], 25)
 	YValues["Last year"] = append(YValues["Last year"], 17)
 	YValues["Last year"] = append(YValues["Last year"], 14)
-	createlinegraph_html(XValues, YValues, "this is a demo", "yup, a demo", args, "demolinegraph.html")
+	PreChartText = "first chart"
+	PostChartText = "end first chart"
+	createlinegraph(XValues, YValues, "this is a demo", "yup, a demo", args, "1demolinegraph.html")
+	PreChartText = "second chart"
+	PostChartText = "end second chart"
+	createlinegraph(XValues, YValues, "this is a demo", "yup, a demo", args, "2demolinegraph.html")
+	PreChartText = ""
+	PostChartText = ""
 }
 
 func demobarchart(args args) {

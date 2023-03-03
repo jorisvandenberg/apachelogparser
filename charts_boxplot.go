@@ -8,6 +8,7 @@ import (
 
 func createboxplot(XValues []string, YValues map[string][][]int, args args, title string, filename string, writehtml ...bool) *charts.BoxPlot {
 	bp := charts.NewBoxPlot()
+	bp.Renderer = newSnippetRenderer(bp, bp.Validate)
 	bp.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{Title: title}),
 	)

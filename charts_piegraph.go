@@ -8,6 +8,7 @@ import (
 
 func createpiechart(XValues []string, YValues map[string]int, title string, subtitle string, args args, filename string, writehtml ...bool) *charts.Pie {
 	pie := charts.NewPie()
+	pie.Renderer = newSnippetRenderer(pie, pie.Validate)
 	pie.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{Title: title}),
 	)

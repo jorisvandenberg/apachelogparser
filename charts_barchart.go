@@ -8,6 +8,7 @@ import (
 
 func createbarchart(XValues []string, YValues map[string][]int, title string, subtitle string, args args, filename string, writehtml ...bool) *charts.Bar {
 	bar := charts.NewBar()
+	bar.Renderer = newSnippetRenderer(bar, bar.Validate)
 	bar.SetGlobalOptions(charts.WithTitleOpts(opts.Title{
 		Title:    title,
 		Subtitle: subtitle,
