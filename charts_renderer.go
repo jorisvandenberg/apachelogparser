@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"io"
-	"html/template"
 	chartrender "github.com/go-echarts/go-echarts/v2/render"
+	"html/template"
+	"io"
 )
 
 var PreChartText string
@@ -13,7 +13,6 @@ var PostChartText string
 type Renderer interface {
 	Render(w io.Writer) error
 }
-
 
 type snippetRenderer struct {
 	c      interface{}
