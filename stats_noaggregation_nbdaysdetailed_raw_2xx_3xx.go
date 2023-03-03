@@ -30,6 +30,8 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args args) {
 		Data:            []map[string]string{},
 	}
 
+	var XValues_linegraph []string
+	YValues_linegraph := make(map[string][]int)
 	for rows.Next() {
 		var year, month, day, hour, count int
 		if err := rows.Scan(&year, &month, &day, &hour, &count); err != nil {
@@ -43,7 +45,13 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args args) {
 			"Value_5": strconv.Itoa(count),
 		}
 		myTable.Data = append(myTable.Data, MyData)
+		XValues_linegraph = append(XValues_linegraph, strconv.Itoa(year) + "-" + strconv.Itoa(month)+"-" +  strconv.Itoa(day) + ":" + strconv.Itoa(hour))
+		YValues_linegraph["raw hits"] = append(YValues_linegraph["raw hits"], count)
 	}
 
 	createtable(args, "noaggregation_nbdaysdetailed_raw_2xx_3xx_table.html", "table of the raw 2xx and 3xx per hour over the last " + strconv.Itoa(args.number_of_days_detailed)  + " days" , myTable)
+	PreChartText = ""
+	PostChartText = ""
+	createlinegraph(XValues_linegraph, YValues_linegraph, "line graph of the raw hits with status 2xx and 3xx", "Count of all raw succesfull hits (filtering out all 4xx and 5xx return codes).", args, "noaggregation_nbdaysdetailed_raw_2xx_3xx_linegraph.html")
+	
 }
