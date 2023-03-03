@@ -5,8 +5,6 @@ version: 1
 flags:
   - -trimpath
   - -tags=netgo
-  - -s
-  - -w
 
 # The OS to compile for. `GOOS` env variable will be set to this value.
 goos: linux
