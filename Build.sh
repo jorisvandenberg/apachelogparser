@@ -28,7 +28,8 @@ nfpm pkg --packager rpm --target /root/apachelogparser/builds/
 
 #signing
 gpg --detach-sign builds/*.deb
-gpg --detach-sign builds/*.rpm
+#gpg --detach-sign builds/*.rpm
+rpmsign --addsign builds/*.rpm
 gpg --detach-sign builds/apachelogparser-v$1-linux-amd64.tar.gz
 gpg --detach-sign builds/apachelogparser-v$1-windows-amd64.zip
 
