@@ -107,7 +107,7 @@ func demoboxplot(args args) {
 	YValues["Last year"] = append(YValues["Last year"], []int{8, 12, 7, 8, 94, 45})
 	YValues["Last year"] = append(YValues["Last year"], []int{8, 12, 7, 8, 94, 45})
 
-	createboxplot(XValues, YValues, args, "my demo boxplot", "demoboxplot.html")
+	createboxplot(XValues, YValues, args, "my demo boxplot", "demoboxplot.html", "demos", 999)
 }
 func demotable(args args) {
 	MyHeaders := map[string]string{
