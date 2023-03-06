@@ -30,10 +30,10 @@ func createtable(args args, outputfilename string, htmltitle string, myTable Tab
 	defer outputHTMLFile.Close()
 
 	MyPageForIndex := page_forindex{
-		Title: htmltitle,
-		Url:   outputfilename,
+		Title:   htmltitle,
+		Url:     outputfilename,
 		Section: "tables",
-		Order: 5,
+		Order:   5,
 	}
 	indexpages = append(indexpages, MyPageForIndex)
 }

@@ -42,10 +42,10 @@ func demowritemulti(args args) {
 	}
 	page.Render(io.MultiWriter(f))
 	MyPageForIndex := page_forindex{
-		Title: "blahblah",
-		Url:   "piechartz.html",
+		Title:   "blahblah",
+		Url:     "piechartz.html",
 		Section: "demo",
-		Order: 99,
+		Order:   99,
 	}
 	indexpages = append(indexpages, MyPageForIndex)
 }

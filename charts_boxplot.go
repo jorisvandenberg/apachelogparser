@@ -32,10 +32,10 @@ func createboxplot(XValues []string, YValues map[string][][]int, args args, titl
 		f, _ := os.Create(args.outputpath + filename)
 		_ = bp.Render(f)
 		MyPageForIndex := page_forindex{
-			Title: title,
-			Url:   filename,
+			Title:   title,
+			Url:     filename,
 			Section: "boxplots",
-			Order: 5,
+			Order:   5,
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}

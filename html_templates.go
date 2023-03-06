@@ -87,7 +87,7 @@ func filltemplatedb() {
 	</body>
 </html>`
 
-html_index := `
+	html_index := `
 <html>
 <head>
 </head>
@@ -101,7 +101,6 @@ html_index := `
 	{{end}}
 	</body>
 	</html>`
-
 
 	templatedb["table_tmpl"] = table_tmpl
 	templatedb["html_index"] = html_index

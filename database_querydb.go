@@ -71,7 +71,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += " ORDER BY"
 	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   year asc, month asc, day asc, hour asc;"
 
-	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] = " SELECT"                                                                      //select
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] = " SELECT" //select
 	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   strftime('%Y', datetime(visit_timestamp, 'unixepoch')) as year,"
 	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   strftime('%m', datetime(visit_timestamp, 'unixepoch')) as month,"
 	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   strftime('%d', datetime(visit_timestamp, 'unixepoch')) as day,"
@@ -88,7 +88,6 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   year, month, day"
 	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += " ORDER BY"
 	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   year asc, month asc, day asc;"
-
 
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] = " SELECT" //select
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   strftime('%Y', datetime(visit_timestamp, 'unixepoch')) as year,"
@@ -107,8 +106,6 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   year, month, day"
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += " ORDER BY"
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   year asc, month asc, day asc;"
-	
-	
 
 	for naam, sql := range querymap {
 		stmt, err := tx.Prepare(sql)

@@ -46,10 +46,10 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 		f, _ := os.Create(args.outputpath + filename)
 		_ = bar.Render(f)
 		MyPageForIndex := page_forindex{
-			Title: title,
-			Url:   filename,
+			Title:   title,
+			Url:     filename,
 			Section: "graphs",
-			Order: 3,
+			Order:   3,
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}

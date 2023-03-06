@@ -33,10 +33,10 @@ func createpiechart(XValues []string, YValues map[string]int, title string, subt
 		_ = pie.Render(f)
 
 		MyPageForIndex := page_forindex{
-			Title: title,
-			Url:   filename,
+			Title:   title,
+			Url:     filename,
 			Section: "graphs",
-			Order: 3,
+			Order:   3,
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}
