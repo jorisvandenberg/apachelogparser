@@ -27,6 +27,16 @@ func createindex(args args) {
 		groups[p.Section] = append(groups[p.Section], p)
 	}
 
+	keys := make([]string, 0, len(groups))
+	for k := range groups {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	groups_sorted := make(map[string][]page_forindex)
+	for _, k := range keys {
+		groups_sorted[k] = groups[k]
+	}
+
 	t, err := template.New("mytemplate").Parse(templatedb["html_index"])
 	if err != nil {
 		panic(err)
@@ -36,7 +46,7 @@ func createindex(args args) {
 		panic(err)
 	}
 
-	if err = t.Execute(outputHTMLFile, groups); err != nil {
+	if err = t.Execute(outputHTMLFile, groups_sorted); err != nil {
 		panic(err)
 	}
 	defer outputHTMLFile.Close()
