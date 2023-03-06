@@ -11,7 +11,7 @@ type HtmlPage struct {
 	Paragraphs      []string
 }
 
-func createhtmltable(args args, outputfilename string, myHtmlPage HtmlPage) {
+func createhtmltable(args args, outputfilename string, myHtmlPage HtmlPage, section string, order int) {
 	t, err := template.New("mytemplate").Parse(templatedb["html_page"])
 	if err != nil {
 		panic(err)
@@ -29,8 +29,8 @@ func createhtmltable(args args, outputfilename string, myHtmlPage HtmlPage) {
 	MyPageForIndex := page_forindex{
 		Title:   myHtmlPage.Pagetitle,
 		Url:     outputfilename,
-		Section: "tables",
-		Order:   3,
+		Section: section,
+		Order:   order,
 	}
 	indexpages = append(indexpages, MyPageForIndex)
 }

@@ -7,6 +7,6 @@ func writelog(args args) {
 		newpage.Pagetitle = "detailed runlogs of the statistics application"
 		newpage.Pagedescription = "here are the logs :)"
 		newpage.Paragraphs = mylog
-		createhtmltable(args, "logs.html", newpage)
+		createhtmltable(args, "logs.html", newpage, "logs", 999)
 	}
 }
