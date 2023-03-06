@@ -32,6 +32,8 @@ func createtable(args args, outputfilename string, htmltitle string, myTable Tab
 	MyPageForIndex := page_forindex{
 		Title: htmltitle,
 		Url:   outputfilename,
+		Section: "tables",
+		Order: 5,
 	}
 	indexpages = append(indexpages, MyPageForIndex)
 }

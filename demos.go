@@ -44,6 +44,8 @@ func demowritemulti(args args) {
 	MyPageForIndex := page_forindex{
 		Title: "blahblah",
 		Url:   "piechartz.html",
+		Section: "demo",
+		Order: 99,
 	}
 	indexpages = append(indexpages, MyPageForIndex)
 }

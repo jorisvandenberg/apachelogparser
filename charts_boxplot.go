@@ -34,6 +34,8 @@ func createboxplot(XValues []string, YValues map[string][][]int, args args, titl
 		MyPageForIndex := page_forindex{
 			Title: title,
 			Url:   filename,
+			Section: "boxplots",
+			Order: 5,
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}

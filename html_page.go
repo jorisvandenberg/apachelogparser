@@ -29,6 +29,8 @@ func createhtmltable(args args, outputfilename string, myHtmlPage HtmlPage) {
 	MyPageForIndex := page_forindex{
 		Title: myHtmlPage.Pagetitle,
 		Url:   outputfilename,
+		Section: "tables",
+		Order: 3,
 	}
 	indexpages = append(indexpages, MyPageForIndex)
 }

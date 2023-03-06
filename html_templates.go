@@ -86,14 +86,22 @@ func filltemplatedb() {
 		<p>{{.Pagefooter}}</p>
 	</body>
 </html>`
-	html_index := `<!DOCTYPE html>
+
+html_index := `
 <html>
-	<body>
-				{{range .}}
-				<p>{{.Textpre}}<a href="{{.Url}}">{{.Title}}</a>{{.Textpost}}</p>
-				{{end}}
+<head>
+</head>
+<body>
+<h1>index page</h1>
+{{range $key, $value := .}}
+		<h2>{{ $key }}</h2>
+		{{range $value}}
+			<p>{{.Textpre}}<a href="{{.Url}}" target="_blank">{{.Title}}</a>{{.Textpost}}</p>
+		{{end}}
+	{{end}}
 	</body>
-</html>`
+	</html>`
+
 
 	templatedb["table_tmpl"] = table_tmpl
 	templatedb["html_index"] = html_index
