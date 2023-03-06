@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func createlinegraph(XValues []string, YValues map[string][]int, title string, subtitle string, args args, filename string, writehtml ...bool) *charts.Line {
+func createlinegraph(XValues []string, YValues map[string][]int, title string, subtitle string, args args, filename string, section string, order int, writehtml ...bool) *charts.Line {
 	line := charts.NewLine()
 	line.Renderer = newSnippetRenderer(line, line.Validate)
 	line.SetGlobalOptions(
@@ -38,6 +38,7 @@ func createlinegraph(XValues []string, YValues map[string][]int, title string, s
 		}),
 	)
 
+	
 	writehtml_optional := true
 	if len(writehtml) > 0 {
 		writehtml_optional = writehtml[0]
@@ -48,8 +49,8 @@ func createlinegraph(XValues []string, YValues map[string][]int, title string, s
 		MyPageForIndex := page_forindex{
 			Title: title,
 			Url:   filename,
-			Section: "graphs",
-			Order: 2,
+			Section: section,
+			Order: order,
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}

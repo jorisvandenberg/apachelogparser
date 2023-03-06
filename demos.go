@@ -72,10 +72,10 @@ func demolinegraph(args args) {
 	YValues["Last year"] = append(YValues["Last year"], 14)
 	PreChartText = "first chart"
 	PostChartText = "end first chart"
-	createlinegraph(XValues, YValues, "this is a demo", "yup, a demo", args, "1demolinegraph.html")
+	createlinegraph(XValues, YValues, "this is a demo", "yup, a demo", args, "1demolinegraph.html", "demos", 99)
 	PreChartText = "second chart"
 	PostChartText = "end second chart"
-	createlinegraph(XValues, YValues, "this is a demo", "yup, a demo", args, "2demolinegraph.html")
+	createlinegraph(XValues, YValues, "this is a demo", "yup, a demo", args, "2demolinegraph.html", "demos", 99)
 	PreChartText = ""
 	PostChartText = ""
 }
