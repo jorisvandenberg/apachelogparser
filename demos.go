@@ -33,8 +33,8 @@ func demowritemulti(args args) {
 	YValues["c"] = 15
 	page := components.NewPage()
 	page.AddCharts(
-		createpiechart(XValues, YValues, "this is a demo", "yup, a demo", args, "magniet1.html", false),
-		createpiechart(XValues, YValues, "this is a demo", "yup, a demo", args, "magniet2.html", false),
+		createpiechart(XValues, YValues, "this is a demo", "yup, a demo", args, "magniet1.html", "demos", 999, false),
+		createpiechart(XValues, YValues, "this is a demo", "yup, a demo", args, "magniet2.html", "demos", 999, false),
 	)
 	f, err := os.Create("./output/piechartz.html")
 	if err != nil {
@@ -56,7 +56,7 @@ func demopiechart(args args) {
 	YValues["a"] = 5
 	YValues["b"] = 9
 	YValues["c"] = 15
-	createpiechart(XValues, YValues, "this is a demo", "yup, a demo", args, "demopiegraph.html")
+	createpiechart(XValues, YValues, "this is a demo", "yup, a demo", args, "demopiegraph.html", "demos", 99)
 }
 
 func demolinegraph(args args) {

@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func createpiechart(XValues []string, YValues map[string]int, title string, subtitle string, args args, filename string, writehtml ...bool) *charts.Pie {
+func createpiechart(XValues []string, YValues map[string]int, title string, subtitle string, args args, filename string, section string, order int, writehtml ...bool) *charts.Pie {
 	pie := charts.NewPie()
 	pie.Renderer = newSnippetRenderer(pie, pie.Validate)
 	pie.SetGlobalOptions(
@@ -35,8 +35,8 @@ func createpiechart(XValues []string, YValues map[string]int, title string, subt
 		MyPageForIndex := page_forindex{
 			Title:   title,
 			Url:     filename,
-			Section: "graphs",
-			Order:   3,
+			Section: section,
+			Order:   order,
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}
