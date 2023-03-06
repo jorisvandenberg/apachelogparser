@@ -135,5 +135,5 @@ func demotable(args args) {
 	}
 	myTable.Data = append(myTable.Data, MyData)
 
-	createtable(args, "demotable.html", "this is a title", myTable)
+	createtable(args, "demotable.html", "this is a title", myTable, "demos", 999)
 }

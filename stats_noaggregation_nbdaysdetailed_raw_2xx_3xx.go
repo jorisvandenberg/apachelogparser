@@ -50,7 +50,7 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args args) {
 		YValues_linegraph["raw hits"] = append(YValues_linegraph["raw hits"], count)
 	}
 
-	createtable(args, "noaggregation_nbdaysdetailed_raw_2xx_3xx_table.html", "table of the raw 2xx and 3xx per hour over the last "+strconv.Itoa(args.number_of_days_detailed)+" days", myTable)
+	createtable(args, "noaggregation_nbdaysdetailed_raw_2xx_3xx_table.html", "table of the raw 2xx and 3xx per hour over the last "+strconv.Itoa(args.number_of_days_detailed)+" days", myTable, "hits", 15)
 	PreChartText = ""
 	PostChartText = ""
 	createlinegraph(XValues_linegraph, YValues_linegraph, "line graph of the raw hits with status 2xx and 3xx", "Count of all raw succesfull hits (filtering out all 4xx and 5xx return codes).", args, "noaggregation_nbdaysdetailed_raw_2xx_3xx_linegraph.html", "hits", 2)

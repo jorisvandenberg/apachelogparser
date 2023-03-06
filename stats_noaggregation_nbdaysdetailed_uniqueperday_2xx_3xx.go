@@ -48,7 +48,7 @@ func noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx(args args) {
 		YValues_linegraph["unique hits"] = append(YValues_linegraph["unique hits"], count)
 	}
 
-	createtable(args, "noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx_table.html", "table of the unique 2xx and 3xx per day over the last "+strconv.Itoa(args.number_of_days_detailed)+" days", myTable)
+	createtable(args, "noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx_table.html", "table of the unique 2xx and 3xx per day over the last "+strconv.Itoa(args.number_of_days_detailed)+" days", myTable, "hits", 3)
 	PreChartText = ""
 	PostChartText = ""
 	createlinegraph(XValues_linegraph, YValues_linegraph, "line graph of the unique hits with status 2xx and 3xx per day", "Count of all unique succesfull hits (filtering out all 4xx and 5xx return codes).", args, "noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx_linegraph.html", "hits", 1)
