@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func createbarchart(XValues []string, YValues map[string][]int, title string, subtitle string, args args, filename string, writehtml ...bool) *charts.Bar {
+func createbarchart(XValues []string, YValues map[string][]int, title string, subtitle string, args args, filename string, section string, order int, writehtml ...bool) *charts.Bar {
 	bar := charts.NewBar()
 	bar.Renderer = newSnippetRenderer(bar, bar.Validate)
 	bar.SetGlobalOptions(charts.WithTitleOpts(opts.Title{
@@ -48,8 +48,8 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 		MyPageForIndex := page_forindex{
 			Title:   title,
 			Url:     filename,
-			Section: "graphs",
-			Order:   3,
+			Section: section,
+			Order:   order,
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}

@@ -91,7 +91,7 @@ func demobarchart(args args) {
 	YValues["Last year"] = append(YValues["Last year"], 25)
 	YValues["Last year"] = append(YValues["Last year"], 17)
 	YValues["Last year"] = append(YValues["Last year"], 14)
-	createbarchart(XValues, YValues, "this is a demo", "yup, a demo", args, "demobarchart.html")
+	createbarchart(XValues, YValues, "this is a demo", "yup, a demo", args, "demobarchart.html", "demos", 99)
 }
 
 func demoboxplot(args args) {
