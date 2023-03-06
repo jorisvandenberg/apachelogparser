@@ -71,6 +71,45 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += " ORDER BY"
 	querymap["stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed"] += "   year asc, month asc, day asc, hour asc;"
 
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] = " SELECT"                                                                      //select
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   strftime('%Y', datetime(visit_timestamp, 'unixepoch')) as year,"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   strftime('%m', datetime(visit_timestamp, 'unixepoch')) as month,"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   strftime('%d', datetime(visit_timestamp, 'unixepoch')) as day,"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   COUNT(*) as count"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += " FROM"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   visit"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += " WHERE"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   visit_timestamp > ?"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "  AND"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   statuscode > 199"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "  AND"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   statuscode < 400"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += " GROUP BY"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   year, month, day"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += " ORDER BY"
+	querymap["stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed"] += "   year asc, month asc, day asc;"
+
+
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] = " SELECT" //select
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   strftime('%Y', datetime(visit_timestamp, 'unixepoch')) as year,"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   strftime('%m', datetime(visit_timestamp, 'unixepoch')) as month,"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   strftime('%d', datetime(visit_timestamp, 'unixepoch')) as day,"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   COUNT(distinct(user)) as count"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += " FROM"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   visit"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += " WHERE"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   visit_timestamp > ?"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "  AND"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   statuscode > 199"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "  AND"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   statuscode < 400"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += " GROUP BY"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   year, month, day"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += " ORDER BY"
+	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   year asc, month asc, day asc;"
+	
+	
+
 	for naam, sql := range querymap {
 		stmt, err := tx.Prepare(sql)
 		if err != nil {
