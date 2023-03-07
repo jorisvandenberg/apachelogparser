@@ -8,44 +8,44 @@ import (
 )
 
 type inputarg struct {
-	logfilepath              string
-	logfileregex             string
-	parseregex               string
-	parserfield_ip           int
-	parserfield_datetime     int
-	parserfield_method       int
-	parserfield_request      int
-	parserfield_httpversion  int
-	parserfield_returncode   int
-	parserfield_httpsize     int
-	parserfield_referrer     int
-	parserfield_useragent    int
+	logfilepath             string
+	logfileregex            string
+	parseregex              string
+	parserfield_ip          int
+	parserfield_datetime    int
+	parserfield_method      int
+	parserfield_request     int
+	parserfield_httpversion int
+	parserfield_returncode  int
+	parserfield_httpsize    int
+	parserfield_referrer    int
+	parserfield_useragent   int
 }
 
 type output struct {
-	outputpath               string
-	emptyoutputpath          bool
-	number_of_days_detailed  int
-	assethost                string
+	outputpath              string
+	emptyoutputpath         bool
+	number_of_days_detailed int
+	assethost               string
 }
 
 type args struct {
-	inputargs 				 inputarg
-	outputs				 output
-	runtype                  string
-	dbpath                   string
-	timeformat               string
-	mydomain                 string
-	ignoredips               []string
-	ignoredhostagents        []string
-	ignoredreferrers         []string
-	ignoredrequests          []string
-	numberofreferrers        int
-	truncatealreadyloaded    bool
-	writelog                 bool
-	demographs               bool
-	zipoutput                bool
-	zippath                  string
+	inputargs             inputarg
+	outputs               output
+	runtype               string
+	dbpath                string
+	timeformat            string
+	mydomain              string
+	ignoredips            []string
+	ignoredhostagents     []string
+	ignoredreferrers      []string
+	ignoredrequests       []string
+	numberofreferrers     int
+	truncatealreadyloaded bool
+	writelog              bool
+	demographs            bool
+	zipoutput             bool
+	zippath               string
 }
 
 func getargs() args {
@@ -110,11 +110,11 @@ func getargs() args {
 	inputargs.logfileregex = cfg.Section("input").Key("logfileregex").String()
 	inputargs.parseregex = cfg.Section("input").Key("parseregex").String()
 	switch inputargs.parseregex {
-    case "clf":
-      inputargs.parseregex   = `(?m)^(\S*).*\[(.*)\]\s"(\S*)\s(\S*)\s([^"]*)"\s(\S*)\s(\S*)\s"([^"]*)"\s"([^"]*)"$`
-	//case "other":
-    }
-	
+	case "clf":
+		inputargs.parseregex = `(?m)^(\S*).*\[(.*)\]\s"(\S*)\s(\S*)\s([^"]*)"\s(\S*)\s(\S*)\s"([^"]*)"\s"([^"]*)"$`
+		//case "other":
+	}
+
 	inputargs.parserfield_ip, _ = cfg.Section("input").Key("parserfield_ip").Int()
 	inputargs.parserfield_datetime, _ = cfg.Section("input").Key("parserfield_datetime").Int()
 	inputargs.parserfield_method, _ = cfg.Section("input").Key("parserfield_method").Int()
@@ -137,11 +137,10 @@ func getargs() args {
 	returndb.timeformat = cfg.Section("general").Key("timeformat").String()
 	returndb.mydomain = cfg.Section("general").Key("mydomain").String()
 	returndb.writelog, _ = cfg.Section("general").Key("writelog").Bool()
-	
+
 	returndb.inputargs = inputargs
 	returndb.outputs = outputs
 	logger(logconfig)
-	
-	
+
 	return returndb
 }

@@ -63,5 +63,5 @@ func main() {
 	if args.zipoutput {
 		ZipWriter(args.outputs.outputpath, args.zippath)
 	}
-	
+
 }

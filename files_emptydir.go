@@ -21,13 +21,13 @@ func emptydir(path string, extension string) {
 	}
 
 	logger("starting the output directory cleanup")
-	logger("Reading " + path) 
+	logger("Reading " + path)
 
 	for _, file := range files {
 		if file.Mode().IsRegular() {
 			if filepath.Ext(file.Name()) == extension {
 				os.Remove(path + file.Name())
-				logger("Deleted " + file.Name()) 
+				logger("Deleted " + file.Name())
 			}
 		}
 	}

@@ -10,8 +10,8 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"time"
 	"strconv"
+	"time"
 )
 
 func insertrow(ip string, datumtijd string, method string, request string, httpversion string, returncode string, httpsize string, referrer string, useragent string, maxtimestamp int, args args) {
@@ -157,10 +157,10 @@ func getfiles(regex string, pathS string) []string {
 				stmt_countalreadyloaded.QueryRow(filehash).Scan(&countalreadyloaded)
 				if countalreadyloaded == 0 {
 					files = append(files, f.Name())
-					logger(f.Name()+" was added to the todo list")
+					logger(f.Name() + " was added to the todo list")
 
 				} else {
-					logger(f.Name()+" was already parsed in the past... skipping")
+					logger(f.Name() + " was already parsed in the past... skipping")
 				}
 
 			}

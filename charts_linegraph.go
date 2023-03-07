@@ -7,7 +7,7 @@ import (
 )
 
 func createlinegraph(XValues []string, YValues map[string][]int, title string, subtitle string, args args, filename string, section string, order int, writehtml ...bool) *charts.Line {
-	logger("creating a linegraph with title '" + title+ "' and filename " + filename)
+	logger("creating a linegraph with title '" + title + "' and filename " + filename)
 	line := charts.NewLine()
 	line.Renderer = newSnippetRenderer(line, line.Validate)
 	line.SetGlobalOptions(
@@ -54,7 +54,7 @@ func createlinegraph(XValues []string, YValues map[string][]int, title string, s
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}
-	logger("finished creating a linegraph with title '" + title+ "' and filename " + filename)
+	logger("finished creating a linegraph with title '" + title + "' and filename " + filename)
 	return line
 
 }
