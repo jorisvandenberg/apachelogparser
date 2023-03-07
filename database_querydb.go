@@ -106,8 +106,8 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   year, month, day"
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += " ORDER BY"
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   year asc, month asc, day asc;"
-	
-	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] =  " SELECT"
+
+	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] = " SELECT"
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += "   CASE"
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += "     WHEN instr(r.referrer, '?') > 0 THEN REPLACE(RTRIM(substr(r.referrer, 1, instr(r.referrer, '?') - 1), '/'), '//', '/')"
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += "     ELSE REPLACE(RTRIM(r.referrer, '/'), '//', '/')"
@@ -125,7 +125,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += " ORDER BY"
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += "   count(*) desc"
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += " LIMIT ?"
-	
+
 	for naam, sql := range querymap {
 		stmt, err := tx.Prepare(sql)
 		if err != nil {

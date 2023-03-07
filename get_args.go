@@ -36,7 +36,7 @@ type args struct {
 	parserfield_httpsize     int
 	parserfield_referrer     int
 	parserfield_useragent    int
-	numberofreferrers	     int
+	numberofreferrers        int
 	truncatealreadyloaded    bool
 	emptyoutputpath          bool
 	writelog                 bool

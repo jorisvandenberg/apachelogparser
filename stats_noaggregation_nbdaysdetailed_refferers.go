@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-func stats_noaggregation_nbdaysdetailed_refferers (args args) {
-	
+func stats_noaggregation_nbdaysdetailed_refferers(args args) {
+
 	stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx := myquerydb["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"].stmt
 	mintimestamp := int(time.Now().Unix()) - (args.number_of_days_detailed * 86400)
 	rows, err := stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx.Query(mintimestamp, args.numberofreferrers)
