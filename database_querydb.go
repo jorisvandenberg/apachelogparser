@@ -23,7 +23,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_insertrequest"] = "insert into request(request) values (?)"                                                               //insert a new request
 	querymap["stmt_countreferrer"] = "select count(*) from referrer where referrer = ?"                                                      //count wether or not a certain referrer already exists
 	querymap["stmt_selectreferrerid"] = "select id from referrer where referrer = ?"                                                         //return the id of a unique referrer
-	querymap["stmt_insertreferrer"] = "select id from referrer where referrer = ?"                                                           //insert a new referrer
+	querymap["stmt_insertreferrer"] = "insert into referrer (referrer) values (?)"                                                           //insert a new referrer
 	querymap["stmt_selectrequestid"] = "select id from request where request = ?"                                                            //return the id of a unique request
 	querymap["stmt_countrequest"] = "select count(*) from request where request = ?"                                                         //count wether or not a certain request already exists
 	querymap["stmt_countusers"] = "select count(*) from user where ip = ? and useragent = ?"                                                 //count wether or not a certain user already exists
