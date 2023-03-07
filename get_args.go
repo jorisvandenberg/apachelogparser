@@ -22,14 +22,14 @@ type inputarg struct {
 	parserfield_useragent    int
 }
 
-type general struct {
+type output struct {
 	outputpath               string
+	emptyoutputpath          bool
 }
 type args struct {
 	inputargs 				 inputarg
-	generals				 general
+	outputs				 output
 	runtype                  string
-	
 	dbpath                   string
 	timeformat               string
 	mydomain                 string
@@ -43,10 +43,8 @@ type args struct {
 	number_of_days_per_day   int
 	number_of_days_per_week  int
 	number_of_days_per_month int
-	
 	numberofreferrers        int
 	truncatealreadyloaded    bool
-	emptyoutputpath          bool
 	writelog                 bool
 	demographs               bool
 	zipoutput                bool
@@ -54,17 +52,17 @@ type args struct {
 }
 
 func getargs() args {
-	var output args
+	var returndb args
 	var inputargs inputarg
-	var generals general
+	var outputs output
 	runtypePtr := flag.String("runtype", `all`, "options: all, onlylogparse, onlystats. Default: all")
 	customconfigPtr := flag.String("config", `default`, "the full path to a custom configfile")
 	truncatealreadyloadedPtr := flag.Bool("truncatealreadyloaded", false, "if set, the \"alreadyloaded\" table will be truncated if combined with runtype all or onlylogparse")
 	demographsPtr := flag.Bool("demographs", false, "write a bunch of demographs to the output dir")
 	flag.Parse()
-	output.runtype = *runtypePtr
-	output.truncatealreadyloaded = *truncatealreadyloadedPtr
-	output.demographs = *demographsPtr
+	returndb.runtype = *runtypePtr
+	returndb.truncatealreadyloaded = *truncatealreadyloadedPtr
+	returndb.demographs = *demographsPtr
 
 	var configfilepath string
 	var logconfig string
@@ -94,22 +92,22 @@ func getargs() args {
 	for _, ignoredip := range cfg.Section("ignorevisitorips").Keys() {
 		ignorevisitorips_list = append(ignorevisitorips_list, ignoredip.String())
 	}
-	output.ignoredips = ignorevisitorips_list
+	returndb.ignoredips = ignorevisitorips_list
 
 	for _, ignoredhostagent := range cfg.Section("ignorehostagents").Keys() {
 		ignorehostagents_list = append(ignorehostagents_list, ignoredhostagent.String())
 	}
-	output.ignoredhostagents = ignorehostagents_list
+	returndb.ignoredhostagents = ignorehostagents_list
 
 	for _, ignoredreferrer := range cfg.Section("ignorereferrers").Keys() {
 		ignoredreferrers_list = append(ignoredreferrers_list, ignoredreferrer.String())
 	}
-	output.ignoredreferrers = ignoredreferrers_list
+	returndb.ignoredreferrers = ignoredreferrers_list
 
 	for _, ignoredrequest := range cfg.Section("ignoredrequests").Keys() {
 		ignoredrequests_list = append(ignoredrequests_list, ignoredrequest.String())
 	}
-	output.ignoredrequests = ignoredrequests_list
+	returndb.ignoredrequests = ignoredrequests_list
 
 	inputargs.logfilepath = cfg.Section("input").Key("logfilepath").String()
 	inputargs.logfileregex = cfg.Section("input").Key("logfileregex").String()
@@ -130,27 +128,27 @@ func getargs() args {
 	inputargs.parserfield_referrer, _ = cfg.Section("input").Key("parserfield_referrer").Int()
 	inputargs.parserfield_useragent, _ = cfg.Section("input").Key("parserfield_useragent").Int()
 
-	generals.outputpath = cfg.Section("output").Key("outputpath").String()
-	output.assethost = cfg.Section("output").Key("assethost").String()
-	output.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
-	output.number_of_days_per_hour, _ = cfg.Section("output").Key("number_of_days_per_hour").Int()
-	output.number_of_days_per_day, _ = cfg.Section("output").Key("number_of_days_per_day").Int()
-	output.number_of_days_per_week, _ = cfg.Section("output").Key("number_of_days_per_week").Int()
-	output.number_of_days_per_month, _ = cfg.Section("output").Key("number_of_days_per_month").Int()
-	output.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
-	output.zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
-	output.zippath = cfg.Section("output").Key("zippath").String()
-	output.numberofreferrers, _ = cfg.Section("output").Key("numberofreferrers").Int()
+	outputs.outputpath = cfg.Section("output").Key("outputpath").String()
+	returndb.assethost = cfg.Section("output").Key("assethost").String()
+	returndb.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
+	returndb.number_of_days_per_hour, _ = cfg.Section("output").Key("number_of_days_per_hour").Int()
+	returndb.number_of_days_per_day, _ = cfg.Section("output").Key("number_of_days_per_day").Int()
+	returndb.number_of_days_per_week, _ = cfg.Section("output").Key("number_of_days_per_week").Int()
+	returndb.number_of_days_per_month, _ = cfg.Section("output").Key("number_of_days_per_month").Int()
+	outputs.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
+	returndb.zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
+	returndb.zippath = cfg.Section("output").Key("zippath").String()
+	returndb.numberofreferrers, _ = cfg.Section("output").Key("numberofreferrers").Int()
 
-	output.dbpath = cfg.Section("general").Key("dbpath").String()
-	output.timeformat = cfg.Section("general").Key("timeformat").String()
-	output.mydomain = cfg.Section("general").Key("mydomain").String()
-	output.writelog, _ = cfg.Section("general").Key("writelog").Bool()
+	returndb.dbpath = cfg.Section("general").Key("dbpath").String()
+	returndb.timeformat = cfg.Section("general").Key("timeformat").String()
+	returndb.mydomain = cfg.Section("general").Key("mydomain").String()
+	returndb.writelog, _ = cfg.Section("general").Key("writelog").Bool()
 	
-	output.inputargs = inputargs
-	output.generals = generals
+	returndb.inputargs = inputargs
+	returndb.outputs = outputs
 	logger(logconfig)
 	
 	
-	return output
+	return returndb
 }
