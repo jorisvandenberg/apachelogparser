@@ -1,10 +1,16 @@
 package main
 
+import (
+	"fmt"
+	"strconv"
+	"time"
+)
+
 func stats_noaggregation_nbdaysdetailed_refferers (args args) {
 	
 	stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx := myquerydb["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"].stmt
 	mintimestamp := int(time.Now().Unix()) - (args.number_of_days_detailed * 86400)
-	rows, err := stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed.Query(mintimestamp, args.numberofreferrers)
+	rows, err := stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx.Query(mintimestamp, args.numberofreferrers)
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
@@ -21,8 +27,6 @@ func stats_noaggregation_nbdaysdetailed_refferers (args args) {
 		Headers:         MyHeaders,
 		Data:            []map[string]string{},
 	}
-	var XValues_linegraph []string
-	YValues_linegraph := make(map[string][]int)
 	for rows.Next() {
 		var count int
 		var referrer string
@@ -34,11 +38,6 @@ func stats_noaggregation_nbdaysdetailed_refferers (args args) {
 			"Value_2": strconv.Itoa(count),
 		}
 		myTable.Data = append(myTable.Data, MyData)
-		XValues_linegraph = append(XValues_linegraph, strconv.Itoa(year)+"-"+strconv.Itoa(month)+"-"+strconv.Itoa(day))
-		YValues_linegraph["raw hits from referrer"] = append(YValues_linegraph["raw hits from referrer"], count)
-		createtable(args, "stats_noaggregation_nbdaysdetailed_refferers_table.html", "table of the raw 2xx and 3xx per referrer over the last "+strconv.Itoa(args.number_of_days_detailed)+" days", myTable, "referrer", 3)
-	PreChartText = ""
-	PostChartText = ""
-	createlinegraph(XValues_linegraph, YValues_linegraph, "line graph of the raw hits with status 2xx and 3xx per referrer", "Count of all raw succesfull hits (filtering out all 4xx and 5xx return codes).", args, "stats_noaggregation_nbdaysdetailed_refferers_linegraph.html", "referrer", 3)
 	}
+	createtable(args, "stats_noaggregation_nbdaysdetailed_refferers_table.html", "table of the raw 2xx and 3xx per referrer over the last "+strconv.Itoa(args.number_of_days_detailed)+" days", myTable, "referrer", 3)
 }

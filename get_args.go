@@ -125,7 +125,7 @@ func getargs() args {
 	output.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
 	output.zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
 	output.zippath = cfg.Section("output").Key("zippath").String()
-	output.numberofreferrers = cfg.Section("output").Key("numberofreferrers").String()
+	output.numberofreferrers, _ = cfg.Section("output").Key("numberofreferrers").Int()
 
 	output.dbpath = cfg.Section("general").Key("dbpath").String()
 	output.timeformat = cfg.Section("general").Key("timeformat").String()
