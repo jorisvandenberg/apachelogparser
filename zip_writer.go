@@ -7,12 +7,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"time"
 )
 
 func ZipWriter(inputfolder string, outputfile string) {
-	t := time.Now()
-	mylog = append(mylog, t.Format("2006-01-02 15:04:05")+" => received request to create zipfile "+outputfile+" from all files in directory "+inputfolder)
+	logger("received request to create zipfile "+outputfile+" from all files in directory "+inputfolder)
 	outFile, err := os.Create(outputfile)
 	if err != nil {
 		fmt.Println(err)
@@ -37,7 +35,6 @@ func ZipWriter(inputfolder string, outputfile string) {
 }
 
 func addFiles(w *zip.Writer, basePath, baseInZip string) {
-	t := time.Now()
 	// Open the Directory
 	files, err := ioutil.ReadDir(basePath)
 	if err != nil {
@@ -46,7 +43,7 @@ func addFiles(w *zip.Writer, basePath, baseInZip string) {
 
 	for _, file := range files {
 		//fmt.Println(basePath + file.Name())
-		mylog = append(mylog, t.Format("2006-01-02 15:04:05")+" => adding file "+basePath+file.Name()+" to the ziplist")
+		logger("adding file "+basePath+file.Name()+" to the ziplist")
 		if !file.IsDir() {
 			dat, err := ioutil.ReadFile(basePath + file.Name())
 			if err != nil {
