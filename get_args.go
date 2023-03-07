@@ -40,10 +40,6 @@ type args struct {
 	ignoredhostagents        []string
 	ignoredreferrers         []string
 	ignoredrequests          []string
-	number_of_days_per_hour  int
-	number_of_days_per_day   int
-	number_of_days_per_week  int
-	number_of_days_per_month int
 	numberofreferrers        int
 	truncatealreadyloaded    bool
 	writelog                 bool
@@ -132,10 +128,6 @@ func getargs() args {
 	outputs.outputpath = cfg.Section("output").Key("outputpath").String()
 	returndb.assethost = cfg.Section("output").Key("assethost").String()
 	outputs.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
-	returndb.number_of_days_per_hour, _ = cfg.Section("output").Key("number_of_days_per_hour").Int()
-	returndb.number_of_days_per_day, _ = cfg.Section("output").Key("number_of_days_per_day").Int()
-	returndb.number_of_days_per_week, _ = cfg.Section("output").Key("number_of_days_per_week").Int()
-	returndb.number_of_days_per_month, _ = cfg.Section("output").Key("number_of_days_per_month").Int()
 	outputs.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
 	returndb.zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
 	returndb.zippath = cfg.Section("output").Key("zippath").String()
