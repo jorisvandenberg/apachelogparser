@@ -171,19 +171,19 @@ func getfiles(regex string, pathS string) []string {
 }
 
 func parseme(line string, maxvisittimestamp int, args args) {
-	re := regexp.MustCompile(args.parseregex)
+	re := regexp.MustCompile(args.inputargs.parseregex)
 	match := re.FindStringSubmatch(line)
 
 	if len(match) == 10 {
-		ip := match[args.parserfield_ip]
-		datumtijd := match[args.parserfield_datetime]
-		method := match[args.parserfield_method]
-		request := match[args.parserfield_request]
-		httpversion := match[args.parserfield_httpversion]
-		returncode := match[args.parserfield_returncode]
-		httpsize := match[args.parserfield_httpsize]
-		referrer := match[args.parserfield_referrer]
-		useragent := match[args.parserfield_useragent]
+		ip := match[args.inputargs.parserfield_ip]
+		datumtijd := match[args.inputargs.parserfield_datetime]
+		method := match[args.inputargs.parserfield_method]
+		request := match[args.inputargs.parserfield_request]
+		httpversion := match[args.inputargs.parserfield_httpversion]
+		returncode := match[args.inputargs.parserfield_returncode]
+		httpsize := match[args.inputargs.parserfield_httpsize]
+		referrer := match[args.inputargs.parserfield_referrer]
+		useragent := match[args.inputargs.parserfield_useragent]
 		ignore := false
 		for _, ignoredhostagent := range args.ignoredhostagents {
 			r, err := regexp.MatchString(ignoredhostagent, useragent)
@@ -229,11 +229,11 @@ func getmaxvisittimestamp() int {
 
 func parselogs(args args) {
 	maxvisittimestamp := getmaxvisittimestamp()
-	toparselist := getfiles(args.logfileregex, args.logfilepath)
+	toparselist := getfiles(args.inputargs.logfileregex, args.inputargs.logfilepath)
 	//fmt.Printf("%+v\n", toparselist)
 	var scanner *bufio.Scanner
 	for _, filename := range toparselist {
-		file, err := os.Open(args.logfilepath + filename)
+		file, err := os.Open(args.inputargs.logfilepath + filename)
 		defer file.Close()
 		if err != nil {
 			fmt.Printf("%s\n", err.Error())
@@ -253,6 +253,6 @@ func parselogs(args args) {
 			currentline := scanner.Text()
 			parseme(currentline, maxvisittimestamp, args)
 		}
-		InsertParsedFileHashIntoDb(filename, args.logfilepath)
+		InsertParsedFileHashIntoDb(filename, args.inputargs.logfilepath)
 	}
 }

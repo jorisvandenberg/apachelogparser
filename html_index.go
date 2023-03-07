@@ -43,7 +43,7 @@ func createindex(args args) {
 		panic(err)
 	}
 	var outputHTMLFile *os.File
-	if outputHTMLFile, err = os.Create(args.outputpath + "index.html"); err != nil {
+	if outputHTMLFile, err = os.Create(args.generals.outputpath + "index.html"); err != nil {
 		panic(err)
 	}
 

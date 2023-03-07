@@ -44,7 +44,7 @@ func createlinegraph(XValues []string, YValues map[string][]int, title string, s
 		writehtml_optional = writehtml[0]
 	}
 	if writehtml_optional {
-		f, _ := os.Create(args.outputpath + filename)
+		f, _ := os.Create(args.generals.outputpath + filename)
 		_ = line.Render(f)
 		MyPageForIndex := page_forindex{
 			Title:   title,

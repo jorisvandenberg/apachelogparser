@@ -7,15 +7,32 @@ import (
 	"os"
 )
 
-type args struct {
-	runtype                  string
+type inputarg struct {
 	logfilepath              string
-	outputpath               string
 	logfileregex             string
+	parseregex               string
+	parserfield_ip           int
+	parserfield_datetime     int
+	parserfield_method       int
+	parserfield_request      int
+	parserfield_httpversion  int
+	parserfield_returncode   int
+	parserfield_httpsize     int
+	parserfield_referrer     int
+	parserfield_useragent    int
+}
+
+type general struct {
+	outputpath               string
+}
+type args struct {
+	inputargs 				 inputarg
+	generals				 general
+	runtype                  string
+	
 	dbpath                   string
 	timeformat               string
 	mydomain                 string
-	parseregex               string
 	assethost                string
 	ignoredips               []string
 	ignoredhostagents        []string
@@ -26,15 +43,7 @@ type args struct {
 	number_of_days_per_day   int
 	number_of_days_per_week  int
 	number_of_days_per_month int
-	parserfield_ip           int
-	parserfield_datetime     int
-	parserfield_method       int
-	parserfield_request      int
-	parserfield_httpversion  int
-	parserfield_returncode   int
-	parserfield_httpsize     int
-	parserfield_referrer     int
-	parserfield_useragent    int
+	
 	numberofreferrers        int
 	truncatealreadyloaded    bool
 	emptyoutputpath          bool
@@ -46,6 +55,8 @@ type args struct {
 
 func getargs() args {
 	var output args
+	var inputargs inputarg
+	var generals general
 	runtypePtr := flag.String("runtype", `all`, "options: all, onlylogparse, onlystats. Default: all")
 	customconfigPtr := flag.String("config", `default`, "the full path to a custom configfile")
 	truncatealreadyloadedPtr := flag.Bool("truncatealreadyloaded", false, "if set, the \"alreadyloaded\" table will be truncated if combined with runtype all or onlylogparse")
@@ -100,20 +111,26 @@ func getargs() args {
 	}
 	output.ignoredrequests = ignoredrequests_list
 
-	output.logfilepath = cfg.Section("input").Key("logfilepath").String()
-	output.logfileregex = cfg.Section("input").Key("logfileregex").String()
-	output.parseregex = cfg.Section("input").Key("parseregex").String()
-	output.parserfield_ip, _ = cfg.Section("input").Key("parserfield_ip").Int()
-	output.parserfield_datetime, _ = cfg.Section("input").Key("parserfield_datetime").Int()
-	output.parserfield_method, _ = cfg.Section("input").Key("parserfield_method").Int()
-	output.parserfield_request, _ = cfg.Section("input").Key("parserfield_request").Int()
-	output.parserfield_httpversion, _ = cfg.Section("input").Key("parserfield_httpversion").Int()
-	output.parserfield_returncode, _ = cfg.Section("input").Key("parserfield_returncode").Int()
-	output.parserfield_httpsize, _ = cfg.Section("input").Key("parserfield_httpsize").Int()
-	output.parserfield_referrer, _ = cfg.Section("input").Key("parserfield_referrer").Int()
-	output.parserfield_useragent, _ = cfg.Section("input").Key("parserfield_useragent").Int()
+	inputargs.logfilepath = cfg.Section("input").Key("logfilepath").String()
+	inputargs.logfileregex = cfg.Section("input").Key("logfileregex").String()
+	inputargs.parseregex = cfg.Section("input").Key("parseregex").String()
+	switch inputargs.parseregex {
+    case "clf":
+      inputargs.parseregex   = `(?m)^(\S*).*\[(.*)\]\s"(\S*)\s(\S*)\s([^"]*)"\s(\S*)\s(\S*)\s"([^"]*)"\s"([^"]*)"$`
+	//case "other":
+    }
+	
+	inputargs.parserfield_ip, _ = cfg.Section("input").Key("parserfield_ip").Int()
+	inputargs.parserfield_datetime, _ = cfg.Section("input").Key("parserfield_datetime").Int()
+	inputargs.parserfield_method, _ = cfg.Section("input").Key("parserfield_method").Int()
+	inputargs.parserfield_request, _ = cfg.Section("input").Key("parserfield_request").Int()
+	inputargs.parserfield_httpversion, _ = cfg.Section("input").Key("parserfield_httpversion").Int()
+	inputargs.parserfield_returncode, _ = cfg.Section("input").Key("parserfield_returncode").Int()
+	inputargs.parserfield_httpsize, _ = cfg.Section("input").Key("parserfield_httpsize").Int()
+	inputargs.parserfield_referrer, _ = cfg.Section("input").Key("parserfield_referrer").Int()
+	inputargs.parserfield_useragent, _ = cfg.Section("input").Key("parserfield_useragent").Int()
 
-	output.outputpath = cfg.Section("output").Key("outputpath").String()
+	generals.outputpath = cfg.Section("output").Key("outputpath").String()
 	output.assethost = cfg.Section("output").Key("assethost").String()
 	output.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
 	output.number_of_days_per_hour, _ = cfg.Section("output").Key("number_of_days_per_hour").Int()
@@ -129,9 +146,11 @@ func getargs() args {
 	output.timeformat = cfg.Section("general").Key("timeformat").String()
 	output.mydomain = cfg.Section("general").Key("mydomain").String()
 	output.writelog, _ = cfg.Section("general").Key("writelog").Bool()
-
+	
+	output.inputargs = inputargs
+	output.generals = generals
 	logger(logconfig)
-
+	
 	
 	return output
 }
