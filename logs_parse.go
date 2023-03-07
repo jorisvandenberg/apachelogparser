@@ -75,6 +75,7 @@ func insertrow(ip string, datumtijd string, method string, request string, httpv
 		stmt_countreferrer := myquerydb["stmt_countreferrer"].stmt
 		var numberofreferrers int
 		stmt_countreferrer.QueryRow(referrer).Scan(&numberofreferrers)
+		fmt.Printf("%d refferers with referrer %s\n", numberofreferrers, referrer)
 		var referrerid int
 		if numberofreferrers > 0 {
 			stmt_selectreferrerid := myquerydb["stmt_selectreferrerid"].stmt
