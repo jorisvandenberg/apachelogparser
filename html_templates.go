@@ -86,7 +86,7 @@ func filltemplatedb() {
 		<p>{{.Pagefooter}}</p>
 	</body>
 </html>`
-
+/*
 	html_index := `
 <html>
 <head>
@@ -101,7 +101,78 @@ func filltemplatedb() {
 	{{end}}
 	</body>
 	</html>`
+*/
 
+html_index := `
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Statistics</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: row;
+			height: 100vh;
+			font-family: Arial, sans-serif;
+		}
+
+		nav {
+			display: flex;
+			flex-direction: column;
+			background-color: #f5f5f5;
+			padding: 10px;
+			width: 200px;
+		}
+
+		nav a {
+			text-decoration: none;
+			color: #333;
+			font-size: 16px;
+			margin-bottom: 10px;
+			padding-left: 20px;
+		}
+
+		nav a:hover {
+			color: #fff;
+			background-color: #333;
+		}
+
+		nav h2 {
+			margin-top: 0;
+			margin-bottom: 10px;
+			padding-left: 10px;
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		iframe {
+			flex: 1;
+			height: 100%;
+			border: none;
+		}
+	</style>
+</head>
+<body>
+	<nav>
+	
+	
+	{{range $key, $value := .}}
+		<h2>{{ $key }}</h2>
+		<ul>
+		{{range $value}}
+			<li>{{.Textpre}}<a href="{{.Url}}" target="statzframe">{{.Title}}</a>{{.Textpost}}</li>
+		{{end}}
+		</ul>
+	{{end}}
+	</nav>
+	<iframe src="https://jorisvandenberg.github.io/" name="statzframe"></iframe>
+</body>
+</html>
+
+
+`
 	templatedb["table_tmpl"] = table_tmpl
 	templatedb["html_index"] = html_index
 	templatedb["html_page"] = html_page
