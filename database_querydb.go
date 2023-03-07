@@ -106,7 +106,10 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   year, month, day"
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += " ORDER BY"
 	querymap["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"] += "   year asc, month asc, day asc;"
-
+	/*
+	querymap["stmt_noaggregation_nbdaysdetailed_refferers"] = " SELECT"
+	querymap["stmt_noaggregation_nbdaysdetailed_refferers"] += " SELECT"
+	*/
 	for naam, sql := range querymap {
 		stmt, err := tx.Prepare(sql)
 		if err != nil {
