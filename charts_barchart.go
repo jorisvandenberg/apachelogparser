@@ -30,7 +30,7 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 			PageTitle:  title,
 			Width:      `95vw`,
 			Height:     `95vh`,
-			AssetsHost: args.assethost,
+			AssetsHost: args.outputs.assethost,
 		}),
 		charts.WithLegendOpts(opts.Legend{
 			Show:  true,

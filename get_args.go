@@ -26,6 +26,7 @@ type output struct {
 	outputpath               string
 	emptyoutputpath          bool
 	number_of_days_detailed  int
+	assethost                string
 }
 
 type args struct {
@@ -35,7 +36,6 @@ type args struct {
 	dbpath                   string
 	timeformat               string
 	mydomain                 string
-	assethost                string
 	ignoredips               []string
 	ignoredhostagents        []string
 	ignoredreferrers         []string
@@ -126,7 +126,7 @@ func getargs() args {
 	inputargs.parserfield_useragent, _ = cfg.Section("input").Key("parserfield_useragent").Int()
 
 	outputs.outputpath = cfg.Section("output").Key("outputpath").String()
-	returndb.assethost = cfg.Section("output").Key("assethost").String()
+	outputs.assethost = cfg.Section("output").Key("assethost").String()
 	outputs.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
 	outputs.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
 	returndb.zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
