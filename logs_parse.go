@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"time"
+	"strconv"
 )
 
 func insertrow(ip string, datumtijd string, method string, request string, httpversion string, returncode string, httpsize string, referrer string, useragent string, maxtimestamp int, args args) {
@@ -222,6 +223,7 @@ func getmaxvisittimestamp() int {
 	stmt_maxvisittimestamp := myquerydb["stmt_maxvisittimestamp"].stmt
 	var output int
 	stmt_maxvisittimestamp.QueryRow().Scan(&output)
+	logger("the current latest log record had a unix timestamp of " + strconv.Itoa(output) + ", i'm not going to load records that have a timestamp older than this one!!!")
 	return output
 }
 

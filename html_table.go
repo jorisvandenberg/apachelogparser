@@ -15,6 +15,7 @@ type Table struct {
 }
 
 func createtable(args args, outputfilename string, htmltitle string, myTable Table, section string, order int) {
+	logger("creating a table with name " + outputfilename)
 	t, err := template.New("mytemplate").Parse(templatedb["table_tmpl"])
 	if err != nil {
 		panic(err)
@@ -36,4 +37,5 @@ func createtable(args args, outputfilename string, htmltitle string, myTable Tab
 		Order:   order,
 	}
 	indexpages = append(indexpages, MyPageForIndex)
+	logger("finished creating a table with name " + outputfilename)
 }

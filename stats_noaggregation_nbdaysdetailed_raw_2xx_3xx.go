@@ -7,6 +7,7 @@ import (
 )
 
 func noaggregation_nbdaysdetailed_raw_2xx_3xx(args args) {
+	logger("i'm going to generate a table and a linechart with the hourly raw hits")
 	stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed := myquerydb["stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed"].stmt
 	mintimestamp := int(time.Now().Unix()) - (args.number_of_days_detailed * 86400)
 	rows, err := stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed.Query(mintimestamp)
@@ -54,5 +55,5 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args args) {
 	PreChartText = ""
 	PostChartText = ""
 	createlinegraph(XValues_linegraph, YValues_linegraph, "line graph of the raw hits with status 2xx and 3xx", "Count of all raw succesfull hits (filtering out all 4xx and 5xx return codes).", args, "noaggregation_nbdaysdetailed_raw_2xx_3xx_linegraph.html", "hits", 2)
-
+	logger("finished generating a table and a linechart with the hourly raw hits")
 }

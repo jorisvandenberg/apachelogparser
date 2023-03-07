@@ -7,6 +7,7 @@ import (
 )
 
 func writedemographs(args args) {
+	logger("i was asked to write some demo pages")
 	demobarchart(args)
 	demotable(args)
 	demolinegraph(args)
@@ -14,6 +15,7 @@ func writedemographs(args args) {
 	demopiechart(args)
 	demowritemulti(args)
 	demowritehtmlpage(args)
+	logger("finished writing some demo pages")
 }
 
 func demowritehtmlpage(args args) {

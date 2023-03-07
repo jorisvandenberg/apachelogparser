@@ -7,7 +7,7 @@ import (
 )
 
 func stats_noaggregation_nbdaysdetailed_refferers(args args) {
-
+	logger("i'm goig to generate a table with a sum of raw hits per referrer for the last " + strconv.Itoa(args.number_of_days_detailed) + " days")
 	stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx := myquerydb["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"].stmt
 	mintimestamp := int(time.Now().Unix()) - (args.number_of_days_detailed * 86400)
 	rows, err := stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx.Query(mintimestamp, args.numberofreferrers)
@@ -40,4 +40,5 @@ func stats_noaggregation_nbdaysdetailed_refferers(args args) {
 		myTable.Data = append(myTable.Data, MyData)
 	}
 	createtable(args, "stats_noaggregation_nbdaysdetailed_refferers_table.html", "table of the raw 2xx and 3xx per referrer over the last "+strconv.Itoa(args.number_of_days_detailed)+" days", myTable, "referrer", 3)
+	logger("finished generating a table with a sum of raw hits per referrer for the last " + strconv.Itoa(args.number_of_days_detailed) + " days")
 }

@@ -7,6 +7,7 @@ import (
 )
 
 func createbarchart(XValues []string, YValues map[string][]int, title string, subtitle string, args args, filename string, section string, order int, writehtml ...bool) *charts.Bar {
+	logger("creating a barchart with title '" + title+ "' and filename " + filename)
 	bar := charts.NewBar()
 	bar.Renderer = newSnippetRenderer(bar, bar.Validate)
 	bar.SetGlobalOptions(charts.WithTitleOpts(opts.Title{
@@ -53,5 +54,6 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}
+	logger("finished creating a barchart with title '" + title+ "' and filename " + filename)
 	return bar
 }

@@ -7,6 +7,7 @@ import (
 )
 
 func createpiechart(XValues []string, YValues map[string]int, title string, subtitle string, args args, filename string, section string, order int, writehtml ...bool) *charts.Pie {
+	logger("creating a piechart with title '" + title+ "' and filename " + filename)
 	pie := charts.NewPie()
 	pie.Renderer = newSnippetRenderer(pie, pie.Validate)
 	pie.SetGlobalOptions(
@@ -40,6 +41,7 @@ func createpiechart(XValues []string, YValues map[string]int, title string, subt
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}
+	logger("finished creating a piechart with title '" + title+ "' and filename " + filename)
 	return pie
 
 }

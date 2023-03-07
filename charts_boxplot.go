@@ -7,6 +7,7 @@ import (
 )
 
 func createboxplot(XValues []string, YValues map[string][][]int, args args, title string, filename string, section string, order int, writehtml ...bool) *charts.BoxPlot {
+	logger("creating a boxplot with title '" + title+ "' and filename " + filename)
 	bp := charts.NewBoxPlot()
 	bp.Renderer = newSnippetRenderer(bp, bp.Validate)
 	bp.SetGlobalOptions(
@@ -39,5 +40,6 @@ func createboxplot(XValues []string, YValues map[string][][]int, args args, titl
 		}
 		indexpages = append(indexpages, MyPageForIndex)
 	}
+	logger("finished creating a boxplot with title '" + title+ "' and filename " + filename)
 	return bp
 }

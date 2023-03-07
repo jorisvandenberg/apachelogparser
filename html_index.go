@@ -18,6 +18,7 @@ type page_forindex struct {
 var indexpages []page_forindex
 
 func createindex(args args) {
+	logger("creating an index file")
 	sort.Slice(indexpages, func(i, j int) bool {
 		return indexpages[i].Order < indexpages[j].Order
 	})
@@ -50,4 +51,5 @@ func createindex(args args) {
 		panic(err)
 	}
 	defer outputHTMLFile.Close()
+	logger("finished creating an index file")
 }

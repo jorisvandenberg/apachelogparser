@@ -7,6 +7,7 @@ import (
 )
 
 func noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx(args args) {
+	logger("i'm going to generate a table and a linegraph containing a dayly grouping of unique hits")
 	stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed := myquerydb["stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed"].stmt
 	mintimestamp := int(time.Now().Unix()) - (args.number_of_days_detailed * 86400)
 	rows, err := stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed.Query(mintimestamp)
@@ -52,5 +53,5 @@ func noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx(args args) {
 	PreChartText = ""
 	PostChartText = ""
 	createlinegraph(XValues_linegraph, YValues_linegraph, "line graph of the unique hits with status 2xx and 3xx per day", "Count of all unique succesfull hits (filtering out all 4xx and 5xx return codes).", args, "noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx_linegraph.html", "hits", 1)
-
+	logger("finished generating a table and a linegraph containing a dayly grouping of unique hits")
 }
