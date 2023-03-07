@@ -25,7 +25,9 @@ type inputarg struct {
 type output struct {
 	outputpath               string
 	emptyoutputpath          bool
+	number_of_days_detailed  int
 }
+
 type args struct {
 	inputargs 				 inputarg
 	outputs				 output
@@ -38,7 +40,6 @@ type args struct {
 	ignoredhostagents        []string
 	ignoredreferrers         []string
 	ignoredrequests          []string
-	number_of_days_detailed  int
 	number_of_days_per_hour  int
 	number_of_days_per_day   int
 	number_of_days_per_week  int
@@ -130,7 +131,7 @@ func getargs() args {
 
 	outputs.outputpath = cfg.Section("output").Key("outputpath").String()
 	returndb.assethost = cfg.Section("output").Key("assethost").String()
-	returndb.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
+	outputs.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
 	returndb.number_of_days_per_hour, _ = cfg.Section("output").Key("number_of_days_per_hour").Int()
 	returndb.number_of_days_per_day, _ = cfg.Section("output").Key("number_of_days_per_day").Int()
 	returndb.number_of_days_per_week, _ = cfg.Section("output").Key("number_of_days_per_week").Int()
