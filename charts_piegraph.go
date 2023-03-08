@@ -30,7 +30,7 @@ func createpiechart(XValues []string, YValues map[string]int, title string, subt
 		writehtml_optional = writehtml[0]
 	}
 	if writehtml_optional {
-		f, _ := os.Create(args.outputs.Outputpath + filename)
+		f, _ := os.Create(args.Outputs.Outputpath + filename)
 		_ = pie.Render(f)
 
 		MyPageForIndex := page_forindex{

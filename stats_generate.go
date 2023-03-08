@@ -1,6 +1,6 @@
 package main
 
-func generatestats(args args) {
+func generatestats(args Args) {
 	logger("started the function to generate statistics")
 	noaggregation_nbdaysdetailed_raw_2xx_3xx(args)
 	noaggregation_nbdaysdetailed_unique_2xx_3xx(args)

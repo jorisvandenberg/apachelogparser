@@ -18,7 +18,7 @@ func createhtmltable(args Args, outputfilename string, myHtmlPage HtmlPage, sect
 		panic(err)
 	}
 	var outputHTMLFile *os.File
-	if outputHTMLFile, err = os.Create(args.outputs.Outputpath + outputfilename); err != nil {
+	if outputHTMLFile, err = os.Create(args.Outputs.Outputpath + outputfilename); err != nil {
 		panic(err)
 	}
 

@@ -21,7 +21,7 @@ func createtable(args Args, outputfilename string, htmltitle string, myTable Tab
 		panic(err)
 	}
 	var outputHTMLFile *os.File
-	if outputHTMLFile, err = os.Create(args.outputs.Outputpath + outputfilename); err != nil {
+	if outputHTMLFile, err = os.Create(args.Outputs.Outputpath + outputfilename); err != nil {
 		panic(err)
 	}
 

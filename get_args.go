@@ -87,7 +87,7 @@ type Args struct {
 }
 
 func getargs() Args {
-	var returndb args
+	var returndb Args
 	var inputargs Inputarg
 	var outputs Output
 	var generals General
@@ -146,22 +146,22 @@ func getargs() Args {
 	for _, ignoredip := range cfg.Section("ignorevisitorips").Keys() {
 		ignorevisitorips_list = append(ignorevisitorips_list, ignoredip.String())
 	}
-	returndb.ignoredips = ignorevisitorips_list
+	returndb.Ignoredips = ignorevisitorips_list
 
 	for _, ignoredhostagent := range cfg.Section("ignorehostagents").Keys() {
 		ignorehostagents_list = append(ignorehostagents_list, ignoredhostagent.String())
 	}
-	returndb.ignoredhostagents = ignorehostagents_list
+	returndb.Ignoredhostagents = ignorehostagents_list
 
 	for _, ignoredreferrer := range cfg.Section("ignorereferrers").Keys() {
 		ignoredreferrers_list = append(ignoredreferrers_list, ignoredreferrer.String())
 	}
-	returndb.ignoredreferrers = ignoredreferrers_list
+	returndb.Ignoredreferrers = ignoredreferrers_list
 
 	for _, ignoredrequest := range cfg.Section("ignoredrequests").Keys() {
 		ignoredrequests_list = append(ignoredrequests_list, ignoredrequest.String())
 	}
-	returndb.ignoredrequests = ignoredrequests_list
+	returndb.Ignoredrequests = ignoredrequests_list
 
 	/*
 	end ignore list creation
@@ -256,11 +256,11 @@ func getargs() Args {
 	/*
 	start fill struct, log and return the args
 	*/
-	returndb.inputargs = inputargs
-	returndb.outputs = outputs
-	returndb.generals = generals
-	returndb.commandlines = commandlines
-	returndb.stats = mystats
+	returndb.Inputargs = inputargs
+	returndb.Outputs = outputs
+	returndb.Generals = generals
+	returndb.Commandlines = commandlines
+	returndb.Stats = mystats
 	logger(logconfig)
 	
 	returndb_json, err := json.MarshalIndent(returndb, "", "    ")

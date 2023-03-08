@@ -15,7 +15,7 @@ import (
 )
 
 func insertrow(ip string, datumtijd string, method string, request string, httpversion string, returncode string, httpsize string, referrer string, useragent string, maxtimestamp int, args Args) {
-	longForm := args.generals.Timeformat
+	longForm := args.Generals.Timeformat
 	/*
 		create user and return userid or return userid of existing user (userid)
 	*/
@@ -171,39 +171,39 @@ func getfiles(regex string, pathS string) []string {
 }
 
 func parseme(line string, maxvisittimestamp int, args Args) {
-	re := regexp.MustCompile(args.inputargs.Parseregex)
+	re := regexp.MustCompile(args.Inputargs.Parseregex)
 	match := re.FindStringSubmatch(line)
 
 	if len(match) == 10 {
-		ip := match[args.inputargs.Parserfield_ip]
-		datumtijd := match[args.inputargs.Parserfield_datetime]
-		method := match[args.inputargs.Parserfield_method]
-		request := match[args.inputargs.Parserfield_request]
-		httpversion := match[args.inputargs.Parserfield_httpversion]
-		returncode := match[args.inputargs.Parserfield_returncode]
-		httpsize := match[args.inputargs.Parserfield_httpsize]
-		referrer := match[args.inputargs.Parserfield_referrer]
-		useragent := match[args.inputargs.Parserfield_useragent]
+		ip := match[args.Inputargs.Parserfield_ip]
+		datumtijd := match[args.Inputargs.Parserfield_datetime]
+		method := match[args.Inputargs.Parserfield_method]
+		request := match[args.Inputargs.Parserfield_request]
+		httpversion := match[args.Inputargs.Parserfield_httpversion]
+		returncode := match[args.Inputargs.Parserfield_returncode]
+		httpsize := match[args.Inputargs.Parserfield_httpsize]
+		referrer := match[args.Inputargs.Parserfield_referrer]
+		useragent := match[args.Inputargs.Parserfield_useragent]
 		ignore := false
-		for _, ignoredhostagent := range args.ignoredhostagents {
+		for _, ignoredhostagent := range args.Ignoredhostagents {
 			r, err := regexp.MatchString(ignoredhostagent, useragent)
 			if err == nil && r {
 				ignore = true
 			}
 		}
-		for _, ignoredip := range args.ignoredips {
+		for _, ignoredip := range args.Ignoredips {
 			r, err := regexp.MatchString(ignoredip, ip)
 			if err == nil && r {
 				ignore = true
 			}
 		}
-		for _, ignoredreferrer := range args.ignoredreferrers {
+		for _, ignoredreferrer := range args.Ignoredreferrers {
 			r, err := regexp.MatchString(ignoredreferrer, referrer)
 			if err == nil && r {
 				ignore = true
 			}
 		}
-		for _, ignoredrequest := range args.ignoredrequests {
+		for _, ignoredrequest := range args.Ignoredrequests {
 			r, err := regexp.MatchString(ignoredrequest, request)
 			if err == nil && r {
 				ignore = true
@@ -229,11 +229,11 @@ func getmaxvisittimestamp() int {
 
 func parselogs(args Args) {
 	maxvisittimestamp := getmaxvisittimestamp()
-	toparselist := getfiles(args.inputargs.Logfileregex, args.inputargs.Logfilepath)
+	toparselist := getfiles(args.Inputargs.Logfileregex, args.Inputargs.Logfilepath)
 	//fmt.Printf("%+v\n", toparselist)
 	var scanner *bufio.Scanner
 	for _, filename := range toparselist {
-		file, err := os.Open(args.inputargs.Logfilepath + filename)
+		file, err := os.Open(args.Inputargs.Logfilepath + filename)
 		defer file.Close()
 		if err != nil {
 			fmt.Printf("%s\n", err.Error())
@@ -253,6 +253,6 @@ func parselogs(args Args) {
 			currentline := scanner.Text()
 			parseme(currentline, maxvisittimestamp, args)
 		}
-		InsertParsedFileHashIntoDb(filename, args.inputargs.Logfilepath)
+		InsertParsedFileHashIntoDb(filename, args.Inputargs.Logfilepath)
 	}
 }

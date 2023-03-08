@@ -30,7 +30,7 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 			PageTitle:  title,
 			Width:      `95vw`,
 			Height:     `95vh`,
-			AssetsHost: args.outputs.Assethost,
+			AssetsHost: args.Outputs.Assethost,
 		}),
 		charts.WithLegendOpts(opts.Legend{
 			Show:  true,
@@ -44,7 +44,7 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 		writehtml_optional = writehtml[0]
 	}
 	if writehtml_optional {
-		f, _ := os.Create(args.outputs.Outputpath + filename)
+		f, _ := os.Create(args.Outputs.Outputpath + filename)
 		_ = bar.Render(f)
 		MyPageForIndex := page_forindex{
 			Title:   title,
