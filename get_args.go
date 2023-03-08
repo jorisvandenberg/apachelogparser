@@ -6,13 +6,14 @@ import (
 	"gopkg.in/ini.v1"
 	"os"
 	"encoding/json"
+	"strings"
 )
 
 type Tableconfig struct {
 	Table_enabled bool
 	Table_title string
 	Table_description string
-	Table_pagecontent string
+	Table_pagecontent []string
 	Table_pagefooter string
 	Table_filename string
 	Table_index_name string
@@ -72,6 +73,7 @@ type Commandline struct {
 	Runtype               string
 	Truncatealreadyloaded bool
 	Demographs            bool
+	Debug				 bool
 }
 
 type Args struct {
@@ -100,10 +102,12 @@ func getargs() Args {
 	customconfigPtr := flag.String("config", `default`, "the full path to a custom configfile")
 	truncatealreadyloadedPtr := flag.Bool("truncatealreadyloaded", false, "if set, the \"alreadyloaded\" table will be truncated if combined with runtype all or onlylogparse")
 	demographsPtr := flag.Bool("demographs", false, "write a bunch of demographs to the output dir")
+	debugPtr := flag.Bool("debug", false, "enable or disable debug (verbose)")
 	flag.Parse()
 	commandlines.Runtype = *runtypePtr
 	commandlines.Truncatealreadyloaded = *truncatealreadyloadedPtr
 	commandlines.Demographs = *demographsPtr
+	commandlines.Debug = *debugPtr
 	/*
 	end command line flags input
 	*/
@@ -231,8 +235,9 @@ func getargs() Args {
 			mytableconfig.Table_enabled = true
 			mytableconfig.Table_title = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_title").String(), outputs.Number_of_days_detailed)
 			mytableconfig.Table_description = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_description").String(), outputs.Number_of_days_detailed)
-			mytableconfig.Table_pagecontent = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_pagecontent").String()
-			mytableconfig.Table_pagefooter = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_pagefooter").String()
+			tablecontent_unsplitstring := splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_pagecontent").String(), outputs.Number_of_days_detailed)
+			mytableconfig.Table_pagecontent = strings.Split(tablecontent_unsplitstring, "|")
+			mytableconfig.Table_pagefooter = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_pagefooter").String(), outputs.Number_of_days_detailed)
 			mytableconfig.Table_filename = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_filename").String()
 			mytableconfig.Table_index_name = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_index_name").String()
 			mytableconfig.Table_index_group = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_index_group").String()
@@ -244,8 +249,8 @@ func getargs() Args {
 
 		if (linegraph_enabled) {
 			mylinegraphconfig.Linegraph_enabled = true
-			mylinegraphconfig.Linegraph_title = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_title").String()
-			mylinegraphconfig.Linegraph_description = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_description").String()
+			mylinegraphconfig.Linegraph_title = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_title").String(), outputs.Number_of_days_detailed)
+			mylinegraphconfig.Linegraph_description = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_description").String(), outputs.Number_of_days_detailed)
 			mylinegraphconfig.Linegraph_filename = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_filename").String()
 			mylinegraphconfig.Linegraph_index_group = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_index_group").String()
 			mylinegraphconfig.Linegraph_index_order,_ = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_index_order").Int()
@@ -257,8 +262,6 @@ func getargs() Args {
 		mystatconfig.Linegraphinfo = mylinegraphconfig
 		mystats = append(mystats, mystatconfig)
 	}
-	
-
 
 	/*
 	end stats config secion stat_perhour_hits_raw_2xx_3xx
@@ -278,7 +281,10 @@ func getargs() Args {
     if err != nil {
         fmt.Println("Error marshalling JSON:", err)
     }
-	fmt.Println(string(returndb_json))
+	if commandlines.Debug {
+		fmt.Println(string(returndb_json))
+	}
+	
 	logger("config (json): " + string(returndb_json))
 	return returndb
 	/*
