@@ -42,6 +42,7 @@ type general struct {
 type commandline struct {
 	runtype               string
 	truncatealreadyloaded bool
+	demographs            bool	
 }
 
 type args struct {
@@ -49,7 +50,6 @@ type args struct {
 	outputs               output
 	generals			  general
 	commandlines		  commandline
-	demographs            bool	
 	ignoredips            []string
 	ignoredhostagents     []string
 	ignoredreferrers      []string
@@ -69,7 +69,7 @@ func getargs() args {
 	flag.Parse()
 	commandlines.runtype = *runtypePtr
 	commandlines.truncatealreadyloaded = *truncatealreadyloadedPtr
-	returndb.demographs = *demographsPtr
+	commandlines.demographs = *demographsPtr
 
 	var configfilepath string
 	var logconfig string

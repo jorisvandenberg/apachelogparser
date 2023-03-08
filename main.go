@@ -53,7 +53,7 @@ func main() {
 		logger("Whoops: tx.commit:" + err.Error())
 	}
 
-	if args.demographs {
+	if args.commandlines.demographs {
 		writedemographs(args)
 	}
 	logger("finished the program, no more logging from this point out, since the logs have to be written, included in the index and included in the zipfile (if requested), so i cannot log these functions (chicken or the egg problem)")
