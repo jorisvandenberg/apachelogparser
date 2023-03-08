@@ -1,8 +1,8 @@
 package main
 
 import (
-	"strings"
 	"strconv"
+	"strings"
 )
 
 func splice_number_of_days_detailed_in(original string, number_of_days_detailed int) string {
