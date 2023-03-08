@@ -4,10 +4,27 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+	"reflect"
 )
 
 func noaggregation_nbdaysdetailed_raw_2xx_3xx(args Args) {
-	logger("i'm going to generate a table and a linechart with the hourly raw hits")
+	check_if_stats_is_slice := reflect.ValueOf(args).FieldByName("Stats")
+	foundcurstat := false
+	var mycurstat  Statconfig
+	if check_if_stats_is_slice.Kind() == reflect.Ptr && check_if_stats_is_slice.IsNil() {
+		logger("i wanted to verify if i had to create stats with the hourly raw hits, but it seems like all Stats are disabled in the config")
+
+	} else if check_if_stats_is_slice.Kind() == reflect.Slice {
+		for _, curstat := range args.Stats {
+			foundcurstat = true
+			mycurstat = curstat
+		}
+	}
+	//als foundcurstat is true mag ik statistiek maken, de config zit in mycurstat
+	if foundcurstat {
+		//fmt.Printf("%+v", mycurstat)
+	
+	logger("i'm going to generate a table and/or a linechart (depending on the config) with the hourly raw hits")
 	stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed := myquerydb["stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed"].stmt
 	mintimestamp := int(time.Now().Unix()) - (args.Outputs.Number_of_days_detailed * 86400)
 	rows, err := stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed.Query(mintimestamp)
@@ -24,10 +41,10 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args Args) {
 		"Title_5": "NB RAW HITS",
 	}
 	myTable := Table{
-		Pagetitle:       "Number of raw 2xx and 3xx hits per hour over th last " + strconv.Itoa(args.Outputs.Number_of_days_detailed) + " days",
-		Pagedescription: "Count of all raw succesfull hits (filtering out all 4xx and 5xx return codes).",
-		Pagecontent:     []string{"We limit the output to the number of days that were defined in your config.ini file with a sliding window (so if you run this tool at 15:34 you'll get stats untill 15:34 x days ago)."},
-		Pagefooter:      "only hits that were actually loaded are shown, so if you filtered out certain lines in your config.ini they'll never be shown!",
+		Pagetitle:       mycurstat.Tableinfo.Table_title,
+		Pagedescription: mycurstat.Tableinfo.Table_description,
+		Pagecontent:     mycurstat.Tableinfo.Table_pagecontent,
+		Pagefooter:      mycurstat.Tableinfo.Table_pagefooter,
 		Headers:         MyHeaders,
 		Data:            []map[string]string{},
 	}
@@ -50,10 +67,14 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args Args) {
 		XValues_linegraph = append(XValues_linegraph, strconv.Itoa(year)+"-"+strconv.Itoa(month)+"-"+strconv.Itoa(day)+":"+strconv.Itoa(hour))
 		YValues_linegraph["raw hits"] = append(YValues_linegraph["raw hits"], count)
 	}
-
-	createtable(args, "noaggregation_nbdaysdetailed_raw_2xx_3xx_table.html", "table of the raw 2xx and 3xx per hour over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", myTable, "hits", 15)
-	PreChartText = ""
-	PostChartText = ""
-	createlinegraph(XValues_linegraph, YValues_linegraph, "line graph of the raw hits with status 2xx and 3xx", "Count of all raw succesfull hits (filtering out all 4xx and 5xx return codes).", args, "noaggregation_nbdaysdetailed_raw_2xx_3xx_linegraph.html", "hits", 2)
-	logger("finished generating a table and a linechart with the hourly raw hits")
+	if mycurstat.Tableinfo.Table_enabled {
+		createtable(args, mycurstat.Tableinfo.Table_filename, mycurstat.Tableinfo.Table_index_name , myTable, mycurstat.Tableinfo.Table_index_group, mycurstat.Tableinfo.Table_index_order)
+	}
+	if mycurstat.Linegraphinfo.Linegraph_enabled {
+		createlinegraph(XValues_linegraph, YValues_linegraph, mycurstat.Linegraphinfo.Linegraph_title, mycurstat.Linegraphinfo.Linegraph_description, args, mycurstat.Linegraphinfo.Linegraph_filename, mycurstat.Linegraphinfo.Linegraph_index_group, mycurstat.Linegraphinfo.Linegraph_index_order)
+	}
+	logger("finished generating a table and/or a linechart with the hourly raw hits")
+} else {
+	logger("i could not find this stat stat_perhour_hits_raw_2xx_3xx in the config. Is it disabled?")
+}
 }
