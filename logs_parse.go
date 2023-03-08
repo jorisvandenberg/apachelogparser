@@ -15,7 +15,7 @@ import (
 )
 
 func insertrow(ip string, datumtijd string, method string, request string, httpversion string, returncode string, httpsize string, referrer string, useragent string, maxtimestamp int, args args) {
-	longForm := args.timeformat
+	longForm := args.generals.timeformat
 	/*
 		create user and return userid or return userid of existing user (userid)
 	*/

@@ -34,6 +34,7 @@ type output struct {
 
 type general struct {
 	dbpath                string
+	timeformat            string
 }
 
 type args struct {
@@ -42,7 +43,6 @@ type args struct {
 	generals			  general
 	runtype               string
 	
-	timeformat            string
 	mydomain              string
 	truncatealreadyloaded bool
 	writelog              bool
@@ -140,7 +140,7 @@ func getargs() args {
 	outputs.numberofreferrers, _ = cfg.Section("output").Key("numberofreferrers").Int()
 
 	generals.dbpath = cfg.Section("general").Key("dbpath").String()
-	returndb.timeformat = cfg.Section("general").Key("timeformat").String()
+	generals.timeformat = cfg.Section("general").Key("timeformat").String()
 	returndb.mydomain = cfg.Section("general").Key("mydomain").String()
 	returndb.writelog, _ = cfg.Section("general").Key("writelog").Bool()
 
