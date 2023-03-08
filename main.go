@@ -20,7 +20,7 @@ func main() {
 	logger("fetching all the html templates")
 	filltemplatedb()
 	logger("finished fetching all the html templates")
-	if args.truncatealreadyloaded {
+	if args.commandlines.truncatealreadyloaded {
 		logger("received the command line parameter to truncate the already loaded table hashes...")
 		truncatealreadyloaded()
 		logger("finished truncating the already loaded table hashes")
