@@ -29,6 +29,7 @@ type output struct {
 	assethost               string
 	zipoutput             bool
 	zippath               string
+	numberofreferrers     int
 }
 
 type args struct {
@@ -42,7 +43,6 @@ type args struct {
 	ignoredhostagents     []string
 	ignoredreferrers      []string
 	ignoredrequests       []string
-	numberofreferrers     int
 	truncatealreadyloaded bool
 	writelog              bool
 	demographs            bool	
@@ -131,7 +131,7 @@ func getargs() args {
 	outputs.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
 	outputs.zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
 	outputs.zippath = cfg.Section("output").Key("zippath").String()
-	returndb.numberofreferrers, _ = cfg.Section("output").Key("numberofreferrers").Int()
+	outputs.numberofreferrers, _ = cfg.Section("output").Key("numberofreferrers").Int()
 
 	returndb.dbpath = cfg.Section("general").Key("dbpath").String()
 	returndb.timeformat = cfg.Section("general").Key("timeformat").String()

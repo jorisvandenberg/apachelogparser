@@ -10,7 +10,7 @@ func stats_noaggregation_nbdaysdetailed_refferers(args args) {
 	logger("i'm goig to generate a table with a sum of raw hits per referrer for the last " + strconv.Itoa(args.outputs.number_of_days_detailed) + " days")
 	stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx := myquerydb["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"].stmt
 	mintimestamp := int(time.Now().Unix()) - (args.outputs.number_of_days_detailed * 86400)
-	rows, err := stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx.Query(mintimestamp, args.numberofreferrers)
+	rows, err := stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx.Query(mintimestamp, args.outputs.numberofreferrers)
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
