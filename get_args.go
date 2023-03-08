@@ -39,13 +39,13 @@ type args struct {
 	dbpath                string
 	timeformat            string
 	mydomain              string
+	truncatealreadyloaded bool
+	writelog              bool
+	demographs            bool	
 	ignoredips            []string
 	ignoredhostagents     []string
 	ignoredreferrers      []string
 	ignoredrequests       []string
-	truncatealreadyloaded bool
-	writelog              bool
-	demographs            bool	
 }
 
 func getargs() args {
