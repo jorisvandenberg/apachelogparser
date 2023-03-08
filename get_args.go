@@ -27,33 +27,33 @@ type output struct {
 	emptyoutputpath         bool
 	number_of_days_detailed int
 	assethost               string
-	zipoutput             bool
-	zippath               string
-	numberofreferrers     int
+	zipoutput               bool
+	zippath                 string
+	numberofreferrers       int
 }
 
 type general struct {
-	dbpath                string
-	timeformat            string
-	mydomain              string
-	writelog              bool
+	dbpath     string
+	timeformat string
+	mydomain   string
+	writelog   bool
 }
 
 type commandline struct {
 	runtype               string
 	truncatealreadyloaded bool
-	demographs            bool	
+	demographs            bool
 }
 
 type args struct {
-	inputargs             inputarg
-	outputs               output
-	generals			  general
-	commandlines		  commandline
-	ignoredips            []string
-	ignoredhostagents     []string
-	ignoredreferrers      []string
-	ignoredrequests       []string
+	inputargs         inputarg
+	outputs           output
+	generals          general
+	commandlines      commandline
+	ignoredips        []string
+	ignoredhostagents []string
+	ignoredreferrers  []string
+	ignoredrequests   []string
 }
 
 func getargs() args {
