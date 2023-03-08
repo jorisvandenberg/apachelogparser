@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func createbarchart(XValues []string, YValues map[string][]int, title string, subtitle string, args args, filename string, section string, order int, writehtml ...bool) *charts.Bar {
+func createbarchart(XValues []string, YValues map[string][]int, title string, subtitle string, args Args, filename string, section string, order int, writehtml ...bool) *charts.Bar {
 	logger("creating a barchart with title '" + title + "' and filename " + filename)
 	bar := charts.NewBar()
 	bar.Renderer = newSnippetRenderer(bar, bar.Validate)
@@ -30,7 +30,7 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 			PageTitle:  title,
 			Width:      `95vw`,
 			Height:     `95vh`,
-			AssetsHost: args.outputs.assethost,
+			AssetsHost: args.outputs.Assethost,
 		}),
 		charts.WithLegendOpts(opts.Legend{
 			Show:  true,
@@ -44,7 +44,7 @@ func createbarchart(XValues []string, YValues map[string][]int, title string, su
 		writehtml_optional = writehtml[0]
 	}
 	if writehtml_optional {
-		f, _ := os.Create(args.outputs.outputpath + filename)
+		f, _ := os.Create(args.outputs.Outputpath + filename)
 		_ = bar.Render(f)
 		MyPageForIndex := page_forindex{
 			Title:   title,

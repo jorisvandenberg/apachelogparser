@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func createlinegraph(XValues []string, YValues map[string][]int, title string, subtitle string, args args, filename string, section string, order int, writehtml ...bool) *charts.Line {
+func createlinegraph(XValues []string, YValues map[string][]int, title string, subtitle string, args Args, filename string, section string, order int, writehtml ...bool) *charts.Line {
 	logger("creating a linegraph with title '" + title + "' and filename " + filename)
 	line := charts.NewLine()
 	line.Renderer = newSnippetRenderer(line, line.Validate)
@@ -30,7 +30,7 @@ func createlinegraph(XValues []string, YValues map[string][]int, title string, s
 			PageTitle:  title,
 			Width:      `95vw`,
 			Height:     `95vh`,
-			AssetsHost: args.outputs.assethost,
+			AssetsHost: args.outputs.Assethost,
 		}),
 		charts.WithLegendOpts(opts.Legend{
 			Show:  true,
@@ -44,7 +44,7 @@ func createlinegraph(XValues []string, YValues map[string][]int, title string, s
 		writehtml_optional = writehtml[0]
 	}
 	if writehtml_optional {
-		f, _ := os.Create(args.outputs.outputpath + filename)
+		f, _ := os.Create(args.outputs.Outputpath + filename)
 		_ = line.Render(f)
 		MyPageForIndex := page_forindex{
 			Title:   title,

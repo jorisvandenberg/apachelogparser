@@ -11,14 +11,14 @@ type HtmlPage struct {
 	Paragraphs      []string
 }
 
-func createhtmltable(args args, outputfilename string, myHtmlPage HtmlPage, section string, order int) {
+func createhtmltable(args Args, outputfilename string, myHtmlPage HtmlPage, section string, order int) {
 	logger("creating a html file with name " + outputfilename)
 	t, err := template.New("mytemplate").Parse(templatedb["html_page"])
 	if err != nil {
 		panic(err)
 	}
 	var outputHTMLFile *os.File
-	if outputHTMLFile, err = os.Create(args.outputs.outputpath + outputfilename); err != nil {
+	if outputHTMLFile, err = os.Create(args.outputs.Outputpath + outputfilename); err != nil {
 		panic(err)
 	}
 

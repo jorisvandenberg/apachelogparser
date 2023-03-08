@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func createpiechart(XValues []string, YValues map[string]int, title string, subtitle string, args args, filename string, section string, order int, writehtml ...bool) *charts.Pie {
+func createpiechart(XValues []string, YValues map[string]int, title string, subtitle string, args Args, filename string, section string, order int, writehtml ...bool) *charts.Pie {
 	logger("creating a piechart with title '" + title + "' and filename " + filename)
 	pie := charts.NewPie()
 	pie.Renderer = newSnippetRenderer(pie, pie.Validate)
@@ -30,7 +30,7 @@ func createpiechart(XValues []string, YValues map[string]int, title string, subt
 		writehtml_optional = writehtml[0]
 	}
 	if writehtml_optional {
-		f, _ := os.Create(args.outputs.outputpath + filename)
+		f, _ := os.Create(args.outputs.Outputpath + filename)
 		_ = pie.Render(f)
 
 		MyPageForIndex := page_forindex{

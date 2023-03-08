@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func createboxplot(XValues []string, YValues map[string][][]int, args args, title string, filename string, section string, order int, writehtml ...bool) *charts.BoxPlot {
+func createboxplot(XValues []string, YValues map[string][][]int, args Args, title string, filename string, section string, order int, writehtml ...bool) *charts.BoxPlot {
 	logger("creating a boxplot with title '" + title + "' and filename " + filename)
 	bp := charts.NewBoxPlot()
 	bp.Renderer = newSnippetRenderer(bp, bp.Validate)
@@ -21,7 +21,7 @@ func createboxplot(XValues []string, YValues map[string][][]int, args args, titl
 		}
 		bp.SetXAxis(XValues).AddSeries(serienaam, items)
 
-		f, _ := os.Create(args.outputs.outputpath + filename)
+		f, _ := os.Create(args.outputs.Outputpath + filename)
 		_ = bp.Render(f)
 
 	}
@@ -30,7 +30,7 @@ func createboxplot(XValues []string, YValues map[string][][]int, args args, titl
 		writehtml_optional = writehtml[0]
 	}
 	if writehtml_optional {
-		f, _ := os.Create(args.outputs.outputpath + filename)
+		f, _ := os.Create(args.outputs.Outputpath + filename)
 		_ = bp.Render(f)
 		MyPageForIndex := page_forindex{
 			Title:   title,

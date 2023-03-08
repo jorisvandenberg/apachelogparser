@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func writedemographs(args args) {
+func writedemographs(args Args) {
 	logger("i was asked to write some demo pages")
 	demobarchart(args)
 	demotable(args)
@@ -18,7 +18,7 @@ func writedemographs(args args) {
 	logger("finished writing some demo pages")
 }
 
-func demowritehtmlpage(args args) {
+func demowritehtmlpage(args Args) {
 	var newpage HtmlPage
 	newpage.Pagetitle = "my demo page"
 	newpage.Pagedescription = "this is a simple demo page"
@@ -27,7 +27,7 @@ func demowritehtmlpage(args args) {
 	createhtmltable(args, "demosimplepage.html", newpage, "demo", 99)
 }
 
-func demowritemulti(args args) {
+func demowritemulti(args Args) {
 	XValues := []string{"Januari", "Februari", "March", "April"}
 	YValues := make(map[string]int)
 	YValues["a"] = 5
@@ -52,7 +52,7 @@ func demowritemulti(args args) {
 	indexpages = append(indexpages, MyPageForIndex)
 }
 
-func demopiechart(args args) {
+func demopiechart(args Args) {
 	XValues := []string{"Januari", "Februari", "March", "April"}
 	YValues := make(map[string]int)
 	YValues["a"] = 5
@@ -61,7 +61,7 @@ func demopiechart(args args) {
 	createpiechart(XValues, YValues, "this is a demo", "yup, a demo", args, "demopiegraph.html", "demos", 99)
 }
 
-func demolinegraph(args args) {
+func demolinegraph(args Args) {
 	XValues := []string{"Apple", "Banana", "Peach ", "Lemon"}
 	YValues := make(map[string][]int)
 	YValues["This year"] = append(YValues["This year"], 5)
@@ -82,7 +82,7 @@ func demolinegraph(args args) {
 	PostChartText = ""
 }
 
-func demobarchart(args args) {
+func demobarchart(args Args) {
 	XValues := []string{"Januari", "Februari", "March", "April"}
 	YValues := make(map[string][]int)
 	YValues["This year"] = append(YValues["This year"], 5)
@@ -96,7 +96,7 @@ func demobarchart(args args) {
 	createbarchart(XValues, YValues, "this is a demo", "yup, a demo", args, "demobarchart.html", "demos", 99)
 }
 
-func demoboxplot(args args) {
+func demoboxplot(args Args) {
 	XValues := []string{"Januari", "Februari", "March", "April"}
 	YValues := make(map[string][][]int)
 	YValues["This year"] = append(YValues["This year"], []int{7, 14, 8, 9, 99, 44})
@@ -111,7 +111,7 @@ func demoboxplot(args args) {
 
 	createboxplot(XValues, YValues, args, "my demo boxplot", "demoboxplot.html", "demos", 999)
 }
-func demotable(args args) {
+func demotable(args Args) {
 	MyHeaders := map[string]string{
 		"Title_1": "kolom 1",
 		"Title_2": "kolom 2",

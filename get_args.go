@@ -5,72 +5,112 @@ import (
 	"fmt"
 	"gopkg.in/ini.v1"
 	"os"
+	"encoding/json"
 )
 
-type inputarg struct {
-	logfilepath             string
-	logfileregex            string
-	parseregex              string
-	parserfield_ip          int
-	parserfield_datetime    int
-	parserfield_method      int
-	parserfield_request     int
-	parserfield_httpversion int
-	parserfield_returncode  int
-	parserfield_httpsize    int
-	parserfield_referrer    int
-	parserfield_useragent   int
+type Tableconfig struct {
+	Table_enabled bool
+	Table_title string
+	Table_description string
+	Table_pagecontent string
+	Table_pagefooter string
+	Table_filename string
+	Table_index_name string
+	Table_index_group string
+	Table_index_order int
 }
 
-type output struct {
-	outputpath              string
-	emptyoutputpath         bool
-	number_of_days_detailed int
-	assethost               string
-	zipoutput               bool
-	zippath                 string
-	numberofreferrers       int
+type Linegraphconfig struct {
+	Linegraph_enabled bool
+	Linegraph_title string
+	Linegraph_description string
+	Linegraph_filename string
+	Linegraph_index_group string
+	Linegraph_index_order int
 }
 
-type general struct {
-	dbpath     string
-	timeformat string
-	mydomain   string
-	writelog   bool
+type Statconfig struct {
+	Statname string
+	Tableinfo Tableconfig
+	Linegraphinfo Linegraphconfig
+
 }
 
-type commandline struct {
-	runtype               string
-	truncatealreadyloaded bool
-	demographs            bool
+type Inputarg struct {
+	Logfilepath             string
+	Logfileregex            string
+	Parseregex              string
+	Parserfield_ip          int
+	Parserfield_datetime    int
+	Parserfield_method      int
+	Parserfield_request     int
+	Parserfield_httpversion int
+	Parserfield_returncode  int
+	Parserfield_httpsize    int
+	Parserfield_referrer    int
+	Parserfield_useragent   int
 }
 
-type args struct {
-	inputargs         inputarg
-	outputs           output
-	generals          general
-	commandlines      commandline
-	ignoredips        []string
-	ignoredhostagents []string
-	ignoredreferrers  []string
-	ignoredrequests   []string
+type Output struct {
+	Outputpath              string
+	Emptyoutputpath         bool
+	Number_of_days_detailed int
+	Assethost               string
+	Zipoutput               bool
+	Zippath                 string
+	Numberofreferrers       int
 }
 
-func getargs() args {
+type General struct {
+	Dbpath     string
+	Timeformat string
+	Mydomain   string
+	Writelog   bool
+}
+
+type Commandline struct {
+	Runtype               string
+	Truncatealreadyloaded bool
+	Demographs            bool
+}
+
+type Args struct {
+	Inputargs         Inputarg
+	Outputs           Output
+	Generals          General
+	Commandlines      Commandline
+	Ignoredips        []string
+	Ignoredhostagents []string
+	Ignoredreferrers  []string
+	Ignoredrequests   []string
+	Stats []Statconfig
+}
+
+func getargs() Args {
 	var returndb args
-	var inputargs inputarg
-	var outputs output
-	var generals general
-	var commandlines commandline
+	var inputargs Inputarg
+	var outputs Output
+	var generals General
+	var commandlines Commandline
+	var mystats []Statconfig
+	/*
+	start command line flags input
+	*/
 	runtypePtr := flag.String("runtype", `all`, "options: all, onlylogparse, onlystats. Default: all")
 	customconfigPtr := flag.String("config", `default`, "the full path to a custom configfile")
 	truncatealreadyloadedPtr := flag.Bool("truncatealreadyloaded", false, "if set, the \"alreadyloaded\" table will be truncated if combined with runtype all or onlylogparse")
 	demographsPtr := flag.Bool("demographs", false, "write a bunch of demographs to the output dir")
 	flag.Parse()
-	commandlines.runtype = *runtypePtr
-	commandlines.truncatealreadyloaded = *truncatealreadyloadedPtr
-	commandlines.demographs = *demographsPtr
+	commandlines.Runtype = *runtypePtr
+	commandlines.Truncatealreadyloaded = *truncatealreadyloadedPtr
+	commandlines.Demographs = *demographsPtr
+	/*
+	end command line flags input
+	*/
 
+	/*
+	start config file selection
+	*/
 	var configfilepath string
 	var logconfig string
 	if *customconfigPtr != `default` {
@@ -92,6 +132,13 @@ func getargs() args {
 		fmt.Printf("Fail to read file: %v", err)
 		os.Exit(1)
 	}
+	/*
+	end config file selection
+	*/
+
+	/*
+	start ignore list creation
+	*/
 	var ignorevisitorips_list []string
 	var ignorehostagents_list []string
 	var ignoredreferrers_list []string
@@ -116,43 +163,113 @@ func getargs() args {
 	}
 	returndb.ignoredrequests = ignoredrequests_list
 
-	inputargs.logfilepath = cfg.Section("input").Key("logfilepath").String()
-	inputargs.logfileregex = cfg.Section("input").Key("logfileregex").String()
-	inputargs.parseregex = cfg.Section("input").Key("parseregex").String()
-	switch inputargs.parseregex {
+	/*
+	end ignore list creation
+	*/
+
+	/*
+	start input gathering
+	*/
+	inputargs.Logfilepath = cfg.Section("input").Key("logfilepath").String()
+	inputargs.Logfileregex = cfg.Section("input").Key("logfileregex").String()
+	inputargs.Parseregex = cfg.Section("input").Key("parseregex").String()
+	switch inputargs.Parseregex {
 	case "clf":
-		inputargs.parseregex = `(?m)^(\S*).*\[(.*)\]\s"(\S*)\s(\S*)\s([^"]*)"\s(\S*)\s(\S*)\s"([^"]*)"\s"([^"]*)"$`
+		inputargs.Parseregex = `(?m)^(\S*).*\[(.*)\]\s"(\S*)\s(\S*)\s([^"]*)"\s(\S*)\s(\S*)\s"([^"]*)"\s"([^"]*)"$`
 		//case "other":
 	}
+	inputargs.Parserfield_ip, _ = cfg.Section("input").Key("parserfield_ip").Int()
+	inputargs.Parserfield_datetime, _ = cfg.Section("input").Key("parserfield_datetime").Int()
+	inputargs.Parserfield_method, _ = cfg.Section("input").Key("parserfield_method").Int()
+	inputargs.Parserfield_request, _ = cfg.Section("input").Key("parserfield_request").Int()
+	inputargs.Parserfield_httpversion, _ = cfg.Section("input").Key("parserfield_httpversion").Int()
+	inputargs.Parserfield_returncode, _ = cfg.Section("input").Key("parserfield_returncode").Int()
+	inputargs.Parserfield_httpsize, _ = cfg.Section("input").Key("parserfield_httpsize").Int()
+	inputargs.Parserfield_referrer, _ = cfg.Section("input").Key("parserfield_referrer").Int()
+	inputargs.Parserfield_useragent, _ = cfg.Section("input").Key("parserfield_useragent").Int()
+	/*
+	end input gathering
+	*/
 
-	inputargs.parserfield_ip, _ = cfg.Section("input").Key("parserfield_ip").Int()
-	inputargs.parserfield_datetime, _ = cfg.Section("input").Key("parserfield_datetime").Int()
-	inputargs.parserfield_method, _ = cfg.Section("input").Key("parserfield_method").Int()
-	inputargs.parserfield_request, _ = cfg.Section("input").Key("parserfield_request").Int()
-	inputargs.parserfield_httpversion, _ = cfg.Section("input").Key("parserfield_httpversion").Int()
-	inputargs.parserfield_returncode, _ = cfg.Section("input").Key("parserfield_returncode").Int()
-	inputargs.parserfield_httpsize, _ = cfg.Section("input").Key("parserfield_httpsize").Int()
-	inputargs.parserfield_referrer, _ = cfg.Section("input").Key("parserfield_referrer").Int()
-	inputargs.parserfield_useragent, _ = cfg.Section("input").Key("parserfield_useragent").Int()
+	/*
+	start output gathering
+	*/
+	outputs.Outputpath = cfg.Section("output").Key("outputpath").String()
+	outputs.Assethost = cfg.Section("output").Key("assethost").String()
+	outputs.Number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
+	outputs.Emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
+	outputs.Zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
+	outputs.Zippath = cfg.Section("output").Key("zippath").String()
+	outputs.Numberofreferrers, _ = cfg.Section("output").Key("numberofreferrers").Int()
+	/*
+	end output gathering
+	*/
 
-	outputs.outputpath = cfg.Section("output").Key("outputpath").String()
-	outputs.assethost = cfg.Section("output").Key("assethost").String()
-	outputs.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
-	outputs.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
-	outputs.zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
-	outputs.zippath = cfg.Section("output").Key("zippath").String()
-	outputs.numberofreferrers, _ = cfg.Section("output").Key("numberofreferrers").Int()
+	/*
+	start general config gathering
+	*/
+	generals.Dbpath = cfg.Section("general").Key("dbpath").String()
+	generals.Timeformat = cfg.Section("general").Key("timeformat").String()
+	generals.Mydomain = cfg.Section("general").Key("mydomain").String()
+	generals.Writelog, _ = cfg.Section("general").Key("writelog").Bool()
+	/*
+	end general config gathering
+	*/
 
-	generals.dbpath = cfg.Section("general").Key("dbpath").String()
-	generals.timeformat = cfg.Section("general").Key("timeformat").String()
-	generals.mydomain = cfg.Section("general").Key("mydomain").String()
-	generals.writelog, _ = cfg.Section("general").Key("writelog").Bool()
+	/*
+	start stats config secion stat_perhour_hits_raw_2xx_3xx
+	*/
+	stat_enabled, _ := cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("enabled").Bool()
+	table_enabled, _ := cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_enabled").Bool()
+	linegraph_enabled, _ := cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_enabled").Bool()
+	if (stat_enabled && (table_enabled || linegraph_enabled)) {
+		var mystatconfig Statconfig
+		var mytableconfig Tableconfig
+		var mylinegraphconfig Linegraphconfig
+		mystatconfig.Statname ="stat_perhour_hits_raw_2xx_3xx"
+		if (table_enabled) {
+			mytableconfig.Table_enabled = true
+			mytableconfig.Table_title = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_title").String()
 
+		} else {
+			mytableconfig.Table_enabled = false
+		}
+
+		if (linegraph_enabled) {
+			mylinegraphconfig.Linegraph_enabled = true
+			mylinegraphconfig.Linegraph_title = cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_title").String()
+
+		} else {
+			mylinegraphconfig.Linegraph_enabled = false
+		}
+		mystatconfig.Tableinfo = mytableconfig
+		mystatconfig.Linegraphinfo = mylinegraphconfig
+		mystats = append(mystats, mystatconfig)
+	}
+	
+
+
+	/*
+	end stats config secion stat_perhour_hits_raw_2xx_3xx
+	*/
+
+	/*
+	start fill struct, log and return the args
+	*/
 	returndb.inputargs = inputargs
 	returndb.outputs = outputs
 	returndb.generals = generals
 	returndb.commandlines = commandlines
+	returndb.stats = mystats
 	logger(logconfig)
-
+	
+	returndb_json, err := json.MarshalIndent(returndb, "", "    ")
+    if err != nil {
+        fmt.Println("Error marshalling JSON:", err)
+    }
+	fmt.Println(string(returndb_json))
 	return returndb
+	/*
+	end fill struct, log and return the args
+	*/
 }

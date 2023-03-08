@@ -17,7 +17,7 @@ type page_forindex struct {
 
 var indexpages []page_forindex
 
-func createindex(args args) {
+func createindex(args Args) {
 	logger("creating an index file")
 	sort.Slice(indexpages, func(i, j int) bool {
 		return indexpages[i].Order < indexpages[j].Order
@@ -43,7 +43,7 @@ func createindex(args args) {
 		panic(err)
 	}
 	var outputHTMLFile *os.File
-	if outputHTMLFile, err = os.Create(args.outputs.outputpath + "index.html"); err != nil {
+	if outputHTMLFile, err = os.Create(args.outputs.Outputpath + "index.html"); err != nil {
 		panic(err)
 	}
 

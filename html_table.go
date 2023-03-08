@@ -14,14 +14,14 @@ type Table struct {
 	Data            []map[string]string
 }
 
-func createtable(args args, outputfilename string, htmltitle string, myTable Table, section string, order int) {
+func createtable(args Args, outputfilename string, htmltitle string, myTable Table, section string, order int) {
 	logger("creating a table with name " + outputfilename)
 	t, err := template.New("mytemplate").Parse(templatedb["table_tmpl"])
 	if err != nil {
 		panic(err)
 	}
 	var outputHTMLFile *os.File
-	if outputHTMLFile, err = os.Create(args.outputs.outputpath + outputfilename); err != nil {
+	if outputHTMLFile, err = os.Create(args.outputs.Outputpath + outputfilename); err != nil {
 		panic(err)
 	}
 
