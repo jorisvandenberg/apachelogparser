@@ -407,6 +407,39 @@ func getargs() Args {
 		end stats config secion stat_perday_hits_raw_2xx_3xx
 	*/
 
+		/*
+		start stats config secion stat_perhour_referrers_raw_2xx_3xx
+	*/
+	stat_enabled, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("enabled").Bool()
+	table_enabled, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_enabled").Bool()
+	linegraph_enabled, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("linegraph_enabled").Bool()
+	if stat_enabled && table_enabled  {
+		var mystatconfig Statconfig
+		var mytableconfig Tableconfig
+		var mylinegraphconfig Linegraphconfig
+		mystatconfig.Statname = "stat_perhour_referrers_raw_2xx_3xx"
+		mylinegraphconfig.Linegraph_enabled = false
+		mytableconfig.Table_enabled = true
+		mytableconfig.Table_title = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_title").String(), outputs.Number_of_days_detailed)
+		mytableconfig.Table_description = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_description").String(), outputs.Number_of_days_detailed)
+		tablecontent_unsplitstring := splice_number_of_days_detailed_in(cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_pagecontent").String(), outputs.Number_of_days_detailed)
+		mytableconfig.Table_pagecontent = strings.Split(tablecontent_unsplitstring, "|")
+		mytableconfig.Table_pagefooter = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_pagefooter").String(), outputs.Number_of_days_detailed)
+		mytableconfig.Table_filename = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_filename").String()
+		mytableconfig.Table_index_name = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_index_name").String()
+		mytableconfig.Table_index_group = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_index_group").String()
+		mytableconfig.Table_index_order, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_index_order").Int()
+
+		
+
+		mystatconfig.Tableinfo = mytableconfig
+		mystatconfig.Linegraphinfo = mylinegraphconfig
+		mystats = append(mystats, mystatconfig)
+	} 
+
+	/*
+		end stats config secion stat_perhour_referrers_raw_2xx_3xx
+	*/
 	/*
 		start fill struct, log and return the args
 	*/
