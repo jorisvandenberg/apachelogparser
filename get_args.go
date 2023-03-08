@@ -27,6 +27,8 @@ type output struct {
 	emptyoutputpath         bool
 	number_of_days_detailed int
 	assethost               string
+	zipoutput             bool
+	zippath               string
 }
 
 type args struct {
@@ -43,9 +45,7 @@ type args struct {
 	numberofreferrers     int
 	truncatealreadyloaded bool
 	writelog              bool
-	demographs            bool
-	zipoutput             bool
-	zippath               string
+	demographs            bool	
 }
 
 func getargs() args {
@@ -129,8 +129,8 @@ func getargs() args {
 	outputs.assethost = cfg.Section("output").Key("assethost").String()
 	outputs.number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
 	outputs.emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
-	returndb.zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
-	returndb.zippath = cfg.Section("output").Key("zippath").String()
+	outputs.zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
+	outputs.zippath = cfg.Section("output").Key("zippath").String()
 	returndb.numberofreferrers, _ = cfg.Section("output").Key("numberofreferrers").Int()
 
 	returndb.dbpath = cfg.Section("general").Key("dbpath").String()

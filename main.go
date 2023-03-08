@@ -60,8 +60,8 @@ func main() {
 	writelog(args)
 	createindex(args)
 
-	if args.zipoutput {
-		ZipWriter(args.outputs.outputpath, args.zippath)
+	if args.outputs.zipoutput {
+		ZipWriter(args.outputs.outputpath, args.outputs.zippath)
 	}
 
 }
