@@ -32,11 +32,16 @@ type output struct {
 	numberofreferrers     int
 }
 
+type general struct {
+	dbpath                string
+}
+
 type args struct {
 	inputargs             inputarg
 	outputs               output
+	generals			  general
 	runtype               string
-	dbpath                string
+	
 	timeformat            string
 	mydomain              string
 	truncatealreadyloaded bool
@@ -52,6 +57,7 @@ func getargs() args {
 	var returndb args
 	var inputargs inputarg
 	var outputs output
+	var generals general
 	runtypePtr := flag.String("runtype", `all`, "options: all, onlylogparse, onlystats. Default: all")
 	customconfigPtr := flag.String("config", `default`, "the full path to a custom configfile")
 	truncatealreadyloadedPtr := flag.Bool("truncatealreadyloaded", false, "if set, the \"alreadyloaded\" table will be truncated if combined with runtype all or onlylogparse")
@@ -133,13 +139,14 @@ func getargs() args {
 	outputs.zippath = cfg.Section("output").Key("zippath").String()
 	outputs.numberofreferrers, _ = cfg.Section("output").Key("numberofreferrers").Int()
 
-	returndb.dbpath = cfg.Section("general").Key("dbpath").String()
+	generals.dbpath = cfg.Section("general").Key("dbpath").String()
 	returndb.timeformat = cfg.Section("general").Key("timeformat").String()
 	returndb.mydomain = cfg.Section("general").Key("mydomain").String()
 	returndb.writelog, _ = cfg.Section("general").Key("writelog").Bool()
 
 	returndb.inputargs = inputargs
 	returndb.outputs = outputs
+	returndb.generals = generals
 	logger(logconfig)
 
 	return returndb

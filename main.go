@@ -12,7 +12,7 @@ func main() {
 	args := getargs()
 	logger("finished the arguments from the ini file and the commandline")
 	logger("started the db initialisation en query loading")
-	db := createdb(args.dbpath)
+	db := createdb(args.generals.dbpath)
 	defer db.Close()
 	tx := initialisedb(db)
 	loadquerydb(tx)
