@@ -16,11 +16,11 @@ func noaggregation_nbdaysdetailed_rawperday_2xx_3xx(args Args) {
 
 	} else if check_if_stats_is_slice.Kind() == reflect.Slice {
 		for _, curstat := range args.Stats {
-			if (curstat.Statname == "stat_perday_hits_raw_2xx_3xx") {
-			foundcurstat = true
-			mycurstat = curstat
+			if curstat.Statname == "stat_perday_hits_raw_2xx_3xx" {
+				foundcurstat = true
+				mycurstat = curstat
 			}
-			
+
 		}
 	}
 	if foundcurstat {
