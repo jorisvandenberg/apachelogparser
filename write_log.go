@@ -1,7 +1,7 @@
 package main
 
 func writelog(args args) {
-	if args.writelog {
+	if args.generals.writelog {
 		var newpage HtmlPage
 		newpage.Pagetitle = "detailed runlogs of the statistics application"
 		newpage.Pagedescription = "here are the logs :)"
