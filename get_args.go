@@ -268,6 +268,7 @@ func getargs() Args {
         fmt.Println("Error marshalling JSON:", err)
     }
 	fmt.Println(string(returndb_json))
+	logger("config (json): " + string(returndb_json))
 	return returndb
 	/*
 	end fill struct, log and return the args
