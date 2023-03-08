@@ -16,8 +16,11 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args Args) {
 
 	} else if check_if_stats_is_slice.Kind() == reflect.Slice {
 		for _, curstat := range args.Stats {
+			if (curstat.Statname == "stat_perhour_hits_raw_2xx_3xx") {
 			foundcurstat = true
 			mycurstat = curstat
+			}
+			
 		}
 	}
 	//als foundcurstat is true mag ik statistiek maken, de config zit in mycurstat
