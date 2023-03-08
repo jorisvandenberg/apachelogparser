@@ -39,13 +39,16 @@ type general struct {
 	writelog              bool
 }
 
+type commandline struct {
+	runtype               string
+}
+
 type args struct {
 	inputargs             inputarg
 	outputs               output
 	generals			  general
-	runtype               string
+	commandlines		  commandline
 	truncatealreadyloaded bool
-	
 	demographs            bool	
 	ignoredips            []string
 	ignoredhostagents     []string
@@ -58,12 +61,13 @@ func getargs() args {
 	var inputargs inputarg
 	var outputs output
 	var generals general
+	var commandlines commandline
 	runtypePtr := flag.String("runtype", `all`, "options: all, onlylogparse, onlystats. Default: all")
 	customconfigPtr := flag.String("config", `default`, "the full path to a custom configfile")
 	truncatealreadyloadedPtr := flag.Bool("truncatealreadyloaded", false, "if set, the \"alreadyloaded\" table will be truncated if combined with runtype all or onlylogparse")
 	demographsPtr := flag.Bool("demographs", false, "write a bunch of demographs to the output dir")
 	flag.Parse()
-	returndb.runtype = *runtypePtr
+	commandlines.runtype = *runtypePtr
 	returndb.truncatealreadyloaded = *truncatealreadyloadedPtr
 	returndb.demographs = *demographsPtr
 
@@ -147,6 +151,7 @@ func getargs() args {
 	returndb.inputargs = inputargs
 	returndb.outputs = outputs
 	returndb.generals = generals
+	returndb.commandlines = commandlines
 	logger(logconfig)
 
 	return returndb

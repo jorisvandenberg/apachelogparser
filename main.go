@@ -34,13 +34,13 @@ func main() {
 	} else {
 		logger("the option to clean the output path before each run was deactivated. Old html files will not be cleaned (they can be overwritten tough!)")
 	}
-	logger("the requested runtype (all/onlylogparse/onlystats) was " + args.runtype + ", acting accordingly")
-	if args.runtype == "all" || args.runtype == "onlylogparse" {
+	logger("the requested runtype (all/onlylogparse/onlystats) was " + args.commandlines.runtype + ", acting accordingly")
+	if args.commandlines.runtype == "all" || args.commandlines.runtype == "onlylogparse" {
 		logger("starting the log parsing process")
 		parselogs(args)
 		logger("finishing the log parsing process")
 	}
-	if args.runtype == "all" || args.runtype == "onlystats" {
+	if args.commandlines.runtype == "all" || args.commandlines.runtype == "onlystats" {
 		logger("starting the stat generating process")
 		generatestats(args)
 		logger("finishing the stat generating process")
