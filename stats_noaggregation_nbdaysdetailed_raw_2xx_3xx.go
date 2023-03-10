@@ -27,7 +27,7 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args Args) {
 	if foundcurstat {
 		//fmt.Printf("%+v", mycurstat)
 
-		logger("i'm going to generate a table and/or a linechart (depending on the config) with the hourly raw hits")
+		logger("i'm going to generate a table and/or a linechart and/or a linechart comparing the last 4 weeks (depending on the config) with the hourly raw hits")
 		stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed := myquerydb["stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed"].stmt
 		mintimestamp := int(time.Now().Unix()) - (args.Outputs.Number_of_days_detailed * 86400)
 		rows, err := stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed.Query(mintimestamp)
@@ -54,6 +54,7 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args Args) {
 
 		var XValues_linegraph []string
 		YValues_linegraph := make(map[string][]int)
+		
 		for rows.Next() {
 			var year, month, day, hour, count int
 			if err := rows.Scan(&year, &month, &day, &hour, &count); err != nil {
@@ -76,7 +77,8 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args Args) {
 		if mycurstat.Linegraphinfo.Linegraph_enabled {
 			createlinegraph(XValues_linegraph, YValues_linegraph, mycurstat.Linegraphinfo.Linegraph_title, mycurstat.Linegraphinfo.Linegraph_description, args, mycurstat.Linegraphinfo.Linegraph_filename, mycurstat.Linegraphinfo.Linegraph_index_group, mycurstat.Linegraphinfo.Linegraph_index_order)
 		}
-		logger("finished generating a table and/or a linechart with the hourly raw hits")
+		
+		logger("finished generating a table and/or a linechart and/or a linechart comparing the last 4 weeks with the hourly raw hits")
 	} else {
 		logger("i could not find this stat stat_perhour_hits_raw_2xx_3xx in the config. Is it disabled?")
 	}
