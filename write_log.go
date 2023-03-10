@@ -13,7 +13,7 @@ func writelog(args Args) {
 		createhtmltable(args, "logs.html", newpage, "logs", 999)
 	}
 	if args.Commandlines.Debug {
-		for _, printdebug := range mylog  {
+		for _, printdebug := range mylog {
 			fmt.Printf("DEBUG => %s\n", printdebug)
 		}
 	}

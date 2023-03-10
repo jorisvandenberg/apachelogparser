@@ -54,7 +54,7 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args Args) {
 
 		var XValues_linegraph []string
 		YValues_linegraph := make(map[string][]int)
-		
+
 		for rows.Next() {
 			var year, month, day, hour, count int
 			if err := rows.Scan(&year, &month, &day, &hour, &count); err != nil {
@@ -77,7 +77,7 @@ func noaggregation_nbdaysdetailed_raw_2xx_3xx(args Args) {
 		if mycurstat.Linegraphinfo.Linegraph_enabled {
 			createlinegraph(XValues_linegraph, YValues_linegraph, mycurstat.Linegraphinfo.Linegraph_title, mycurstat.Linegraphinfo.Linegraph_description, args, mycurstat.Linegraphinfo.Linegraph_filename, mycurstat.Linegraphinfo.Linegraph_index_group, mycurstat.Linegraphinfo.Linegraph_index_order)
 		}
-		
+
 		logger("finished generating a table and/or a linechart and/or a linechart comparing the last 4 weeks with the hourly raw hits")
 	} else {
 		logger("i could not find this stat stat_perhour_hits_raw_2xx_3xx in the config. Is it disabled?")

@@ -31,7 +31,7 @@ type Linegraphconfig struct {
 }
 
 type Linegraph4weekconfig struct {
-	Linegraph_compare4weeks_enabled     bool 
+	Linegraph_compare4weeks_enabled     bool
 	Linegraph_compare4weeks_title       string
 	Linegraph_compare4weeks_description string
 	Linegraph_compare4weeks_filename    string
@@ -40,9 +40,9 @@ type Linegraph4weekconfig struct {
 }
 
 type Statconfig struct {
-	Statname      string
-	Tableinfo     Tableconfig
-	Linegraphinfo Linegraphconfig
+	Statname           string
+	Tableinfo          Tableconfig
+	Linegraphinfo      Linegraphconfig
 	Linegraph4weekinfo Linegraph4weekconfig
 }
 
@@ -235,12 +235,12 @@ func getargs() Args {
 	stat_enabled, _ := cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("enabled").Bool()
 	table_enabled, _ := cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_enabled").Bool()
 	linegraph_enabled, _ := cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_enabled").Bool()
-	
-	if stat_enabled && (table_enabled || linegraph_enabled ) {
+
+	if stat_enabled && (table_enabled || linegraph_enabled) {
 		var mystatconfig Statconfig
 		var mytableconfig Tableconfig
 		var mylinegraphconfig Linegraphconfig
-		
+
 		mystatconfig.Statname = "stat_perhour_hits_raw_2xx_3xx"
 		if table_enabled {
 			mytableconfig.Table_enabled = true
@@ -270,7 +270,6 @@ func getargs() Args {
 			mylinegraphconfig.Linegraph_enabled = false
 		}
 
-		
 		mystatconfig.Tableinfo = mytableconfig
 		mystatconfig.Linegraphinfo = mylinegraphconfig
 		mystats = append(mystats, mystatconfig)
@@ -435,13 +434,13 @@ func getargs() Args {
 		end stats config secion stat_perday_hits_raw_2xx_3xx
 	*/
 
-		/*
+	/*
 		start stats config secion stat_perhour_referrers_raw_2xx_3xx
 	*/
 	stat_enabled, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("enabled").Bool()
 	table_enabled, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_enabled").Bool()
 	linegraph_enabled, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("linegraph_enabled").Bool()
-	if stat_enabled && table_enabled  {
+	if stat_enabled && table_enabled {
 		var mystatconfig Statconfig
 		var mytableconfig Tableconfig
 		var mylinegraphconfig Linegraphconfig
@@ -458,12 +457,10 @@ func getargs() Args {
 		mytableconfig.Table_index_group = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_index_group").String()
 		mytableconfig.Table_index_order, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_index_order").Int()
 
-		
-
 		mystatconfig.Tableinfo = mytableconfig
 		mystatconfig.Linegraphinfo = mylinegraphconfig
 		mystats = append(mystats, mystatconfig)
-	} 
+	}
 
 	/*
 		end stats config secion stat_perhour_referrers_raw_2xx_3xx
