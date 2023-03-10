@@ -73,7 +73,7 @@ func noaggregation_nbdaysdetailed_rawperday_2xx_3xx(args Args) {
 				weekcounter++
 				daycounter = 0
 			}
-			YValues_linegraph_4weekcomp["week " + strconv.Itoa(weekcounter)] = append(YValues_linegraph_4weekcomp["week " + strconv.Itoa(weekcounter)], count)
+			YValues_linegraph_4weekcomp["week -" + strconv.Itoa(weekcounter)] = append(YValues_linegraph_4weekcomp["week -" + strconv.Itoa(weekcounter)], count)
 		}
 		if mycurstat.Tableinfo.Table_enabled {
 			createtable(args, mycurstat.Tableinfo.Table_filename, mycurstat.Tableinfo.Table_index_name, myTable, mycurstat.Tableinfo.Table_index_group, mycurstat.Tableinfo.Table_index_order)
