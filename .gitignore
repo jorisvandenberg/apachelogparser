@@ -5,6 +5,7 @@
 *.so
 *.dylib
 *.zip
+*.bak
 main
 builds/
 output/
