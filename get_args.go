@@ -388,15 +388,17 @@ func getargs() Args {
 	*/
 
 	/*
-		start stats config secion stat_perday_unique_raw_2xx_3xx
+		start stats config secion stat_perday_unique_2xx_3xx
 	*/
 	stat_enabled, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("enabled").Bool()
 	table_enabled, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_enabled").Bool()
 	linegraph_enabled, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_enabled").Bool()
+	linegraph_compare4weeks_enabled, _ := cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_enabled").Bool()
 	if stat_enabled && (table_enabled || linegraph_enabled) {
 		var mystatconfig Statconfig
 		var mytableconfig Tableconfig
 		var mylinegraphconfig Linegraphconfig
+		var mylinegraph4weekconfig Linegraph4weekconfig
 		mystatconfig.Statname = "stat_perday_hits_unique_2xx_3xx"
 		if table_enabled {
 			mytableconfig.Table_enabled = true
@@ -425,8 +427,20 @@ func getargs() Args {
 		} else {
 			mylinegraphconfig.Linegraph_enabled = false
 		}
+		if linegraph_compare4weeks_enabled {
+			mylinegraph4weekconfig.Linegraph_compare4weeks_enabled = true
+			mylinegraph4weekconfig.Linegraph_compare4weeks_title = splice_number_of_days_detailed_in(cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_title").String(), outputs.Number_of_days_detailed)
+			mylinegraph4weekconfig.Linegraph_compare4weeks_description = splice_number_of_days_detailed_in(cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_description").String(), outputs.Number_of_days_detailed)
+			mylinegraph4weekconfig.Linegraph_compare4weeks_filename = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_filename").String()
+			mylinegraph4weekconfig.Linegraph_compare4weeks_index_group = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_index_group").String()
+			mylinegraph4weekconfig.Linegraph_compare4weeks_index_order, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_index_order").Int()
+
+		} else {
+			mylinegraph4weekconfig.Linegraph_compare4weeks_enabled = false
+		}
 		mystatconfig.Tableinfo = mytableconfig
 		mystatconfig.Linegraphinfo = mylinegraphconfig
+		mystatconfig.Linegraph4weekinfo = mylinegraph4weekconfig
 		mystats = append(mystats, mystatconfig)
 	}
 
