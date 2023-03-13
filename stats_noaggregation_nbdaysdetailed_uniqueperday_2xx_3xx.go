@@ -74,7 +74,10 @@ func noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx(args Args) {
 				daycounter = 1
 				//fmt.Printf("week done... starting with day 0, weeknumber %d\n\n", weekcounter)
 			}
-			YValues_linegraph_4weekcomp["week -"+strconv.Itoa(weekcounter)] = append(YValues_linegraph_4weekcomp["week -"+strconv.Itoa(weekcounter)], count)
+			if weekcounter < 4 {
+				YValues_linegraph_4weekcomp["week -"+strconv.Itoa(weekcounter)] = append(YValues_linegraph_4weekcomp["week -"+strconv.Itoa(weekcounter)], count)
+			}
+			
 			//fmt.Printf("week %d => day %d => value %d\n", weekcounter, daycounter, count)
 		}
 		if mycurstat.Tableinfo.Table_enabled {
