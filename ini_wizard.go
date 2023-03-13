@@ -19,7 +19,7 @@ func contains(s []string, str string) bool {
 }
 
 func ini_wizard(inpath string, outpath string) {
-	noskipdb := []string{"dbpath" , "mydomain", "logfilepath", "logfileregex", "outputpath"}
+	noskipdb := []string{"dbpath", "mydomain", "logfilepath", "logfileregex", "outputpath"}
 	// Open the INI file
 	cfg, err := ini.Load(inpath)
 	if err != nil {
@@ -28,16 +28,16 @@ func ini_wizard(inpath string, outpath string) {
 	}
 	fmt.Println("Do you want to do a minimal config (all stats enabled, default output values. Only works with apache common log format). y/n [n]")
 	myChoice, err := readStringFromUser()
-			if err != nil {
-				fmt.Printf("Error reading input: %v\n", err)
-				os.Exit(1)
-			}
+	if err != nil {
+		fmt.Printf("Error reading input: %v\n", err)
+		os.Exit(1)
+	}
 	skipstd := false
 	if myChoice == "y" || myChoice == "Y" {
-				skipstd = true
-			} else {
-				skipstd = false
-			}
+		skipstd = true
+	} else {
+		skipstd = false
+	}
 	// Prompt the user to change the settings
 	fmt.Println("Enter new values or leave blank to keep current settings.")
 	for _, section := range cfg.Sections() {
@@ -46,21 +46,20 @@ func ini_wizard(inpath string, outpath string) {
 		}
 
 		for _, key := range section.Keys() {
-		newValue := ""
+			newValue := ""
 			if (contains(noskipdb, key.Name()) && skipstd) || !skipstd {
-			fmt.Printf("%s.%s [%s]: ", section.Name(), key.Name(), key.Value())
-			newValue, err = readStringFromUser()
-			if err != nil {
-				fmt.Printf("Error reading input: %v\n", err)
-				os.Exit(1)
-			}
+				fmt.Printf("%s.%s [%s]: ", section.Name(), key.Name(), key.Value())
+				newValue, err = readStringFromUser()
+				if err != nil {
+					fmt.Printf("Error reading input: %v\n", err)
+					os.Exit(1)
+				}
 
-			
-			} 
+			}
 			if newValue != "" {
 				key.SetValue(newValue)
 			}
-			
+
 		}
 	}
 
