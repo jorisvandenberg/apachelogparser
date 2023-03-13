@@ -16,10 +16,6 @@ func ini_wizard(inpath string, outpath string) {
 		os.Exit(1)
 	}
 
-	// Show the user the current settings
-	fmt.Println("Current Settings:")
-	cfg.WriteTo(os.Stdout)
-
 	// Prompt the user to change the settings
 	fmt.Println("Enter new values or leave blank to keep current settings.")
 	for _, section := range cfg.Sections() {
