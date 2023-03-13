@@ -308,149 +308,25 @@ func getargs() Args {
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
+
+	mystatconfig, err = argblock(cfg, "stat_perhour_hits_unique_2xx_3xx", "tl", outputs)
+	if err == nil {
+		mystats = append(mystats, mystatconfig)
+	}
+
+	mystatconfig, err = argblock(cfg, "stat_perday_hits_unique_2xx_3xx", "tl4", outputs)
+	if err == nil {
+		mystats = append(mystats, mystatconfig)
+	}
+
+	mystatconfig, err = argblock(cfg, "stat_perhour_referrers_raw_2xx_3xx", "t", outputs)
+	if err == nil {
+		mystats = append(mystats, mystatconfig)
+	}
 	/*
 		end stats gathering
 	*/
 
-	/*
-		start stats config secion stat_perhour_hits_unique_2xx_3xx
-	*/
-	stat_enabled, _ := cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("enabled").Bool()
-	table_enabled, _ := cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("table_enabled").Bool()
-	linegraph_enabled, _ := cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("linegraph_enabled").Bool()
-	if stat_enabled && (table_enabled || linegraph_enabled) {
-		var mystatconfig Statconfig
-		var mytableconfig Tableconfig
-		var mylinegraphconfig Linegraphconfig
-		mystatconfig.Statname = "stat_perhour_hits_unique_2xx_3xx"
-		if table_enabled {
-			mytableconfig.Table_enabled = true
-			mytableconfig.Table_title = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("table_title").String(), outputs.Number_of_days_detailed)
-			mytableconfig.Table_description = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("table_description").String(), outputs.Number_of_days_detailed)
-			tablecontent_unsplitstring := splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("table_pagecontent").String(), outputs.Number_of_days_detailed)
-			mytableconfig.Table_pagecontent = strings.Split(tablecontent_unsplitstring, "|")
-			mytableconfig.Table_pagefooter = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("table_pagefooter").String(), outputs.Number_of_days_detailed)
-			mytableconfig.Table_filename = cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("table_filename").String()
-			mytableconfig.Table_index_name = cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("table_index_name").String()
-			mytableconfig.Table_index_group = cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("table_index_group").String()
-			mytableconfig.Table_index_order, _ = cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("table_index_order").Int()
-
-		} else {
-			mytableconfig.Table_enabled = false
-		}
-
-		if linegraph_enabled {
-			mylinegraphconfig.Linegraph_enabled = true
-			mylinegraphconfig.Linegraph_title = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("linegraph_title").String(), outputs.Number_of_days_detailed)
-			mylinegraphconfig.Linegraph_description = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("linegraph_description").String(), outputs.Number_of_days_detailed)
-			mylinegraphconfig.Linegraph_filename = cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("linegraph_filename").String()
-			mylinegraphconfig.Linegraph_index_group = cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("linegraph_index_group").String()
-			mylinegraphconfig.Linegraph_index_order, _ = cfg.Section("stat_perhour_hits_unique_2xx_3xx").Key("linegraph_index_order").Int()
-
-		} else {
-			mylinegraphconfig.Linegraph_enabled = false
-		}
-		mystatconfig.Tableinfo = mytableconfig
-		mystatconfig.Linegraphinfo = mylinegraphconfig
-		mystats = append(mystats, mystatconfig)
-	}
-
-	/*
-		end stats config secion stat_perhour_hits_unique_2xx_3xx
-	*/
-
-	/*
-		start stats config secion stat_perday_unique_2xx_3xx
-	*/
-	stat_enabled, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("enabled").Bool()
-	table_enabled, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_enabled").Bool()
-	linegraph_enabled, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_enabled").Bool()
-	linegraph_compare4weeks_enabled, _ := cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_enabled").Bool()
-	if stat_enabled && (table_enabled || linegraph_enabled) {
-		var mystatconfig Statconfig
-		var mytableconfig Tableconfig
-		var mylinegraphconfig Linegraphconfig
-		var mylinegraph4weekconfig Linegraph4weekconfig
-		mystatconfig.Statname = "stat_perday_hits_unique_2xx_3xx"
-		if table_enabled {
-			mytableconfig.Table_enabled = true
-			mytableconfig.Table_title = splice_number_of_days_detailed_in(cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_title").String(), outputs.Number_of_days_detailed)
-			mytableconfig.Table_description = splice_number_of_days_detailed_in(cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_description").String(), outputs.Number_of_days_detailed)
-			tablecontent_unsplitstring := splice_number_of_days_detailed_in(cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_pagecontent").String(), outputs.Number_of_days_detailed)
-			mytableconfig.Table_pagecontent = strings.Split(tablecontent_unsplitstring, "|")
-			mytableconfig.Table_pagefooter = splice_number_of_days_detailed_in(cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_pagefooter").String(), outputs.Number_of_days_detailed)
-			mytableconfig.Table_filename = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_filename").String()
-			mytableconfig.Table_index_name = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_index_name").String()
-			mytableconfig.Table_index_group = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_index_group").String()
-			mytableconfig.Table_index_order, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_index_order").Int()
-
-		} else {
-			mytableconfig.Table_enabled = false
-		}
-
-		if linegraph_enabled {
-			mylinegraphconfig.Linegraph_enabled = true
-			mylinegraphconfig.Linegraph_title = splice_number_of_days_detailed_in(cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_title").String(), outputs.Number_of_days_detailed)
-			mylinegraphconfig.Linegraph_description = splice_number_of_days_detailed_in(cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_description").String(), outputs.Number_of_days_detailed)
-			mylinegraphconfig.Linegraph_filename = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_filename").String()
-			mylinegraphconfig.Linegraph_index_group = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_index_group").String()
-			mylinegraphconfig.Linegraph_index_order, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_index_order").Int()
-
-		} else {
-			mylinegraphconfig.Linegraph_enabled = false
-		}
-		if linegraph_compare4weeks_enabled {
-			mylinegraph4weekconfig.Linegraph_compare4weeks_enabled = true
-			mylinegraph4weekconfig.Linegraph_compare4weeks_title = splice_number_of_days_detailed_in(cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_title").String(), outputs.Number_of_days_detailed)
-			mylinegraph4weekconfig.Linegraph_compare4weeks_description = splice_number_of_days_detailed_in(cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_description").String(), outputs.Number_of_days_detailed)
-			mylinegraph4weekconfig.Linegraph_compare4weeks_filename = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_filename").String()
-			mylinegraph4weekconfig.Linegraph_compare4weeks_index_group = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_index_group").String()
-			mylinegraph4weekconfig.Linegraph_compare4weeks_index_order, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_index_order").Int()
-
-		} else {
-			mylinegraph4weekconfig.Linegraph_compare4weeks_enabled = false
-		}
-		mystatconfig.Tableinfo = mytableconfig
-		mystatconfig.Linegraphinfo = mylinegraphconfig
-		mystatconfig.Linegraph4weekinfo = mylinegraph4weekconfig
-		mystats = append(mystats, mystatconfig)
-	}
-
-	/*
-		end stats config secion stat_perday_hits_raw_2xx_3xx
-	*/
-
-	/*
-		start stats config secion stat_perhour_referrers_raw_2xx_3xx
-	*/
-	stat_enabled, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("enabled").Bool()
-	table_enabled, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_enabled").Bool()
-	linegraph_enabled, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("linegraph_enabled").Bool()
-	if stat_enabled && table_enabled {
-		var mystatconfig Statconfig
-		var mytableconfig Tableconfig
-		var mylinegraphconfig Linegraphconfig
-		mystatconfig.Statname = "stat_perhour_referrers_raw_2xx_3xx"
-		mylinegraphconfig.Linegraph_enabled = false
-		mytableconfig.Table_enabled = true
-		mytableconfig.Table_title = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_title").String(), outputs.Number_of_days_detailed)
-		mytableconfig.Table_description = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_description").String(), outputs.Number_of_days_detailed)
-		tablecontent_unsplitstring := splice_number_of_days_detailed_in(cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_pagecontent").String(), outputs.Number_of_days_detailed)
-		mytableconfig.Table_pagecontent = strings.Split(tablecontent_unsplitstring, "|")
-		mytableconfig.Table_pagefooter = splice_number_of_days_detailed_in(cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_pagefooter").String(), outputs.Number_of_days_detailed)
-		mytableconfig.Table_filename = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_filename").String()
-		mytableconfig.Table_index_name = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_index_name").String()
-		mytableconfig.Table_index_group = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_index_group").String()
-		mytableconfig.Table_index_order, _ = cfg.Section("stat_perhour_referrers_raw_2xx_3xx").Key("table_index_order").Int()
-
-		mystatconfig.Tableinfo = mytableconfig
-		mystatconfig.Linegraphinfo = mylinegraphconfig
-		mystats = append(mystats, mystatconfig)
-	}
-
-	/*
-		end stats config secion stat_perhour_referrers_raw_2xx_3xx
-	*/
 	/*
 		start fill struct, log and return the args
 	*/
