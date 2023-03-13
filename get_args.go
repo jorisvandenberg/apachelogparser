@@ -176,11 +176,16 @@ func getargs() Args {
 	truncatealreadyloadedPtr := flag.Bool("truncatealreadyloaded", false, "if set, the \"alreadyloaded\" table will be truncated if combined with runtype all or onlylogparse")
 	demographsPtr := flag.Bool("demographs", false, "write a bunch of demographs to the output dir")
 	debugPtr := flag.Bool("debug", false, "enable or disable debug (verbose)")
+	ini_wizardPtr := flag.Bool("iniwizard", false, "start a (very basic) ini wizard and exit afterwards. It will use template_config.ini in the current directory and (over)write config.ini in the current directory!!! use with caution!!!")
 	flag.Parse()
 	commandlines.Runtype = *runtypePtr
 	commandlines.Truncatealreadyloaded = *truncatealreadyloadedPtr
 	commandlines.Demographs = *demographsPtr
 	commandlines.Debug = *debugPtr
+	if (*ini_wizardPtr) {
+		ini_wizard("template_config.ini", "config.ini")
+		os.Exit(0)
+	}
 	/*
 		end command line flags input
 	*/
@@ -204,6 +209,7 @@ func getargs() Args {
 			os.Exit(1)
 		}
 	}
+	
 	cfg, err := ini.Load(configfilepath)
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)
