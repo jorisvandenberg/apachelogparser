@@ -2,12 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"gopkg.in/ini.v1"
 	"os"
 	"strings"
-	"errors"
 )
 
 type Tableconfig struct {
@@ -102,11 +102,11 @@ func argblock(cfg *ini.File, configname string, whichstats string, outputs Outpu
 	//whichstats: t (able), l (inegraph), 4 (weekslinegraph)
 	stat_enabled, _ := cfg.Section(configname).Key("enabled").Bool()
 	var mystatconfig Statconfig
-	if (!stat_enabled) {
+	if !stat_enabled {
 		return mystatconfig, errors.New("stats was disabled")
 	}
 	onedone := false
-	if (strings.Contains(whichstats, "t")) {
+	if strings.Contains(whichstats, "t") {
 		table_enabled, _ := cfg.Section(configname).Key("table_enabled").Bool()
 		if stat_enabled && table_enabled {
 			var mytableconfig Tableconfig
@@ -125,7 +125,7 @@ func argblock(cfg *ini.File, configname string, whichstats string, outputs Outpu
 			onedone = true
 		}
 	}
-	if (strings.Contains(whichstats, "l")) {
+	if strings.Contains(whichstats, "l") {
 		linegraph_enabled, _ := cfg.Section(configname).Key("linegraph_enabled").Bool()
 		if stat_enabled && linegraph_enabled {
 			var mylinegraphconfig Linegraphconfig
@@ -139,7 +139,7 @@ func argblock(cfg *ini.File, configname string, whichstats string, outputs Outpu
 			onedone = true
 		}
 	}
-	if (strings.Contains(whichstats, "4")) {
+	if strings.Contains(whichstats, "4") {
 		linegraph_compare4weeks_enabled, _ := cfg.Section(configname).Key("linegraph_compare4weeks_enabled").Bool()
 		if stat_enabled && linegraph_compare4weeks_enabled {
 			var mylinegraph4weekconfig Linegraph4weekconfig
@@ -156,11 +156,8 @@ func argblock(cfg *ini.File, configname string, whichstats string, outputs Outpu
 	if onedone {
 		return mystatconfig, nil
 	} else {
-		return mystatconfig,  errors.New("stats was enabled, but all substats were disabled")
+		return mystatconfig, errors.New("stats was enabled, but all substats were disabled")
 	}
-
-	
-	
 
 }
 
