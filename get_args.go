@@ -7,6 +7,7 @@ import (
 	"gopkg.in/ini.v1"
 	"os"
 	"strings"
+	"errors"
 )
 
 type Tableconfig struct {
@@ -97,6 +98,72 @@ type Args struct {
 	Stats             []Statconfig
 }
 
+func argblock(cfg int, configname string, whichstats string) (Statconfig, error) {
+	//whichstats: t (able), l (inegraph), 4 (weekslinegraph)
+	stat_enabled, _ := cfg.Section(configname).Key("enabled").Bool()
+	var mystatconfig Statconfig
+	if (!stat_enabled) {
+		return mystatconfig, errors.New("stats was disabled")
+	}
+	onedone := false
+	if (strings.Contains(whichstats, "t")) {
+		table_enabled, _ := cfg.Section(configname).Key("table_enabled").Bool()
+		if stat_enabled && table_enabled {
+			var mytableconfig Tableconfig
+			mystatconfig.Statname = configname
+			mytableconfig.Table_enabled = true
+			mytableconfig.Table_title = splice_number_of_days_detailed_in(cfg.Section(configname).Key("table_title").String(), outputs.Number_of_days_detailed)
+			mytableconfig.Table_description = splice_number_of_days_detailed_in(cfg.Section(configname).Key("table_description").String(), outputs.Number_of_days_detailed)
+			tablecontent_unsplitstring := splice_number_of_days_detailed_in(cfg.Section(configname).Key("table_pagecontent").String(), outputs.Number_of_days_detailed)
+			mytableconfig.Table_pagecontent = strings.Split(tablecontent_unsplitstring, "|")
+			mytableconfig.Table_pagefooter = splice_number_of_days_detailed_in(cfg.Section(configname).Key("table_pagefooter").String(), outputs.Number_of_days_detailed)
+			mytableconfig.Table_filename = cfg.Section(configname).Key("table_filename").String()
+			mytableconfig.Table_index_name = cfg.Section(configname).Key("table_index_name").String()
+			mytableconfig.Table_index_group = cfg.Section(configname).Key("table_index_group").String()
+			mytableconfig.Table_index_order, _ = cfg.Section(configname).Key("table_index_order").Int()
+			mystatconfig.Tableinfo = mytableconfig
+			onedone = true
+		}
+	}
+	if (strings.Contains(whichstats, "l")) {
+		linegraph_enabled, _ := cfg.Section(configname).Key("linegraph_enabled").Bool()
+		if stat_enabled && linegraph_enabled {
+			var mylinegraphconfig Linegraphconfig
+			mylinegraphconfig.Linegraph_enabled = true
+			mylinegraphconfig.Linegraph_title = splice_number_of_days_detailed_in(cfg.Section(configname).Key("linegraph_title").String(), outputs.Number_of_days_detailed)
+			mylinegraphconfig.Linegraph_description = splice_number_of_days_detailed_in(cfg.Section(configname).Key("linegraph_description").String(), outputs.Number_of_days_detailed)
+			mylinegraphconfig.Linegraph_filename = cfg.Section(configname).Key("linegraph_filename").String()
+			mylinegraphconfig.Linegraph_index_group = cfg.Section(configname).Key("linegraph_index_group").String()
+			mylinegraphconfig.Linegraph_index_order, _ = cfg.Section(configname).Key("linegraph_index_order").Int()
+			mystatconfig.Linegraphinfo = mylinegraphconfig
+			onedone = true
+		}
+	}
+	if (strings.Contains(whichstats, "4")) {
+		linegraph_compare4weeks_enabled, _ := cfg.Section(configname).Key("linegraph_compare4weeks_enabled").Bool()
+		if stat_enabled && linegraph_compare4weeks_enabled {
+			var mylinegraph4weekconfig Linegraph4weekconfig
+			mylinegraph4weekconfig.Linegraph_compare4weeks_enabled = true
+			mylinegraph4weekconfig.Linegraph_compare4weeks_title = splice_number_of_days_detailed_in(cfg.Section(configname).Key("linegraph_compare4weeks_title").String(), outputs.Number_of_days_detailed)
+			mylinegraph4weekconfig.Linegraph_compare4weeks_description = splice_number_of_days_detailed_in(cfg.Section(configname).Key("linegraph_compare4weeks_description").String(), outputs.Number_of_days_detailed)
+			mylinegraph4weekconfig.Linegraph_compare4weeks_filename = cfg.Section(configname).Key("linegraph_compare4weeks_filename").String()
+			mylinegraph4weekconfig.Linegraph_compare4weeks_index_group = cfg.Section(configname).Key("linegraph_compare4weeks_index_group").String()
+			mylinegraph4weekconfig.Linegraph_compare4weeks_index_order, _ = cfg.Section(configname).Key("linegraph_compare4weeks_index_order").Int()
+			mystatconfig.Linegraph4weekinfo = mylinegraph4weekconfig
+			onedone = true
+		}
+	}
+	if onedone {
+		return mystatconfig, nil
+	} else {
+		return mystatconfig,  errors.New("stats was enabled, but all substats were disabled")
+	}
+
+	
+	
+
+}
+
 func getargs() Args {
 	var returndb Args
 	var inputargs Inputarg
@@ -141,6 +208,7 @@ func getargs() Args {
 		}
 	}
 	cfg, err := ini.Load(configfilepath)
+	fmt.Printf("cfg is of type %T\n", cfg)
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)
 		os.Exit(1)
@@ -232,6 +300,13 @@ func getargs() Args {
 	/*
 		start stats config secion stat_perhour_hits_raw_2xx_3xx
 	*/
+	fmt.Printf("var1 = %T\n", cfg)
+	mystatconfig, err := argblock(cfg, "stat_perhour_hits_raw_2xx_3xx", tl)
+	if err == nil {
+		mystats = append(mystats, mystatconfig)
+	}
+	
+	/*
 	stat_enabled, _ := cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("enabled").Bool()
 	table_enabled, _ := cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("table_enabled").Bool()
 	linegraph_enabled, _ := cfg.Section("stat_perhour_hits_raw_2xx_3xx").Key("linegraph_enabled").Bool()
@@ -274,7 +349,7 @@ func getargs() Args {
 		mystatconfig.Linegraphinfo = mylinegraphconfig
 		mystats = append(mystats, mystatconfig)
 	}
-
+	*/
 	/*
 		end stats config secion stat_perhour_hits_raw_2xx_3xx
 	*/
