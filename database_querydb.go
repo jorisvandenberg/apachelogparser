@@ -126,6 +126,26 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += "   count(*) desc"
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += " LIMIT ?"
 
+
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] = " SELECT"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   CASE"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "     WHEN instr(r.referrer, '?') > 0 THEN REPLACE(RTRIM(substr(r.referrer, 1, instr(r.referrer, '?') - 1), '/'), '//', '/')"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "     ELSE REPLACE(RTRIM(r.referrer, '/'), '//', '/')"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   END AS subreferrer,"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   count(distinct(v.user)) as aantal"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += " FROM"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   referrer r, visit v"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += " WHERE"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   r.id = v.referrer"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   and v.visit_timestamp > ?"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   and v.statuscode > 199"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   and v.statuscode < 400"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += " GROUP BY"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   subreferrer"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += " ORDER BY"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   count(*) desc"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += " LIMIT ?"
+
 	for naam, sql := range querymap {
 		stmt, err := tx.Prepare(sql)
 		if err != nil {
