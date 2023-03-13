@@ -98,7 +98,7 @@ type Args struct {
 	Stats             []Statconfig
 }
 
-func argblock(cfg int, configname string, whichstats string) (Statconfig, error) {
+func argblock(cfg *ini.File, configname string, whichstats string, outputs Output) (Statconfig, error) {
 	//whichstats: t (able), l (inegraph), 4 (weekslinegraph)
 	stat_enabled, _ := cfg.Section(configname).Key("enabled").Bool()
 	var mystatconfig Statconfig
@@ -208,7 +208,6 @@ func getargs() Args {
 		}
 	}
 	cfg, err := ini.Load(configfilepath)
-	fmt.Printf("cfg is of type %T\n", cfg)
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)
 		os.Exit(1)
@@ -300,8 +299,8 @@ func getargs() Args {
 	/*
 		start stats config secion stat_perhour_hits_raw_2xx_3xx
 	*/
-	fmt.Printf("var1 = %T\n", cfg)
-	mystatconfig, err := argblock(cfg, "stat_perhour_hits_raw_2xx_3xx", tl)
+	//fmt.Printf("var1 = %T\n", cfg)
+	mystatconfig, err := argblock(cfg, "stat_perhour_hits_raw_2xx_3xx", "tl", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
@@ -357,9 +356,9 @@ func getargs() Args {
 	/*
 		start stats config secion stat_perday_hits_raw_2xx_3xx
 	*/
-	stat_enabled, _ = cfg.Section("stat_perday_hits_raw_2xx_3xx").Key("enabled").Bool()
-	table_enabled, _ = cfg.Section("stat_perday_hits_raw_2xx_3xx").Key("table_enabled").Bool()
-	linegraph_enabled, _ = cfg.Section("stat_perday_hits_raw_2xx_3xx").Key("linegraph_enabled").Bool()
+	stat_enabled, _ := cfg.Section("stat_perday_hits_raw_2xx_3xx").Key("enabled").Bool()
+	table_enabled, _ := cfg.Section("stat_perday_hits_raw_2xx_3xx").Key("table_enabled").Bool()
+	linegraph_enabled, _ := cfg.Section("stat_perday_hits_raw_2xx_3xx").Key("linegraph_enabled").Bool()
 	linegraph_compare4weeks_enabled, _ := cfg.Section("stat_perday_hits_raw_2xx_3xx").Key("linegraph_compare4weeks_enabled").Bool()
 	if stat_enabled && (table_enabled || linegraph_enabled || linegraph_compare4weeks_enabled) {
 		var mystatconfig Statconfig
