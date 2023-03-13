@@ -182,7 +182,7 @@ func getargs() Args {
 	commandlines.Truncatealreadyloaded = *truncatealreadyloadedPtr
 	commandlines.Demographs = *demographsPtr
 	commandlines.Debug = *debugPtr
-	if (*ini_wizardPtr) {
+	if *ini_wizardPtr {
 		ini_wizard("template_config.ini", "config.ini")
 		os.Exit(0)
 	}
@@ -209,7 +209,7 @@ func getargs() Args {
 			os.Exit(1)
 		}
 	}
-	
+
 	cfg, err := ini.Load(configfilepath)
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)
