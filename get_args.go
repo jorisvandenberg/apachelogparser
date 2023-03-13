@@ -393,7 +393,7 @@ func getargs() Args {
 	stat_enabled, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("enabled").Bool()
 	table_enabled, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("table_enabled").Bool()
 	linegraph_enabled, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_enabled").Bool()
-	linegraph_compare4weeks_enabled, _ := cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_enabled").Bool()
+	linegraph_compare4weeks_enabled, _ = cfg.Section("stat_perday_hits_unique_2xx_3xx").Key("linegraph_compare4weeks_enabled").Bool()
 	if stat_enabled && (table_enabled || linegraph_enabled) {
 		var mystatconfig Statconfig
 		var mytableconfig Tableconfig
