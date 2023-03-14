@@ -126,7 +126,6 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += "   count(*) desc"
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += " LIMIT ?"
 
-
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] = " SELECT"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   CASE"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "     WHEN instr(r.referrer, '??') > 0 THEN REPLACE(RTRIM(substr(r.referrer, 1, instr(r.referrer, '??') - 1), '/'), '//', '/')"
@@ -186,7 +185,6 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx"] += " ORDER BY"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx"] += "   count(*) desc"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx"] += " LIMIT ?"
-
 
 	for naam, sql := range querymap {
 		stmt, err := tx.Prepare(sql)
