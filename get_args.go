@@ -183,7 +183,7 @@ func getargs() Args {
 	commandlines.Demographs = *demographsPtr
 	commandlines.Debug = *debugPtr
 	if *ini_wizardPtr {
-		ini_wizard("template_config.ini", "config.ini")
+		ini_wizard("/etc/apachelogparser/template_config.ini", "/etc/apachelogparser/config.ini")
 		os.Exit(0)
 	}
 	/*
