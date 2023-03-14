@@ -9,5 +9,6 @@ func generatestats(args Args) {
 	stats_noaggregation_nbdaysdetailed_refferers(args)
 	stats_noaggregation_nbdaysdetailed_unique_refferers(args)
 	stats_noaggregation_nbdaysdetailed_unique_refferers_noemptyorself(args)
+	stats_noaggregation_nbdaysdetailed_unique_refferers_noemptyorself_onlytld(args)
 	logger("finished the function to generate statistics")
 }
