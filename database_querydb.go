@@ -123,7 +123,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += " GROUP BY"
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += "   subreferrer"
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += " ORDER BY"
-	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += "   count(*) desc"
+	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += "   aantal desc"
 	querymap["stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx"] += " LIMIT ?"
 
 
@@ -143,7 +143,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += " GROUP BY"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   subreferrer"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += " ORDER BY"
-	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   count(*) desc"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += "   aantal desc"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx"] += " LIMIT ?"
 
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_2xx_3xx"] = " SELECT"
@@ -165,7 +165,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_2xx_3xx"] += " GROUP BY"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_2xx_3xx"] += "   subreferrer"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_2xx_3xx"] += " ORDER BY"
-	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_2xx_3xx"] += "   count(*) desc"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_2xx_3xx"] += "   aantal desc"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_2xx_3xx"] += " LIMIT ?"
 
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx"] = " SELECT"
@@ -184,7 +184,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx"] += " GROUP BY"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx"] += "   subreferrer"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx"] += " ORDER BY"
-	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx"] += "   count(*) desc"
+	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx"] += "   aantal desc"
 	querymap["stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx"] += " LIMIT ?"
 
 
