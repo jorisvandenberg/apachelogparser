@@ -78,4 +78,12 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			XValues_linegraph = append(XValues_linegraph, strconv.Itoa(year)+"-"+strconv.Itoa(month)+"-"+strconv.Itoa(day)+":"+strconv.Itoa(hour))
 			YValues_linegraph["raw hits"] = append(YValues_linegraph["raw hits"], count)
 		}
+
+		if mycurstat.Tableinfo.Table_enabled {
+			createtable(args, mycurstat.Tableinfo.Table_filename, mycurstat.Tableinfo.Table_index_name, myTable, mycurstat.Tableinfo.Table_index_group, mycurstat.Tableinfo.Table_index_order)
+		}
+		if mycurstat.Linegraphinfo.Linegraph_enabled {
+			createlinegraph(XValues_linegraph, YValues_linegraph, mycurstat.Linegraphinfo.Linegraph_title, mycurstat.Linegraphinfo.Linegraph_description, args, mycurstat.Linegraphinfo.Linegraph_filename, mycurstat.Linegraphinfo.Linegraph_index_group, mycurstat.Linegraphinfo.Linegraph_index_order)
+		}
+		logger("stopped " + string_for_log)
 }
