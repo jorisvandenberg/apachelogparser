@@ -22,3 +22,5 @@ contents:
   dst: /usr/bin/apachelogparser
 - src: ./config.ini
   dst: /etc/apachelogparser/config.ini
+- src: ./template_config.ini
+  dst: /etc/apachelogparser/template_config.ini  
