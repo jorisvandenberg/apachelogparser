@@ -29,9 +29,9 @@ func debugstatfunct(args Args) {
 		"Title_3": "DAY",
 		"Title_4": "NB RAW HITS",
 	}
-	xaxisfields := []int{0,1,2}
+	xaxisfields := []int{0, 1, 2}
 	valuefield := 3
-	genstats(args, "demotext for log", "stat_perday_hits_unique_2xx_3xx", "stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed", parameters, tableheaders,xaxisfields, valuefield, "raw hits" )
+	genstats(args, "demotext for log", "stat_perday_hits_unique_2xx_3xx", "stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed", parameters, tableheaders, xaxisfields, valuefield, "raw hits")
 }
 
 func demowritehtmlpage(args Args) {
