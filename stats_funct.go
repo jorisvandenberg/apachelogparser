@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []string, tableheaders map[string]string ) bool {
+func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, sqlreturnvalues []interface{} ) bool {
 	/*
 	tableheaders := map[string]string{
 			"Title_1": "YEAR",
@@ -17,6 +17,21 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			"Title_5": "NB RAW HITS",
 		}
 		parameters := []interface{}{"value1", "value2", "value3"}
+		tableheaders := map[string]string{
+			"Title_1": "YEAR",
+			"Title_2": "MONTH",
+			"Title_3": "DAY",
+			"Title_4": "HOUR",
+			"Title_5": "NB RAW HITS",
+		}
+		sqlreturnvalues := []interface{}{
+        []interface{}{"year", "int"},
+        []interface{}{"month", "int"},
+        []interface{}{"day", "int"},
+        []interface{}{"hour", "int"},
+        []interface{}{"nm raw hits", "int"},
+    }
+	year := sqlreturnvalues[0].([]interface{})[1].(int)
 	*/
 	check_if_stats_is_slice := reflect.ValueOf(args).FieldByName("Stats")
 	foundcurstat := false
