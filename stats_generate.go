@@ -107,13 +107,41 @@ func generatestats(args Args) {
 	}
 	genstats(args, "sum of unique hits per referrer over last " + strconv.Itoa(args.Outputs.Number_of_days_detailed) + " days" , "stat_perhour_referrers_unique_2xx_3xx", "stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx", parameters, tableheaders,xaxisfields, valuefield, "" )
 	
+	
+	/*
+	stat: sum of unique hits per referrer, non empty non self, over the last 31 (default) days
+	expecting 1 htmls: 
+	nnoaggregation_nbdaysdetailed_uniquereferrers_noemptyorself_2xx_3xx_table.html
+	*/
+	parameters = []interface{}{mintimestamp, args.Generals.Mydomain, int(args.Outputs.Numberofreferrers)}
+	tableheaders = map[string]string{
+		"Title_1": "REFERRER",
+		"Title_2": "NB of unique non self, non empty hits",
+			
+	}
+	genstats(args, "sum of unique hits per referrer, non self non empty, over last " + strconv.Itoa(args.Outputs.Number_of_days_detailed) + " days" , "stat_perhour_referrers_unique_noemptyorself_2xx_3xx", "stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_2xx_3xx", parameters, tableheaders,xaxisfields, valuefield, "" )
+	
+	
+	/*
+	stat: sum of unique hits per referrer, non empty, non self, only tld over the last 31 (default) days
+	expecting 1 htmls: 
+	noaggregation_nbdaysdetailed_uniquereferrers_noemptyorself_onlytld_2xx_3xx_table.html
+	*/
+	parameters = []interface{}{mintimestamp, args.Generals.Mydomain, int(args.Outputs.Numberofreferrers)}
+	tableheaders = map[string]string{
+		"Title_1": "REFERRER",
+		"Title_2": "NB of unique non self, non empty hits. TLDs",
+			
+	}
+	genstats(args, "sum of unique hits per referrer, non self non empty, only tlds, over last " + strconv.Itoa(args.Outputs.Number_of_days_detailed) + " days" , "stat_perhour_referrers_unique_noemptyorself_onlytld_2xx_3xx", "stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx", parameters, tableheaders,xaxisfields, valuefield, "" )
+	
 	//noaggregation_nbdaysdetailed_raw_2xx_3xx(args)
 	//noaggregation_nbdaysdetailed_unique_2xx_3xx(args)
 	//noaggregation_nbdaysdetailed_rawperday_2xx_3xx(args)
 	//noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx(args)
 	//stats_noaggregation_nbdaysdetailed_refferers(args)
 	//stats_noaggregation_nbdaysdetailed_unique_refferers(args)
-	stats_noaggregation_nbdaysdetailed_unique_refferers_noemptyorself(args)
-	stats_noaggregation_nbdaysdetailed_unique_refferers_noemptyorself_onlytld(args)
+	//stats_noaggregation_nbdaysdetailed_unique_refferers_noemptyorself(args)
+	//stats_noaggregation_nbdaysdetailed_unique_refferers_noemptyorself_onlytld(args)
 	logger("finished the function to generate statistics")
 }
