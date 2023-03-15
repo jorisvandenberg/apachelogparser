@@ -3,8 +3,7 @@ package main
 import (
 	"fmt"
 	"reflect"
-	//"strconv"
-	//"time"
+	"strconv"
 	"os"
 )
 
@@ -70,7 +69,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		os.Exit(1)
 	}
 	defer rows.Close()
-	/*
+	
 		myTable := Table{
 			Pagetitle:       mycurstat.Tableinfo.Table_title,
 			Pagedescription: mycurstat.Tableinfo.Table_description,
@@ -79,7 +78,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			Headers:         tableheaders,
 			Data:            []map[string]string{},
 		}
-	*/
+	
 	var XValues_linegraph []string
 	YValues_linegraph := make(map[string][]int)
 	columns, err := rows.Columns()
@@ -105,24 +104,39 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		}
 		result = append(result, values)
 		
-		//MyData := make(map[string]string
-		/*
+		MyData := make(map[string]string)
+		
 		counter := 0
 		for _, value := range values {
 			//arr := value.(string)
-			//MyData["Value_" + strconv.Itoa(counter)] = string(arr)
-			fmt.Printf("%d => %T => %s\n", counter, value, value)
+			//MyData["Value_" + strconv.Itoa(counter)] = strconv.FormatInt(value.(int64), 10)
+			
+			switch v := value.(type) {
+			case string:
+				// value is a string, so we can add it directly to MyData
+				MyData["Value_" + strconv.Itoa(counter)]  = v
+			case int64:
+				// value is an int64, so we need to convert it to a string first
+				MyData["Value_" + strconv.Itoa(counter)] = strconv.FormatInt(v, 10)
+			default:
+				// value is neither a string nor an int64, so handle the error case
+				panic("unsupported type")
+			}
+			
+			
+			
+			//fmt.Printf("%d => %T => %s\n", counter, value, value)
 			counter++
 			
 		}
-		*/
+		
 		titel := ""
 		
 		for _, xaxisfield := range xaxisfields {
 			titel += values[xaxisfield].(string)
 		}
 		fmt.Printf("%s\n", values[0])
-			//myTable.Data = append(myTable.Data, MyData)
+			myTable.Data = append(myTable.Data, MyData)
 		
 			
 			XValues_linegraph = append(XValues_linegraph, titel)
@@ -135,12 +149,12 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 	}
 	fmt.Printf("%+v\n", columns)
 	fmt.Printf("%+v\n", result)
-	//fmt.Printf("%+v\n", myTable)
-	/*
+	fmt.Printf("%+v\n", myTable)
+	
 		if mycurstat.Tableinfo.Table_enabled {
 			createtable(args, mycurstat.Tableinfo.Table_filename, mycurstat.Tableinfo.Table_index_name, myTable, mycurstat.Tableinfo.Table_index_group, mycurstat.Tableinfo.Table_index_order)
 		}
-		*/
+		
 		if mycurstat.Linegraphinfo.Linegraph_enabled {
 			createlinegraph(XValues_linegraph, YValues_linegraph, mycurstat.Linegraphinfo.Linegraph_title, mycurstat.Linegraphinfo.Linegraph_description, args, mycurstat.Linegraphinfo.Linegraph_filename, mycurstat.Linegraphinfo.Linegraph_index_group, mycurstat.Linegraphinfo.Linegraph_index_order)
 		}
