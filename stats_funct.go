@@ -3,8 +3,9 @@ package main
 import (
 	"fmt"
 	"reflect"
-	"strconv"
-	"time"
+	//"strconv"
+	//"time"
+	"os"
 )
 
 func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, sqlreturnvalues []interface{} ) bool {
@@ -35,7 +36,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 	*/
 	check_if_stats_is_slice := reflect.ValueOf(args).FieldByName("Stats")
 	foundcurstat := false
-	var mycurstat Statconfig
+	//var mycurstat Statconfig
 	
 	if check_if_stats_is_slice.Kind() == reflect.Ptr && check_if_stats_is_slice.IsNil() {
 		logger("i wanted to run: " + statname_from_conf + ", but my argumentparser did not find any Stats defined in the config!!!")
@@ -45,7 +46,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		for _, curstat := range args.Stats {
 			if curstat.Statname == statname_from_conf {
 				foundcurstat = true
-				mycurstat = curstat
+		//		mycurstat = curstat
 			}
 		}
 
@@ -61,10 +62,13 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 
 	logger("start " + string_for_log)
 	myQuery := myquerydb[querydb_key].stmt
-		mintimestamp := int(time.Now().Unix()) - (args.Outputs.Number_of_days_detailed * 86400)
+		//mintimestamp := int(time.Now().Unix()) - (args.Outputs.Number_of_days_detailed * 86400)
 		rows, err := myQuery.Query(parameters...)
 		if err != nil {
 			fmt.Printf("%s\n", err.Error())
+			fmt.Printf("%s\n", querydb_key)
+			fmt.Printf("%+v\n", myQuery)
+			os.Exit(1)
 		}
 		defer rows.Close()
 		/*
@@ -121,4 +125,5 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		}
 		*/
 		logger("stopped " + string_for_log)
+		return true
 }

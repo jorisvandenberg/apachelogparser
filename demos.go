@@ -15,7 +15,26 @@ func writedemographs(args Args) {
 	demopiechart(args)
 	demowritemulti(args)
 	demowritehtmlpage(args)
+	debugstatfunct(args)
 	logger("finished writing some demo pages")
+}
+
+func debugstatfunct (args Args) {
+	parameters := []interface{}{"0"}
+	tableheaders := map[string]string{
+			"Title_1": "YEAR",
+			"Title_2": "MONTH",
+			"Title_3": "DAY",
+			"Title_5": "NB RAW HITS",
+		}
+	sqlreturnvalues := []interface{}{
+        []interface{}{"year", "int"},
+        []interface{}{"month", "int"},
+        []interface{}{"day", "int"},
+        []interface{}{"hour", "int"},
+        []interface{}{"nm raw hits", "int"},
+    }
+	genstats(args, "demotext for log", "stat_perday_hits_unique_2xx_3xx", "stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed", parameters , tableheaders , sqlreturnvalues)
 }
 
 func demowritehtmlpage(args Args) {
