@@ -4,6 +4,7 @@ import (
 	"github.com/go-echarts/go-echarts/v2/components"
 	"io"
 	"os"
+	"time"
 )
 
 func writedemographs(args Args) {
@@ -20,21 +21,17 @@ func writedemographs(args Args) {
 }
 
 func debugstatfunct(args Args) {
-	parameters := []interface{}{"0"}
+	mintimestamp := int(time.Now().Unix()) - (args.Outputs.Number_of_days_detailed * 86400)
+	parameters := []interface{}{mintimestamp}
 	tableheaders := map[string]string{
 		"Title_1": "YEAR",
 		"Title_2": "MONTH",
 		"Title_3": "DAY",
-		"Title_5": "NB RAW HITS",
+		"Title_4": "NB RAW HITS",
 	}
-	sqlreturnvalues := []interface{}{
-		[]interface{}{"year", 2022},
-		[]interface{}{"month", 1},
-		[]interface{}{"day", 1},
-		[]interface{}{"hour", 1},
-		[]interface{}{"nm raw hits", 0},
-	}
-	genstats(args, "demotext for log", "stat_perday_hits_unique_2xx_3xx", "stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed", parameters, tableheaders, sqlreturnvalues)
+	xaxisfields := []int{0,1,2}
+	valuefield := 3
+	genstats(args, "demotext for log", "stat_perday_hits_unique_2xx_3xx", "stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed", parameters, tableheaders,xaxisfields, valuefield, "raw hits" )
 }
 
 func demowritehtmlpage(args Args) {
