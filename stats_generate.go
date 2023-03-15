@@ -100,14 +100,11 @@ func generatestats(args Args) {
 	expecting 1 htmls: 
 	noaggregation_nbdaysdetailed_uniquereferrers_2xx_3xx_table.html
 	*/
-	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "REFERRER",
 		"Title_2": "NB of unique hits",
 			
 	}
-	xaxisfields = []int{0}
-	valuefield = 1
 	genstats(args, "sum of unique hits per referrer over last " + strconv.Itoa(args.Outputs.Number_of_days_detailed) + " days" , "stat_perhour_referrers_unique_2xx_3xx", "stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_2xx_3xx", parameters, tableheaders,xaxisfields, valuefield, "" )
 	
 	//noaggregation_nbdaysdetailed_raw_2xx_3xx(args)
