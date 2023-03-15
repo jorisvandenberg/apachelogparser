@@ -67,6 +67,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			fmt.Printf("%s\n", err.Error())
 		}
 		defer rows.Close()
+		/*
 		myTable := Table{
 			Pagetitle:       mycurstat.Tableinfo.Table_title,
 			Pagedescription: mycurstat.Tableinfo.Table_description,
@@ -75,9 +76,26 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			Headers:         tableheaders,
 			Data:            []map[string]string{},
 		}
-		var XValues_linegraph []string
-		YValues_linegraph := make(map[string][]int)
+		*/
+		//var XValues_linegraph []string
+		//YValues_linegraph := make(map[string][]int)
 		for rows.Next() {
+
+			for _, v := range sqlreturnvalues {
+				subinterface := v.([]interface{})
+				for _, val := range subinterface {
+					switch t := val.(type) {
+					case string:
+						fmt.Printf("String value: %v\n", t)
+					case int:
+						fmt.Printf("Int value: %v\n", t)
+					// add more cases for other types as needed
+					default:
+						fmt.Println("Unknown type")
+					}
+				}
+			}
+			/*
 			var year, month, day, hour, count int
 			if err := rows.Scan(&year, &month, &day, &hour, &count); err != nil {
 				fmt.Printf("%s\n", err.Error())
@@ -92,13 +110,15 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			myTable.Data = append(myTable.Data, MyData)
 			XValues_linegraph = append(XValues_linegraph, strconv.Itoa(year)+"-"+strconv.Itoa(month)+"-"+strconv.Itoa(day)+":"+strconv.Itoa(hour))
 			YValues_linegraph["raw hits"] = append(YValues_linegraph["raw hits"], count)
+			*/
 		}
-
+		/*
 		if mycurstat.Tableinfo.Table_enabled {
 			createtable(args, mycurstat.Tableinfo.Table_filename, mycurstat.Tableinfo.Table_index_name, myTable, mycurstat.Tableinfo.Table_index_group, mycurstat.Tableinfo.Table_index_order)
 		}
 		if mycurstat.Linegraphinfo.Linegraph_enabled {
 			createlinegraph(XValues_linegraph, YValues_linegraph, mycurstat.Linegraphinfo.Linegraph_title, mycurstat.Linegraphinfo.Linegraph_description, args, mycurstat.Linegraphinfo.Linegraph_filename, mycurstat.Linegraphinfo.Linegraph_index_group, mycurstat.Linegraphinfo.Linegraph_index_order)
 		}
+		*/
 		logger("stopped " + string_for_log)
 }
