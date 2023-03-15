@@ -8,36 +8,36 @@ import (
 	"os"
 )
 
-func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, sqlreturnvalues []interface{} ) bool {
+func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, sqlreturnvalues []interface{}) bool {
 	/*
-	tableheaders := map[string]string{
-			"Title_1": "YEAR",
-			"Title_2": "MONTH",
-			"Title_3": "DAY",
-			"Title_4": "HOUR",
-			"Title_5": "NB RAW HITS",
-		}
-		parameters := []interface{}{"value1", "value2", "value3"}
 		tableheaders := map[string]string{
-			"Title_1": "YEAR",
-			"Title_2": "MONTH",
-			"Title_3": "DAY",
-			"Title_4": "HOUR",
-			"Title_5": "NB RAW HITS",
-		}
-		sqlreturnvalues := []interface{}{
-        []interface{}{"year", "int"},
-        []interface{}{"month", "int"},
-        []interface{}{"day", "int"},
-        []interface{}{"hour", "int"},
-        []interface{}{"nm raw hits", "int"},
-    }
-	year := sqlreturnvalues[0].([]interface{})[1].(int)
+				"Title_1": "YEAR",
+				"Title_2": "MONTH",
+				"Title_3": "DAY",
+				"Title_4": "HOUR",
+				"Title_5": "NB RAW HITS",
+			}
+			parameters := []interface{}{"value1", "value2", "value3"}
+			tableheaders := map[string]string{
+				"Title_1": "YEAR",
+				"Title_2": "MONTH",
+				"Title_3": "DAY",
+				"Title_4": "HOUR",
+				"Title_5": "NB RAW HITS",
+			}
+			sqlreturnvalues := []interface{}{
+	        []interface{}{"year", "int"},
+	        []interface{}{"month", "int"},
+	        []interface{}{"day", "int"},
+	        []interface{}{"hour", "int"},
+	        []interface{}{"nm raw hits", "int"},
+	    }
+		year := sqlreturnvalues[0].([]interface{})[1].(int)
 	*/
 	check_if_stats_is_slice := reflect.ValueOf(args).FieldByName("Stats")
 	foundcurstat := false
 	//var mycurstat Statconfig
-	
+
 	if check_if_stats_is_slice.Kind() == reflect.Ptr && check_if_stats_is_slice.IsNil() {
 		logger("i wanted to run: " + statname_from_conf + ", but my argumentparser did not find any Stats defined in the config!!!")
 		return false
@@ -46,7 +46,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		for _, curstat := range args.Stats {
 			if curstat.Statname == statname_from_conf {
 				foundcurstat = true
-		//		mycurstat = curstat
+				//		mycurstat = curstat
 			}
 		}
 
@@ -62,16 +62,16 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 
 	logger("start " + string_for_log)
 	myQuery := myquerydb[querydb_key].stmt
-		//mintimestamp := int(time.Now().Unix()) - (args.Outputs.Number_of_days_detailed * 86400)
-		rows, err := myQuery.Query(parameters...)
-		if err != nil {
-			fmt.Printf("%s\n", err.Error())
-			fmt.Printf("%s\n", querydb_key)
-			fmt.Printf("%+v\n", myQuery)
-			os.Exit(1)
-		}
-		defer rows.Close()
-		/*
+	//mintimestamp := int(time.Now().Unix()) - (args.Outputs.Number_of_days_detailed * 86400)
+	rows, err := myQuery.Query(parameters...)
+	if err != nil {
+		fmt.Printf("%s\n", err.Error())
+		fmt.Printf("%s\n", querydb_key)
+		fmt.Printf("%+v\n", myQuery)
+		os.Exit(1)
+	}
+	defer rows.Close()
+	/*
 		myTable := Table{
 			Pagetitle:       mycurstat.Tableinfo.Table_title,
 			Pagedescription: mycurstat.Tableinfo.Table_description,
@@ -80,26 +80,26 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			Headers:         tableheaders,
 			Data:            []map[string]string{},
 		}
-		*/
-		//var XValues_linegraph []string
-		//YValues_linegraph := make(map[string][]int)
-		for rows.Next() {
+	*/
+	//var XValues_linegraph []string
+	//YValues_linegraph := make(map[string][]int)
+	for rows.Next() {
 
-			for _, v := range sqlreturnvalues {
-				subinterface := v.([]interface{})
-				for _, val := range subinterface {
-					switch t := val.(type) {
-					case string:
-						fmt.Printf("String value: %v\n", t)
-					case int:
-						fmt.Printf("Int value: %v\n", t)
-					// add more cases for other types as needed
-					default:
-						fmt.Println("Unknown type")
-					}
+		for _, v := range sqlreturnvalues {
+			subinterface := v.([]interface{})
+			for _, val := range subinterface {
+				switch t := val.(type) {
+				case string:
+					fmt.Printf("String value: %v\n", t)
+				case int:
+					fmt.Printf("Int value: %v\n", t)
+				// add more cases for other types as needed
+				default:
+					fmt.Println("Unknown type")
 				}
 			}
-			/*
+		}
+		/*
 			var year, month, day, hour, count int
 			if err := rows.Scan(&year, &month, &day, &hour, &count); err != nil {
 				fmt.Printf("%s\n", err.Error())
@@ -114,16 +114,16 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			myTable.Data = append(myTable.Data, MyData)
 			XValues_linegraph = append(XValues_linegraph, strconv.Itoa(year)+"-"+strconv.Itoa(month)+"-"+strconv.Itoa(day)+":"+strconv.Itoa(hour))
 			YValues_linegraph["raw hits"] = append(YValues_linegraph["raw hits"], count)
-			*/
-		}
-		/*
+		*/
+	}
+	/*
 		if mycurstat.Tableinfo.Table_enabled {
 			createtable(args, mycurstat.Tableinfo.Table_filename, mycurstat.Tableinfo.Table_index_name, myTable, mycurstat.Tableinfo.Table_index_group, mycurstat.Tableinfo.Table_index_order)
 		}
 		if mycurstat.Linegraphinfo.Linegraph_enabled {
 			createlinegraph(XValues_linegraph, YValues_linegraph, mycurstat.Linegraphinfo.Linegraph_title, mycurstat.Linegraphinfo.Linegraph_description, args, mycurstat.Linegraphinfo.Linegraph_filename, mycurstat.Linegraphinfo.Linegraph_index_group, mycurstat.Linegraphinfo.Linegraph_index_order)
 		}
-		*/
-		logger("stopped " + string_for_log)
-		return true
+	*/
+	logger("stopped " + string_for_log)
+	return true
 }

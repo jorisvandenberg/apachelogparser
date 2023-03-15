@@ -45,12 +45,11 @@ func main() {
 		generatestats(args)
 		logger("finishing the stat generating process")
 	}
-	
 
 	if args.Commandlines.Demographs {
 		writedemographs(args)
 	}
-	
+
 	logger("commiting changes to the sqlite database")
 	err := tx.Commit()
 	logger("finished commiting changes to the sqlite database")
