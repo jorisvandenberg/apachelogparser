@@ -28,11 +28,11 @@ func debugstatfunct(args Args) {
 		"Title_5": "NB RAW HITS",
 	}
 	sqlreturnvalues := []interface{}{
-		[]interface{}{"year", "int"},
-		[]interface{}{"month", "int"},
-		[]interface{}{"day", "int"},
-		[]interface{}{"hour", "int"},
-		[]interface{}{"nm raw hits", "int"},
+		[]interface{}{"year", 2022},
+		[]interface{}{"month", 1},
+		[]interface{}{"day", 1},
+		[]interface{}{"hour", 1},
+		[]interface{}{"nm raw hits", 0},
 	}
 	genstats(args, "demotext for log", "stat_perday_hits_unique_2xx_3xx", "stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed", parameters, tableheaders, sqlreturnvalues)
 }

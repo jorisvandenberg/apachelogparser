@@ -83,22 +83,34 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 	*/
 	//var XValues_linegraph []string
 	//YValues_linegraph := make(map[string][]int)
+	columns, err := rows.Columns()
+    if err != nil {
+        return false
+    }
+	/*
+    types, err := rows.ColumnTypes()
+    if err != nil {
+        return false
+    }
+	*/
+	var result []map[string]interface{}
+		values := make([]interface{}, len(columns))
+	valuePtrs := make([]interface{}, len(columns))
+	for i := range values {
+        valuePtrs[i] = &values[i]
+    }
+	
 	for rows.Next() {
+	row := make(map[string]interface{})
 
-		for _, v := range sqlreturnvalues {
-			subinterface := v.([]interface{})
-			for _, val := range subinterface {
-				switch t := val.(type) {
-				case string:
-					fmt.Printf("String value: %v\n", t)
-				case int:
-					fmt.Printf("Int value: %v\n", t)
-				// add more cases for other types as needed
-				default:
-					fmt.Println("Unknown type")
-				}
-			}
-		}
+		 err := rows.Scan(valuePtrs...)
+        if err != nil {
+            return false
+        }
+for i, v := range values {
+            fmt.Printf("%s: %T %v\n", columns[i], v, v)
+        }
+		result = append(result, row)
 		/*
 			var year, month, day, hour, count int
 			if err := rows.Scan(&year, &month, &day, &hour, &count); err != nil {
@@ -116,6 +128,11 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			YValues_linegraph["raw hits"] = append(YValues_linegraph["raw hits"], count)
 		*/
 	}
+	 err = rows.Err()
+    if err != nil {
+        return false
+    }
+	fmt.Printf("%+v", result)
 	/*
 		if mycurstat.Tableinfo.Table_enabled {
 			createtable(args, mycurstat.Tableinfo.Table_filename, mycurstat.Tableinfo.Table_index_name, myTable, mycurstat.Tableinfo.Table_index_group, mycurstat.Tableinfo.Table_index_order)
