@@ -10,29 +10,29 @@ import (
 
 func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, sqlreturnvalues []interface{}) bool {
 	/*
-		tableheaders := map[string]string{
-				"Title_1": "YEAR",
-				"Title_2": "MONTH",
-				"Title_3": "DAY",
-				"Title_4": "HOUR",
-				"Title_5": "NB RAW HITS",
-			}
-			parameters := []interface{}{"value1", "value2", "value3"}
 			tableheaders := map[string]string{
-				"Title_1": "YEAR",
-				"Title_2": "MONTH",
-				"Title_3": "DAY",
-				"Title_4": "HOUR",
-				"Title_5": "NB RAW HITS",
-			}
-			sqlreturnvalues := []interface{}{
-	        []interface{}{"year", "int"},
-	        []interface{}{"month", "int"},
-	        []interface{}{"day", "int"},
-	        []interface{}{"hour", "int"},
-	        []interface{}{"nm raw hits", "int"},
-	    }
-		year := sqlreturnvalues[0].([]interface{})[1].(int)
+					"Title_1": "YEAR",
+					"Title_2": "MONTH",
+					"Title_3": "DAY",
+					"Title_4": "HOUR",
+					"Title_5": "NB RAW HITS",
+				}
+				parameters := []interface{}{"value1", "value2", "value3"}
+				tableheaders := map[string]string{
+					"Title_1": "YEAR",
+					"Title_2": "MONTH",
+					"Title_3": "DAY",
+					"Title_4": "HOUR",
+					"Title_5": "NB RAW HITS",
+				}
+				sqlreturnvalues := []interface{}{
+		        []interface{}{"year", "int"},
+		        []interface{}{"month", "int"},
+		        []interface{}{"day", "int"},
+		        []interface{}{"hour", "int"},
+		        []interface{}{"nm raw hits", "int"},
+		    }
+			year := sqlreturnvalues[0].([]interface{})[1].(int)
 	*/
 	check_if_stats_is_slice := reflect.ValueOf(args).FieldByName("Stats")
 	foundcurstat := false
@@ -84,32 +84,32 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 	//var XValues_linegraph []string
 	//YValues_linegraph := make(map[string][]int)
 	columns, err := rows.Columns()
-    if err != nil {
-        return false
-    }
+	if err != nil {
+		return false
+	}
 	/*
-    types, err := rows.ColumnTypes()
-    if err != nil {
-        return false
-    }
+	   types, err := rows.ColumnTypes()
+	   if err != nil {
+	       return false
+	   }
 	*/
 	var result []map[string]interface{}
-		values := make([]interface{}, len(columns))
+	values := make([]interface{}, len(columns))
 	valuePtrs := make([]interface{}, len(columns))
 	for i := range values {
-        valuePtrs[i] = &values[i]
-    }
-	
-	for rows.Next() {
-	row := make(map[string]interface{})
+		valuePtrs[i] = &values[i]
+	}
 
-		 err := rows.Scan(valuePtrs...)
-        if err != nil {
-            return false
-        }
-for i, v := range values {
-            fmt.Printf("%s: %T %v\n", columns[i], v, v)
-        }
+	for rows.Next() {
+		row := make(map[string]interface{})
+
+		err := rows.Scan(valuePtrs...)
+		if err != nil {
+			return false
+		}
+		for i, v := range values {
+			fmt.Printf("%s: %T %v\n", columns[i], v, v)
+		}
 		result = append(result, row)
 		/*
 			var year, month, day, hour, count int
@@ -128,10 +128,10 @@ for i, v := range values {
 			YValues_linegraph["raw hits"] = append(YValues_linegraph["raw hits"], count)
 		*/
 	}
-	 err = rows.Err()
-    if err != nil {
-        return false
-    }
+	err = rows.Err()
+	if err != nil {
+		return false
+	}
 	fmt.Printf("%+v", result)
 	/*
 		if mycurstat.Tableinfo.Table_enabled {
