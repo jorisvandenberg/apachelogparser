@@ -22,7 +22,7 @@ func generatestats(args Args) {
 		"Title_1": "YEAR",
 		"Title_2": "MONTH",
 		"Title_3": "DAY",
-		"Title_4": "NB RAW HITS",
+		"Title_4": "NB UNIQUE HITS",
 	}
 	xaxisfields := []int{0,1,2}
 	valuefield := 3
@@ -35,12 +35,52 @@ func generatestats(args Args) {
 	noaggregation_nbdaysdetailed_rawperday_2xx_3xx_linegraph.html
 	noaggregation_nbdaysdetailed_raw_2xx_3xx_linegraph_4weekcompare.html
 	*/
-	//identical parameters, tableheaders, xaxisfields, valuefield as the stat above... not re-initialising!
+	//identical parameters, xaxisfields, valuefield as the stat above... not re-initialising!
+	tableheaders = map[string]string{
+		"Title_1": "YEAR",
+		"Title_2": "MONTH",
+		"Title_3": "DAY",
+		"Title_4": "NB RAW HITS",
+	}
 	genstats(args, "valid raw hits per day over the last " + strconv.Itoa(args.Outputs.Number_of_days_detailed) + " days" , "stat_perday_hits_raw_2xx_3xx", "stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed", parameters, tableheaders,xaxisfields, valuefield, "unique hits" )
 	
 	
-	noaggregation_nbdaysdetailed_raw_2xx_3xx(args)
-	noaggregation_nbdaysdetailed_unique_2xx_3xx(args)
+	/*
+	stat: unique 2xx and 3xx hits per hour over the last 31 (default) days
+	expecting 2 htmls: 
+	noaggregation_nbdaysdetailed_unique_2xx_3xx_table.html
+	noaggregation_nbdaysdetailed_unique_2xx_3xx_linegraph.html
+	*/
+
+	tableheaders = map[string]string{
+		"Title_1": "YEAR",
+		"Title_2": "MONTH",
+		"Title_3": "DAY",
+		"Title_4": "HOUR",
+		"Title_5": "NB UNIQUE HITS",
+	}
+	xaxisfields = []int{0,1,2,3}
+	valuefield = 4
+	genstats(args, "valid unique hits per hour over the last " + strconv.Itoa(args.Outputs.Number_of_days_detailed) + " days" , "stat_perhour_hits_unique_2xx_3xx", "stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed", parameters, tableheaders,xaxisfields, valuefield, "unique hits" )
+	
+	/*
+	stat: raw 2xx and 3xx hits per hour over the last 31 (default) days
+	expecting 2 htmls: 
+	noaggregation_nbdaysdetailed_raw_2xx_3xx_table.html
+	noaggregation_nbdaysdetailed_raw_2xx_3xx_linegraph.html
+	*/
+	tableheaders = map[string]string{
+		"Title_1": "YEAR",
+		"Title_2": "MONTH",
+		"Title_3": "DAY",
+		"Title_4": "HOUR",
+		"Title_5": "NB RAW HITS",
+	}
+	genstats(args, "valid raw hits per hour over the last " + strconv.Itoa(args.Outputs.Number_of_days_detailed) + " days" , "stat_perhour_hits_raw_2xx_3xx", "stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed", parameters, tableheaders,xaxisfields, valuefield, "raw hits" )
+	
+	
+	//noaggregation_nbdaysdetailed_raw_2xx_3xx(args)
+	//noaggregation_nbdaysdetailed_unique_2xx_3xx(args)
 	//noaggregation_nbdaysdetailed_rawperday_2xx_3xx(args)
 	//noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx(args)
 	stats_noaggregation_nbdaysdetailed_refferers(args)
