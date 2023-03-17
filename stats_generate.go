@@ -94,7 +94,7 @@ func generatestats(args Args) {
 	/*
 		stat: sum of unique hits per referrer over the last 31 (default) days
 		expecting 1 htmls:
-		noaggregation_nbdaysdetailed_uniquereferrers_2xx_3xx_table.html
+		unique_PerHour_ReferringUrls_table.html
 	*/
 	tableheaders = map[string]string{
 		"Title_1": "REFERRER",
