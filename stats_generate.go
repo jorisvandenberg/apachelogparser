@@ -15,7 +15,7 @@ func generatestats(args Args) {
 		expecting 3 htmls:
 		noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx_table.html
 		noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx_linegraph.html
-		noaggregation_nbdaysdetailed_unique_2xx_3xx_linegraph_4weekcompare.html
+		unique_PerHour_hits_4WeeksLinegraph.html
 	*/
 	parameters := []interface{}{mintimestamp}
 	tableheaders := map[string]string{
