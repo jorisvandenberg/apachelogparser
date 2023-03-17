@@ -14,7 +14,7 @@ func generatestats(args Args) {
 		stat: unique 2xx and 3xx hits over the last 31 (default) days
 		expecting 3 htmls:
 		noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx_table.html
-		noaggregation_nbdaysdetailed_uniqueperday_2xx_3xx_linegraph.html
+		unique_PerDay_hits_linegraph.html
 		unique_PerHour_hits_4WeeksLinegraph.html
 	*/
 	parameters := []interface{}{mintimestamp}
