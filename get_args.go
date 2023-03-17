@@ -183,7 +183,7 @@ func getargs() Args {
 	commandlines.Demographs = *demographsPtr
 	commandlines.Debug = *debugPtr
 	if *ini_wizardPtr {
-		ini_wizard("template_config.ini", "config.ini")
+		ini_wizard("/etc/apachelogparser/template_config.ini", "/etc/apachelogparser/config.ini")
 		os.Exit(0)
 	}
 	/*
@@ -338,6 +338,16 @@ func getargs() Args {
 	}
 
 	mystatconfig, err = argblock(cfg, "stat_perhour_referrers_unique_noemptyorself_onlytld_2xx_3xx", "t", outputs)
+	if err == nil {
+		mystats = append(mystats, mystatconfig)
+	}
+	
+	mystatconfig, err = argblock(cfg, "stat_count_nbhits_per_searchengine", "t", outputs)
+	if err == nil {
+		mystats = append(mystats, mystatconfig)
+	}
+	
+	mystatconfig, err = argblock(cfg, "stat_unique_count_nbhits_per_searchengine", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}

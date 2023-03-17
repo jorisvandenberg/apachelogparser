@@ -45,16 +45,17 @@ func main() {
 		generatestats(args)
 		logger("finishing the stat generating process")
 	}
+
+	if args.Commandlines.Demographs {
+		writedemographs(args)
+	}
+
 	logger("commiting changes to the sqlite database")
 	err := tx.Commit()
 	logger("finished commiting changes to the sqlite database")
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 		logger("Whoops: tx.commit:" + err.Error())
-	}
-
-	if args.Commandlines.Demographs {
-		writedemographs(args)
 	}
 	logger("finished the program, no more logging from this point out, since the logs have to be written, included in the index and included in the zipfile (if requested), so i cannot log these functions (chicken or the egg problem)")
 	writelog(args)
