@@ -80,7 +80,7 @@ func generatestats(args Args) {
 	/*
 		stat: sum of raw hit per referrer over the last 31 (default) days
 		expecting 1 htmls:
-		noaggregation_nbdaysdetailed_rawreferrers_2xx_3xx_table.html
+		raw_PerHour_ReferringUrls_table.html
 	*/
 	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
