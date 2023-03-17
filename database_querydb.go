@@ -33,7 +33,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_insertalreadyloaded"] = "insert into alreadyloaded(hash) values (?)"                                                      //insert a new sucesfully loaded file's hash into the database
 	querymap["stmt_truncatealreadyloaded"] = "DELETE FROM alreadyloaded"                                                                     //truncate the alreadyloaded table so the system doesn't know wether a file was already loaded in the past
 	querymap["stmt_maxvisittimestamp"] = "select max(visit_timestamp) from visit"                                                            //select the latest succesfully added record's timestamp to skip older records when loading
-	querymap["stmt_raw_PerHour_hits"] = " SELECT"                                                                      //select
+	querymap["stmt_raw_PerHour_hits"] = " SELECT"                                                                                            //select
 	querymap["stmt_raw_PerHour_hits"] += "   strftime('%Y', datetime(visit_timestamp, 'unixepoch')) as year,"
 	querymap["stmt_raw_PerHour_hits"] += "   strftime('%m', datetime(visit_timestamp, 'unixepoch')) as month,"
 	querymap["stmt_raw_PerHour_hits"] += "   strftime('%d', datetime(visit_timestamp, 'unixepoch')) as day,"
