@@ -47,7 +47,7 @@ func generatestats(args Args) {
 	/*
 		stat: unique 2xx and 3xx hits per hour over the last 31 (default) days
 		expecting 2 htmls:
-		noaggregation_nbdaysdetailed_unique_2xx_3xx_table.html
+		unique_PerHour_hits_table.html
 		noaggregation_nbdaysdetailed_unique_2xx_3xx_linegraph.html
 	*/
 
