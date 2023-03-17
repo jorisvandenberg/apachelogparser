@@ -139,4 +139,18 @@ func generatestats(args Args) {
 	}
 	genstats(args, "sum of raw hits per search egine, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "stat_count_nbhits_per_searchengine", "stmt_count_nbhits_per_searchengine", parameters, tableheaders, xaxisfields, valuefield, "")
 	logger("finished the function to generate statistics")
+	
+	
+	/*
+		stat: sum of unique hits per search engine over the last 31 (default) days
+		expecting 1 htmls:
+		stat_unique_searchegine.html
+	*/
+	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
+	tableheaders = map[string]string{
+		"Title_1": "search egine",
+		"Title_2": "NB of unique se hits",
+	}
+	genstats(args, "sum of unique hits per search egine, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "stat_unique_count_nbhits_per_searchengine", "stmt_count_unique_nbhits_per_searchengine", parameters, tableheaders, xaxisfields, valuefield, "")
+	logger("finished the function to generate statistics")
 }
