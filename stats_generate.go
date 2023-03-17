@@ -33,7 +33,7 @@ func generatestats(args Args) {
 		expecting 3 htmls:
 		raw_PerDay_hits_table.html
 		raw_PerDay_hits_linegraph.html
-		noaggregation_nbdaysdetailed_raw_2xx_3xx_linegraph_4weekcompare.html
+		raw_PerDay_hits_4WeeksLinegraph.html
 	*/
 	//identical parameters, xaxisfields, valuefield as the stat above... not re-initialising!
 	tableheaders = map[string]string{
