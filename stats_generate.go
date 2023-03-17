@@ -66,7 +66,7 @@ func generatestats(args Args) {
 		stat: raw 2xx and 3xx hits per hour over the last 31 (default) days
 		expecting 2 htmls:
 		raw_PerHour_hits_table.html
-		noaggregation_nbdaysdetailed_raw_2xx_3xx_linegraph.html
+		raw_PerHour_hits_linegraph.html
 	*/
 	tableheaders = map[string]string{
 		"Title_1": "YEAR",
