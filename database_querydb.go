@@ -198,7 +198,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_count_nbhits_per_searchengine"] += "    visit.referrer = referrer.id and" 
 	querymap["stmt_count_nbhits_per_searchengine"] += "	visit.statuscode > 199 and"
 	querymap["stmt_count_nbhits_per_searchengine"] += "	visit.statuscode < 400 and"
-	querymap["stmt_count_nbhits_per_searchengine"] += "    visit.visit_timestamp > 100 and ("
+	querymap["stmt_count_nbhits_per_searchengine"] += "    visit.visit_timestamp > ? and ("
 	querymap["stmt_count_nbhits_per_searchengine"] += "    referrer.referrer like \"%%google%%\" or" 
 	querymap["stmt_count_nbhits_per_searchengine"] += "    referrer.referrer like \"%%bing%%\" or" 
 	querymap["stmt_count_nbhits_per_searchengine"] += "    referrer.referrer like \"%%yahoo%%\" or" 
@@ -213,7 +213,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_count_nbhits_per_searchengine"] += "  ORDER BY"
 	querymap["stmt_count_nbhits_per_searchengine"] += "    aantal DESC"
 	querymap["stmt_count_nbhits_per_searchengine"] += "  LIMIT"
-	querymap["stmt_count_nbhits_per_searchengine"] += "    100"
+	querymap["stmt_count_nbhits_per_searchengine"] += "    ?"
   
   
 	for naam, sql := range querymap {
