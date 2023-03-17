@@ -317,7 +317,7 @@ func getargs() Args {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perday_hits_unique_2xx_3xx", "tl4", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerDay_hits", "tl4", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
