@@ -118,7 +118,7 @@ func argblock(cfg *ini.File, configname string, whichstats string, outputs Outpu
 			mytableconfig.Table_pagecontent = strings.Split(tablecontent_unsplitstring, "|")
 			mytableconfig.Table_pagefooter = splice_number_of_days_detailed_in(cfg.Section(configname).Key("table_pagefooter").String(), outputs.Number_of_days_detailed)
 			mytableconfig.Table_filename = cfg.Section(configname).Key("table_filename").String()
-			mytableconfig.Table_index_name = cfg.Section(configname).Key("table_index_name").String()
+			mytableconfig.Table_index_name = splice_number_of_days_detailed_in(cfg.Section(configname).Key("table_index_name").String(), outputs.Number_of_days_detailed)
 			mytableconfig.Table_index_group = cfg.Section(configname).Key("table_index_group").String()
 			mytableconfig.Table_index_order, _ = cfg.Section(configname).Key("table_index_order").Int()
 			mystatconfig.Tableinfo = mytableconfig
