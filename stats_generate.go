@@ -60,7 +60,7 @@ func generatestats(args Args) {
 	}
 	xaxisfields = []int{0, 1, 2, 3}
 	valuefield = 4
-	genstats(args, "valid unique hits per hour over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_hits", "stmt_unique_2xx_3xx_hourly_maxnbofdaysdetailed", parameters, tableheaders, xaxisfields, valuefield, "unique hits")
+	genstats(args, "valid unique hits per hour over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_hits", "stmt_unique_PerHour_hits", parameters, tableheaders, xaxisfields, valuefield, "unique hits")
 
 	/*
 		stat: raw 2xx and 3xx hits per hour over the last 31 (default) days
