@@ -89,7 +89,7 @@ func generatestats(args Args) {
 	}
 	xaxisfields = []int{0}
 	valuefield = 1
-	genstats(args, "sum of raw hits per referrer over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "stat_perhour_referrers_raw_2xx_3xx", "stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx", parameters, tableheaders, xaxisfields, valuefield, "")
+	genstats(args, "sum of raw hits per referrer over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_PerHour_ReferringUrls", "stmt_noaggregation_nbdaysdetailed_refferers_noparams_2xx_3xx", parameters, tableheaders, xaxisfields, valuefield, "")
 
 	/*
 		stat: sum of unique hits per referrer over the last 31 (default) days
