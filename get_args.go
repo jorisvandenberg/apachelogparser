@@ -302,7 +302,7 @@ func getargs() Args {
 	/*
 		start stats gathering
 	*/
-	mystatconfig, err := argblock(cfg, "stat_perhour_hits_raw_2xx_3xx", "tl", outputs)
+	mystatconfig, err := argblock(cfg, "conf_stat_raw_PerHour_hits", "tl", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}

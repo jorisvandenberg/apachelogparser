@@ -75,7 +75,7 @@ func generatestats(args Args) {
 		"Title_4": "HOUR",
 		"Title_5": "NB RAW HITS",
 	}
-	genstats(args, "valid raw hits per hour over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "stat_perhour_hits_raw_2xx_3xx", "stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed", parameters, tableheaders, xaxisfields, valuefield, "raw hits")
+	genstats(args, "valid raw hits per hour over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_PerHour_hits", "stmt_raw_2xx_3xx_hourly_maxnbofdaysdetailed", parameters, tableheaders, xaxisfields, valuefield, "raw hits")
 
 	/*
 		stat: sum of raw hit per referrer over the last 31 (default) days
