@@ -150,6 +150,6 @@ func generatestats(args Args) {
 		"Title_1": "search egine",
 		"Title_2": "NB of unique se hits",
 	}
-	genstats(args, "sum of unique hits per search egine, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "stat_unique_count_nbhits_per_searchengine", "stmt_count_unique_nbhits_per_searchengine", parameters, tableheaders, xaxisfields, valuefield, "")
+	genstats(args, "sum of unique hits per search egine, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_HitsFromSearchEngines", "stmt_count_unique_nbhits_per_searchengine", parameters, tableheaders, xaxisfields, valuefield, "")
 	logger("finished the function to generate statistics")
 }
