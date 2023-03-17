@@ -42,7 +42,7 @@ func generatestats(args Args) {
 		"Title_3": "DAY",
 		"Title_4": "NB RAW HITS",
 	}
-	genstats(args, "valid raw hits per day over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "stat_perday_hits_raw_2xx_3xx", "stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed", parameters, tableheaders, xaxisfields, valuefield, "unique hits")
+	genstats(args, "valid raw hits per day over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_PerDay_hits", "stmt_raw_2xx_3xx_daily_maxnbofdaysdetailed", parameters, tableheaders, xaxisfields, valuefield, "unique hits")
 
 	/*
 		stat: unique 2xx and 3xx hits per hour over the last 31 (default) days
