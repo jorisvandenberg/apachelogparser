@@ -302,52 +302,52 @@ func getargs() Args {
 	/*
 		start stats gathering
 	*/
-	mystatconfig, err := argblock(cfg, "stat_perhour_hits_raw_2xx_3xx", "tl", outputs)
+	mystatconfig, err := argblock(cfg, "conf_stat_raw_PerHour_hits", "tl", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perday_hits_raw_2xx_3xx", "tl4", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_raw_PerDay_hits", "tl4", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perhour_hits_unique_2xx_3xx", "tl", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerHour_hits", "tl", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perday_hits_unique_2xx_3xx", "tl4", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerDay_hits", "tl4", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perhour_referrers_raw_2xx_3xx", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_raw_PerHour_ReferringUrls", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perhour_referrers_unique_2xx_3xx", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerHour_ReferringUrls", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perhour_referrers_unique_noemptyorself_2xx_3xx", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerHour_RefferingUrlsNoEmptyOrSelf", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perhour_referrers_unique_noemptyorself_onlytld_2xx_3xx", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerHour_RefferingUrlsNoEmptyOrSelfOnlyTld", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_count_nbhits_per_searchengine", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_raw_XDaysTotal_HitsFromSearchEngines", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_unique_count_nbhits_per_searchengine", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_XDaysTotal_HitsFromSearchEngines", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
