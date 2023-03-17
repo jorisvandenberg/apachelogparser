@@ -130,7 +130,7 @@ func generatestats(args Args) {
 	/*
 		stat: sum of raw hits per search engine over the last 31 (default) days
 		expecting 1 htmls:
-		stat_raw_searchegine.html
+		raw_XDaysTotal_HitsFromSearchEngines_table.html
 	*/
 	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
