@@ -112,7 +112,7 @@ func generatestats(args Args) {
 		"Title_1": "REFERRER",
 		"Title_2": "NB of unique non self, non empty hits",
 	}
-	genstats(args, "sum of unique hits per referrer, non self non empty, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_RefferingUrlsNoEmptyOrSelf", "stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_2xx_3xx", parameters, tableheaders, xaxisfields, valuefield, "")
+	genstats(args, "sum of unique hits per referrer, non self non empty, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_RefferingUrlsNoEmptyOrSelf", "stmt_unique_PerHour_RefferingUrlsNoEmptyOrSelf", parameters, tableheaders, xaxisfields, valuefield, "")
 
 	/*
 		stat: sum of unique hits per referrer, non empty, non self, only tld over the last 31 (default) days
