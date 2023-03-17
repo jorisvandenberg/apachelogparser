@@ -32,7 +32,7 @@ func generatestats(args Args) {
 		stat: raw 2xx and 3xx hits over the last 31 (default) days
 		expecting 3 htmls:
 		raw_PerDay_hits_table.html
-		noaggregation_nbdaysdetailed_rawperday_2xx_3xx_linegraph.html
+		raw_PerDay_hits_linegraph.html
 		noaggregation_nbdaysdetailed_raw_2xx_3xx_linegraph_4weekcompare.html
 	*/
 	//identical parameters, xaxisfields, valuefield as the stat above... not re-initialising!
