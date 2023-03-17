@@ -341,12 +341,12 @@ func getargs() Args {
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
-	
+
 	mystatconfig, err = argblock(cfg, "stat_count_nbhits_per_searchengine", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
-	
+
 	mystatconfig, err = argblock(cfg, "stat_unique_count_nbhits_per_searchengine", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)

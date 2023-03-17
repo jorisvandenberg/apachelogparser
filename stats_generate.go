@@ -126,7 +126,7 @@ func generatestats(args Args) {
 	}
 	genstats(args, "sum of unique hits per referrer, non self non empty, only tlds, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "stat_perhour_referrers_unique_noemptyorself_onlytld_2xx_3xx", "stmt_noaggregation_nbdaysdetailed_unique_refferers_noparams_noemptyorown_tld_2xx_3xx", parameters, tableheaders, xaxisfields, valuefield, "")
 	logger("finished the function to generate statistics")
-	
+
 	/*
 		stat: sum of raw hits per search engine over the last 31 (default) days
 		expecting 1 htmls:
@@ -139,8 +139,7 @@ func generatestats(args Args) {
 	}
 	genstats(args, "sum of raw hits per search egine, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "stat_count_nbhits_per_searchengine", "stmt_count_nbhits_per_searchengine", parameters, tableheaders, xaxisfields, valuefield, "")
 	logger("finished the function to generate statistics")
-	
-	
+
 	/*
 		stat: sum of unique hits per search engine over the last 31 (default) days
 		expecting 1 htmls:
