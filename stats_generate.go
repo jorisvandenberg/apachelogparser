@@ -26,7 +26,7 @@ func generatestats(args Args) {
 	}
 	xaxisfields := []int{0, 1, 2}
 	valuefield := 3
-	genstats(args, "valid unique hits per day over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerDay_hits", "stmt_unique_2xx_3xx_dayly_maxnbofdaysdetailed", parameters, tableheaders, xaxisfields, valuefield, "raw hits")
+	genstats(args, "valid unique hits per day over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerDay_hits", "stmt_unique_PerDay_hits", parameters, tableheaders, xaxisfields, valuefield, "raw hits")
 
 	/*
 		stat: raw 2xx and 3xx hits over the last 31 (default) days
