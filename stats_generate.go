@@ -117,7 +117,7 @@ func generatestats(args Args) {
 	/*
 		stat: sum of unique hits per referrer, non empty, non self, only tld over the last 31 (default) days
 		expecting 1 htmls:
-		noaggregation_nbdaysdetailed_uniquereferrers_noemptyorself_onlytld_2xx_3xx_table.html
+		unique_PerHour_RefferingUrlsNoEmptyOrSelfOnlyTld_table.html
 	*/
 	parameters = []interface{}{mintimestamp, args.Generals.Mydomain, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
