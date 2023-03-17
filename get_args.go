@@ -342,7 +342,7 @@ func getargs() Args {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_count_nbhits_per_searchengine", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_raw_XDaysTotal_HitsFromSearchEngines", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
