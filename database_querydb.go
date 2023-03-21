@@ -240,9 +240,6 @@ func loadquerydb(tx *sql.Tx) {
 	
 	querymap["stmt_unique_XDaysTotal_Entrypages"] = "   SELECT"
 	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    request.request,"
-
-
-
 	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    COUNT(*) AS request_count"
   	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"  FROM"
 	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    visit"
@@ -265,6 +262,28 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"  ORDER BY"
 	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    request_count DESC, request.request"
 
+
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"    COUNT(*) AS request_count"
+  	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"  FROM"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"    visit"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"    JOIN request ON visit.request = request.id"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"  WHERE"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"    visit.request IN ("
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"      SELECT"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"        MAX(request)"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"      FROM"
+ 	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"       visit"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"      WHERE"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"        user = visit.user"
+ 	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"     GROUP BY"
+ 	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"       user"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"    )"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"	and"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"	visit.visit_timestamp > ?"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"  GROUP BY"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"    request.request"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"  ORDER BY"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] = +"    request_count DESC, request.request"
 
 	for naam, sql := range querymap {
 		stmt, err := tx.Prepare(sql)
