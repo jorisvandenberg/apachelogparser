@@ -237,6 +237,34 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_unique_XDaysTotal_HitsFromSearchEngines"] += "    aantal DESC"
 	querymap["stmt_unique_XDaysTotal_HitsFromSearchEngines"] += "  LIMIT"
 	querymap["stmt_unique_XDaysTotal_HitsFromSearchEngines"] += "    ?"
+	
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = "   SELECT"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    request.request,"
+
+
+
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    COUNT(*) AS request_count"
+  	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"  FROM"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    visit"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    JOIN request ON visit.request = request.id"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"  WHERE"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    visit.request IN ("
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"      SELECT"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"        MIN(request)"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"      FROM"
+ 	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"       visit"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"      WHERE"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"        user = visit.user"
+ 	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"     GROUP BY"
+ 	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"       user"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    )"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"	and"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"	visit.visit_timestamp > ?"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"  GROUP BY"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    request.request"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"  ORDER BY"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] = +"    request_count DESC, request.request"
+
 
 	for naam, sql := range querymap {
 		stmt, err := tx.Prepare(sql)
