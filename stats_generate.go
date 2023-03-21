@@ -152,4 +152,29 @@ func generatestats(args Args) {
 	}
 	genstats(args, "sum of unique hits per search egine, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_HitsFromSearchEngines", "stmt_unique_XDaysTotal_HitsFromSearchEngines", parameters, tableheaders, xaxisfields, valuefield, "")
 	logger("finished the function to generate statistics")
+	
+	/*
+		stat: count number of times a page was used as an entry page over the last 31 (default) days
+		expecting 1 htmls:
+		unique_XDaysTotal_Entrypages_table.html
+	*/
+	parameters = []interface{}{mintimestamp}
+	tableheaders = map[string]string{
+		"Title_1": "entry page",
+		"Title_2": "count",
+	}
+	genstats(args, "sum of times page is used as entry page, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_Entrypages", "stmt_unique_XDaysTotal_Entrypages", parameters, tableheaders, xaxisfields, valuefield, "")
+	
+	/*
+		stat: count number of times a page was used as an exit page over the last 31 (default) days
+		expecting 1 htmls:
+		unique_XDaysTotal_Exitpages_table.html
+	*/
+	parameters = []interface{}{mintimestamp}
+	tableheaders = map[string]string{
+		"Title_1": "exit page",
+		"Title_2": "count",
+	}
+	genstats(args, "sum of times page is used as exit page, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_Exitpages", "stmt_unique_XDaysTotal_Exitpages", parameters, tableheaders, xaxisfields, valuefield, "")
+	logger("finished the function to generate statistics")
 }
