@@ -261,6 +261,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_unique_XDaysTotal_Entrypages"] +="    request.request"
 	querymap["stmt_unique_XDaysTotal_Entrypages"] +="  ORDER BY"
 	querymap["stmt_unique_XDaysTotal_Entrypages"] +="    request_count DESC, request.request"
+	querymap["stmt_unique_XDaysTotal_Entrypages"] +="  LIMIT ?"
 
 	querymap["stmt_unique_XDaysTotal_Exitpages"] = "   SELECT"
 	querymap["stmt_unique_XDaysTotal_Exitpages"] +="    request.request,"
@@ -285,6 +286,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_unique_XDaysTotal_Exitpages"] +="    request.request"
 	querymap["stmt_unique_XDaysTotal_Exitpages"] +="  ORDER BY"
 	querymap["stmt_unique_XDaysTotal_Exitpages"] +="    request_count DESC, request.request"
+	querymap["stmt_unique_XDaysTotal_Exitpages"] +="  LIMIT ?"
 
 	for naam, sql := range querymap {
 		stmt, err := tx.Prepare(sql)

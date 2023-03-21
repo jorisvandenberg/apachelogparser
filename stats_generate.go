@@ -158,7 +158,7 @@ func generatestats(args Args) {
 		expecting 1 htmls:
 		unique_XDaysTotal_Entrypages_table.html
 	*/
-	parameters = []interface{}{mintimestamp}
+	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "entry page",
 		"Title_2": "count",
@@ -170,7 +170,7 @@ func generatestats(args Args) {
 		expecting 1 htmls:
 		unique_XDaysTotal_Exitpages_table.html
 	*/
-	parameters = []interface{}{mintimestamp}
+	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "exit page",
 		"Title_2": "count",
