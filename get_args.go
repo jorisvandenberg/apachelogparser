@@ -351,6 +351,16 @@ func getargs() Args {
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
+
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_XDaysTotal_Entrypages", "t", outputs)
+	if err == nil {
+		mystats = append(mystats, mystatconfig)
+	}
+
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_XDaysTotal_Exitpages", "t", outputs)
+	if err == nil {
+		mystats = append(mystats, mystatconfig)
+	}
 	/*
 		end stats gathering
 	*/
