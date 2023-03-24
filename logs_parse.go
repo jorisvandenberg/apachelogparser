@@ -135,7 +135,7 @@ func InsertParsedFileHashIntoDb(filename string, filepath string) {
 
 }
 
-func getfiles(regex string, pathS string) []string {
+func getfiles(regex string, pathS string, fulloadcheck bool) []string {
 	var files []string
 	filepath.Walk(pathS, func(path string, f os.FileInfo, _ error) error {
 		if !f.IsDir() {
@@ -155,7 +155,7 @@ func getfiles(regex string, pathS string) []string {
 				stmt_countalreadyloaded := myquerydb["stmt_countalreadyloaded"].stmt
 				var countalreadyloaded int
 				stmt_countalreadyloaded.QueryRow(filehash).Scan(&countalreadyloaded)
-				if countalreadyloaded == 0 {
+				if countalreadyloaded == 0 || fulloadcheck {
 					files = append(files, f.Name())
 					logger(f.Name() + " was added to the todo list")
 
@@ -229,7 +229,7 @@ func getmaxvisittimestamp() int {
 
 func parselogs(args Args) {
 	maxvisittimestamp := getmaxvisittimestamp()
-	toparselist := getfiles(args.Inputargs.Logfileregex, args.Inputargs.Logfilepath)
+	toparselist := getfiles(args.Inputargs.Logfileregex, args.Inputargs.Logfilepath, args.Inputargs.Fullloadcheck)
 	//fmt.Printf("%+v\n", toparselist)
 	var scanner *bufio.Scanner
 	for _, filename := range toparselist {
