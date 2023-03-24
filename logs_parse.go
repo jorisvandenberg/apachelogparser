@@ -23,8 +23,13 @@ func insertrow(ip string, datumtijd string, method string, request string, httpv
 	if e != nil {
 		fmt.Printf("Can't parse time format")
 	}
+	parse_even_if_old := false
+	if args.Inputargs.Fullloadcheck {
+		parse_even_if_old = false
+	}
+	
 	epoch := thetime.Unix()
-	if int(epoch) > maxtimestamp {
+	if int(epoch) > maxtimestamp || parse_even_if_old {
 		stmt_countusers := myquerydb["stmt_countusers"].stmt
 		var numberofusers int
 		stmt_countusers.QueryRow(ip, useragent).Scan(&numberofusers)
@@ -99,7 +104,7 @@ func insertrow(ip string, datumtijd string, method string, request string, httpv
 		if err != nil {
 			fmt.Printf("%s\n", err.Error())
 		}
-	}
+	} 
 }
 
 func truncatealreadyloaded() {
