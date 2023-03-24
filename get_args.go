@@ -60,6 +60,7 @@ type Inputarg struct {
 	Parserfield_httpsize    int
 	Parserfield_referrer    int
 	Parserfield_useragent   int
+	Fullloadcheck			bool
 }
 
 type Output struct {
@@ -256,6 +257,7 @@ func getargs() Args {
 	inputargs.Logfilepath = cfg.Section("input").Key("logfilepath").String()
 	inputargs.Logfileregex = cfg.Section("input").Key("logfileregex").String()
 	inputargs.Parseregex = cfg.Section("input").Key("parseregex").String()
+	inputargs.Fullloadcheck, _ = cfg.Section("input").Key("fullloadcheck").Bool()
 	switch inputargs.Parseregex {
 	case "clf":
 		inputargs.Parseregex = `(?m)^(\S*).*\[(.*)\]\s"(\S*)\s(\S*)\s([^"]*)"\s(\S*)\s(\S*)\s"([^"]*)"\s"([^"]*)"$`
