@@ -60,6 +60,7 @@ type Inputarg struct {
 	Parserfield_httpsize    int
 	Parserfield_referrer    int
 	Parserfield_useragent   int
+	Fullloadcheck			bool
 }
 
 type Output struct {
@@ -118,7 +119,7 @@ func argblock(cfg *ini.File, configname string, whichstats string, outputs Outpu
 			mytableconfig.Table_pagecontent = strings.Split(tablecontent_unsplitstring, "|")
 			mytableconfig.Table_pagefooter = splice_number_of_days_detailed_in(cfg.Section(configname).Key("table_pagefooter").String(), outputs.Number_of_days_detailed)
 			mytableconfig.Table_filename = cfg.Section(configname).Key("table_filename").String()
-			mytableconfig.Table_index_name = cfg.Section(configname).Key("table_index_name").String()
+			mytableconfig.Table_index_name = splice_number_of_days_detailed_in(cfg.Section(configname).Key("table_index_name").String(), outputs.Number_of_days_detailed)
 			mytableconfig.Table_index_group = cfg.Section(configname).Key("table_index_group").String()
 			mytableconfig.Table_index_order, _ = cfg.Section(configname).Key("table_index_order").Int()
 			mystatconfig.Tableinfo = mytableconfig
@@ -256,6 +257,7 @@ func getargs() Args {
 	inputargs.Logfilepath = cfg.Section("input").Key("logfilepath").String()
 	inputargs.Logfileregex = cfg.Section("input").Key("logfileregex").String()
 	inputargs.Parseregex = cfg.Section("input").Key("parseregex").String()
+	inputargs.Fullloadcheck, _ = cfg.Section("input").Key("fullloadcheck").Bool()
 	switch inputargs.Parseregex {
 	case "clf":
 		inputargs.Parseregex = `(?m)^(\S*).*\[(.*)\]\s"(\S*)\s(\S*)\s([^"]*)"\s(\S*)\s(\S*)\s"([^"]*)"\s"([^"]*)"$`
@@ -302,52 +304,62 @@ func getargs() Args {
 	/*
 		start stats gathering
 	*/
-	mystatconfig, err := argblock(cfg, "stat_perhour_hits_raw_2xx_3xx", "tl", outputs)
+	mystatconfig, err := argblock(cfg, "conf_stat_raw_PerHour_hits", "tl", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perday_hits_raw_2xx_3xx", "tl4", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_raw_PerDay_hits", "tl4", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perhour_hits_unique_2xx_3xx", "tl", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerHour_hits", "tl", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perday_hits_unique_2xx_3xx", "tl4", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerDay_hits", "tl4", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perhour_referrers_raw_2xx_3xx", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_raw_PerHour_ReferringUrls", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perhour_referrers_unique_2xx_3xx", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerHour_ReferringUrls", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perhour_referrers_unique_noemptyorself_2xx_3xx", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerHour_RefferingUrlsNoEmptyOrSelf", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_perhour_referrers_unique_noemptyorself_onlytld_2xx_3xx", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_PerHour_RefferingUrlsNoEmptyOrSelfOnlyTld", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_count_nbhits_per_searchengine", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_raw_XDaysTotal_HitsFromSearchEngines", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}
 
-	mystatconfig, err = argblock(cfg, "stat_unique_count_nbhits_per_searchengine", "t", outputs)
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_XDaysTotal_HitsFromSearchEngines", "t", outputs)
+	if err == nil {
+		mystats = append(mystats, mystatconfig)
+	}
+
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_XDaysTotal_Entrypages", "t", outputs)
+	if err == nil {
+		mystats = append(mystats, mystatconfig)
+	}
+
+	mystatconfig, err = argblock(cfg, "conf_stat_unique_XDaysTotal_Exitpages", "t", outputs)
 	if err == nil {
 		mystats = append(mystats, mystatconfig)
 	}

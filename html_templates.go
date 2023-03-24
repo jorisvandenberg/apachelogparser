@@ -123,15 +123,15 @@ func filltemplatedb() {
 			flex-direction: column;
 			background-color: #f5f5f5;
 			padding: 10px;
-			width: 200px;
+			width: 250px;
 		}
 
 		nav a {
 			text-decoration: none;
 			color: #333;
 			font-size: 16px;
-			margin-bottom: 10px;
-			padding-left: 20px;
+			margin-bottom: 5px;
+			padding-left: 0px;
 		}
 
 		nav a:hover {
@@ -141,7 +141,7 @@ func filltemplatedb() {
 
 		nav h2 {
 			margin-top: 0;
-			margin-bottom: 10px;
+			margin-bottom: 0px;
 			padding-left: 10px;
 			font-size: 18px;
 			font-weight: bold;
@@ -168,6 +168,13 @@ func filltemplatedb() {
 	{{end}}
 	</nav>
 	<iframe src="https://jorisvandenberg.github.io/" name="statzframe"></iframe>
+	<script>
+		// When a link is clicked, scroll to the top of the iframe
+		var iframe = document.querySelector('iframe');
+		iframe.onload = function() {
+			iframe.contentWindow.scrollTo(0, 0);
+		}
+	</script>
 </body>
 </html>
 
