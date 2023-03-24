@@ -29,6 +29,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_countusers"] = "select count(*) from user where ip = ? and useragent = ?"                                                 //count wether or not a certain user already exists
 	querymap["stmt_selectuserid"] = "select id from user where ip = ? and useragent = ?"                                                     //return the id of a unique user
 	querymap["stmt_insertvisit"] = "insert into visit(referrer, request,  visit_timestamp, user, statuscode, httpsize) values (?,?,?,?,?,?)" //insert a new visit record into the database
+	querymap["stmt_countvisit"] = "select count(*) from visit where referrer = ? and  request = ? and  visit_timestamp = ? and user = ? and  statuscode = ? and httpsize = ?" //insert a new visit record into the database
 	querymap["stmt_countalreadyloaded"] = "select count(*) from alreadyloaded where hash = ?"                                                //count wether or not a file was already succesfully parsed in the past
 	querymap["stmt_insertalreadyloaded"] = "insert into alreadyloaded(hash) values (?)"                                                      //insert a new sucesfully loaded file's hash into the database
 	querymap["stmt_truncatealreadyloaded"] = "DELETE FROM alreadyloaded"                                                                     //truncate the alreadyloaded table so the system doesn't know wether a file was already loaded in the past
