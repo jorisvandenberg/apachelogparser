@@ -60,7 +60,7 @@ type Inputarg struct {
 	Parserfield_httpsize    int
 	Parserfield_referrer    int
 	Parserfield_useragent   int
-	Fullloadcheck			bool
+	Fullloadcheck           bool
 }
 
 type Output struct {
