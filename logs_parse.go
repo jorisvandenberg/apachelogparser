@@ -14,6 +14,10 @@ import (
 	"time"
 )
 
+func check_if_new_record(ip string, datumtijd string, method string, request string, httpversion string, returncode string, httpsize string, referrer string, useragent string, maxtimestamp int, args Args) bool {
+	return false
+}
+
 func insertrow(ip string, datumtijd string, method string, request string, httpversion string, returncode string, httpsize string, referrer string, useragent string, maxtimestamp int, args Args) {
 	longForm := args.Generals.Timeformat
 	/*
@@ -25,7 +29,10 @@ func insertrow(ip string, datumtijd string, method string, request string, httpv
 	}
 	parse_even_if_old := false
 	if args.Inputargs.Fullloadcheck {
-		parse_even_if_old = false
+		if check_if_new_record(ip, datumtijd, method, request, httpversion, returncode, httpsize, referrer, useragent, maxtimestamp, args) {
+			parse_even_if_old = true
+		}
+		
 	}
 	
 	epoch := thetime.Unix()
