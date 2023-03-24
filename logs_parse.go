@@ -15,47 +15,46 @@ import (
 )
 
 func check_if_new_record(ip string, datumtijd string, method string, request string, httpversion string, returncode string, httpsize string, referrer string, useragent string, maxtimestamp int, args Args, epoch int) bool {
-stmt_countusers := myquerydb["stmt_countusers"].stmt
-		var numberofusers int
-		stmt_countusers.QueryRow(ip, useragent).Scan(&numberofusers)
+	stmt_countusers := myquerydb["stmt_countusers"].stmt
+	var numberofusers int
+	stmt_countusers.QueryRow(ip, useragent).Scan(&numberofusers)
 
-		var userid int
-		if numberofusers > 0 {
-			stmt_selectuserid := myquerydb["stmt_selectuserid"].stmt
-			stmt_selectuserid.QueryRow(ip, useragent).Scan(&userid)
-		} else {
-			return true
-		}
+	var userid int
+	if numberofusers > 0 {
+		stmt_selectuserid := myquerydb["stmt_selectuserid"].stmt
+		stmt_selectuserid.QueryRow(ip, useragent).Scan(&userid)
+	} else {
+		return true
+	}
 
-		stmt_countrequest := myquerydb["stmt_countrequest"].stmt
-		var numberofrequests int
-		stmt_countrequest.QueryRow(request).Scan(&numberofrequests)
-		var requestid int
-		if numberofrequests > 0 {
-			stmt_selectrequestid := myquerydb["stmt_selectrequestid"].stmt
-			stmt_selectrequestid.QueryRow(request).Scan(&requestid)
-		} else {
-			return true
-		}
+	stmt_countrequest := myquerydb["stmt_countrequest"].stmt
+	var numberofrequests int
+	stmt_countrequest.QueryRow(request).Scan(&numberofrequests)
+	var requestid int
+	if numberofrequests > 0 {
+		stmt_selectrequestid := myquerydb["stmt_selectrequestid"].stmt
+		stmt_selectrequestid.QueryRow(request).Scan(&requestid)
+	} else {
+		return true
+	}
 
-		stmt_countreferrer := myquerydb["stmt_countreferrer"].stmt
-		var numberofreferrers int
-		stmt_countreferrer.QueryRow(referrer).Scan(&numberofreferrers)
-		var referrerid int
-		if numberofreferrers > 0 {
-			stmt_selectreferrerid := myquerydb["stmt_selectreferrerid"].stmt
-			stmt_selectreferrerid.QueryRow(referrer).Scan(&referrerid)
-		} else {
-			return true
-		}
-		
-		stmt_countvisit := myquerydb["stmt_countvisit"].stmt
-		var numberofvisits int
-		stmt_countvisit.QueryRow(referrerid, requestid, int(epoch), userid, returncode, httpsize).Scan(&numberofvisits)
-		if numberofvisits == 0 {
-			return true
-		}
-		
+	stmt_countreferrer := myquerydb["stmt_countreferrer"].stmt
+	var numberofreferrers int
+	stmt_countreferrer.QueryRow(referrer).Scan(&numberofreferrers)
+	var referrerid int
+	if numberofreferrers > 0 {
+		stmt_selectreferrerid := myquerydb["stmt_selectreferrerid"].stmt
+		stmt_selectreferrerid.QueryRow(referrer).Scan(&referrerid)
+	} else {
+		return true
+	}
+
+	stmt_countvisit := myquerydb["stmt_countvisit"].stmt
+	var numberofvisits int
+	stmt_countvisit.QueryRow(referrerid, requestid, int(epoch), userid, returncode, httpsize).Scan(&numberofvisits)
+	if numberofvisits == 0 {
+		return true
+	}
 
 	return false
 }
@@ -69,18 +68,17 @@ func insertrow(ip string, datumtijd string, method string, request string, httpv
 	if e != nil {
 		fmt.Printf("Can't parse time format")
 	}
-	
+
 	epoch := thetime.Unix()
-	
+
 	parse_even_if_old := false
 	if args.Inputargs.Fullloadcheck {
 		if check_if_new_record(ip, datumtijd, method, request, httpversion, returncode, httpsize, referrer, useragent, maxtimestamp, args, int(epoch)) {
 			parse_even_if_old = true
 		}
-		
+
 	}
-	
-	
+
 	if int(epoch) > maxtimestamp || parse_even_if_old {
 		stmt_countusers := myquerydb["stmt_countusers"].stmt
 		var numberofusers int
@@ -156,7 +154,7 @@ func insertrow(ip string, datumtijd string, method string, request string, httpv
 		if err != nil {
 			fmt.Printf("%s\n", err.Error())
 		}
-	} 
+	}
 }
 
 func truncatealreadyloaded() {
