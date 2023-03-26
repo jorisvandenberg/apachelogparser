@@ -78,6 +78,7 @@ type General struct {
 	Timeformat string
 	Mydomain   string
 	Writelog   bool
+	Truncatefromdate string
 }
 
 type Commandline struct {
@@ -189,10 +190,7 @@ func getargs() Args {
 		os.Exit(0)
 	}
 	
-	if *truncate_from_datePtr != `` {
-		truncate_from(*truncate_from_datePtr)
-		os.Exit(0)
-	}
+	
 	/*
 		end command line flags input
 	*/
@@ -303,6 +301,8 @@ func getargs() Args {
 	generals.Timeformat = cfg.Section("general").Key("timeformat").String()
 	generals.Mydomain = cfg.Section("general").Key("mydomain").String()
 	generals.Writelog, _ = cfg.Section("general").Key("writelog").Bool()
+	generals.Truncatefromdate = *truncate_from_datePtr
+	
 	/*
 		end general config gathering
 	*/

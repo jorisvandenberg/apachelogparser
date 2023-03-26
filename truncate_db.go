@@ -15,5 +15,11 @@ func truncate_from(timestring string) {
     }
 
     unixTimestamp := parsedTime.Unix()
-    fmt.Printf("User input '%s' converted to unix timestamp: %d\n", timestring, unixTimestamp)
+    //fmt.Printf("User input '%s' converted to unix timestamp: %d\n", timestring, unixTimestamp)
+   stmt_truncatevisit := myquerydb["stmt_truncatevisit"].stmt
+   
+		_, err = stmt_truncatevisit.Exec(unixTimestamp)
+		if err != nil {
+			fmt.Printf("%s\n", err.Error())
+		}
 }
