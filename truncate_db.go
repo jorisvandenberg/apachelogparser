@@ -22,4 +22,25 @@ func truncate_from(timestring string) {
 		if err != nil {
 			fmt.Printf("%s\n", err.Error())
 		}
+		stmt_truncatevisit_clean_referrer := myquerydb["stmt_truncatevisit_clean_referrer"].stmt
+   
+		_, err = stmt_truncatevisit_clean_referrer.Exec()
+		if err != nil {
+			fmt.Printf("%s\n", err.Error())
+		}
+	
+	stmt_truncatevisit_clean_request := myquerydb["stmt_truncatevisit_clean_request"].stmt
+   
+		_, err = stmt_truncatevisit_clean_request.Exec()
+		if err != nil {
+			fmt.Printf("%s\n", err.Error())
+		}
+		
+		stmt_truncatevisit_clean_user := myquerydb["stmt_truncatevisit_clean_user"].stmt
+   
+		_, err = stmt_truncatevisit_clean_user.Exec()
+		if err != nil {
+			fmt.Printf("%s\n", err.Error())
+		}
+	
 }
