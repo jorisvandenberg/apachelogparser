@@ -74,10 +74,10 @@ type Output struct {
 }
 
 type General struct {
-	Dbpath     string
-	Timeformat string
-	Mydomain   string
-	Writelog   bool
+	Dbpath           string
+	Timeformat       string
+	Mydomain         string
+	Writelog         bool
 	Truncatefromdate string
 }
 
@@ -189,8 +189,7 @@ func getargs() Args {
 		ini_wizard("/etc/apachelogparser/template_config.ini", "/etc/apachelogparser/config.ini")
 		os.Exit(0)
 	}
-	
-	
+
 	/*
 		end command line flags input
 	*/
@@ -302,7 +301,7 @@ func getargs() Args {
 	generals.Mydomain = cfg.Section("general").Key("mydomain").String()
 	generals.Writelog, _ = cfg.Section("general").Key("writelog").Bool()
 	generals.Truncatefromdate = *truncate_from_datePtr
-	
+
 	/*
 		end general config gathering
 	*/

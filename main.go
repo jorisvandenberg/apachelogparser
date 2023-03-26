@@ -17,13 +17,12 @@ func main() {
 	tx := initialisedb(db)
 	loadquerydb(tx)
 	logger("finished the db initialisation en query loading")
-	
+
 	if args.Generals.Truncatefromdate != `` {
 		logger("got the command to truncate the database and remove logs older dan " + args.Generals.Truncatefromdate)
 		truncate_from(args.Generals.Truncatefromdate)
 	}
-	
-	
+
 	logger("fetching all the html templates")
 	filltemplatedb()
 	logger("finished fetching all the html templates")
