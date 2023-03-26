@@ -74,10 +74,11 @@ type Output struct {
 }
 
 type General struct {
-	Dbpath     string
-	Timeformat string
-	Mydomain   string
-	Writelog   bool
+	Dbpath           string
+	Timeformat       string
+	Mydomain         string
+	Writelog         bool
+	Truncatefromdate string
 }
 
 type Commandline struct {
@@ -178,6 +179,7 @@ func getargs() Args {
 	demographsPtr := flag.Bool("demographs", false, "write a bunch of demographs to the output dir")
 	debugPtr := flag.Bool("debug", false, "enable or disable debug (verbose)")
 	ini_wizardPtr := flag.Bool("iniwizard", false, "start a (very basic) ini wizard and exit afterwards. It will use template_config.ini in the current directory and (over)write config.ini in the current directory!!! use with caution!!!")
+	truncate_from_datePtr := flag.String("truncate", ``, "truncate and clean the database for loglines older than this date")
 	flag.Parse()
 	commandlines.Runtype = *runtypePtr
 	commandlines.Truncatealreadyloaded = *truncatealreadyloadedPtr
@@ -187,6 +189,7 @@ func getargs() Args {
 		ini_wizard("/etc/apachelogparser/template_config.ini", "/etc/apachelogparser/config.ini")
 		os.Exit(0)
 	}
+
 	/*
 		end command line flags input
 	*/
@@ -297,6 +300,8 @@ func getargs() Args {
 	generals.Timeformat = cfg.Section("general").Key("timeformat").String()
 	generals.Mydomain = cfg.Section("general").Key("mydomain").String()
 	generals.Writelog, _ = cfg.Section("general").Key("writelog").Bool()
+	generals.Truncatefromdate = *truncate_from_datePtr
+
 	/*
 		end general config gathering
 	*/

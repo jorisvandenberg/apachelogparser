@@ -17,6 +17,12 @@ func main() {
 	tx := initialisedb(db)
 	loadquerydb(tx)
 	logger("finished the db initialisation en query loading")
+
+	if args.Generals.Truncatefromdate != `` {
+		logger("got the command to truncate the database and remove logs older dan " + args.Generals.Truncatefromdate)
+		truncate_from(args.Generals.Truncatefromdate)
+	}
+
 	logger("fetching all the html templates")
 	filltemplatedb()
 	logger("finished fetching all the html templates")
@@ -56,6 +62,12 @@ func main() {
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 		logger("Whoops: tx.commit:" + err.Error())
+	}
+	logger("vacuuming the database")
+	_, err = db.Exec("VACUUM")
+	if err != nil {
+		fmt.Printf("%s\n", err.Error())
+		logger("Whoops: vacuum error:" + err.Error())
 	}
 	logger("finished the program, no more logging from this point out, since the logs have to be written, included in the index and included in the zipfile (if requested), so i cannot log these functions (chicken or the egg problem)")
 	writelog(args)

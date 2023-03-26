@@ -1,3 +1,6 @@
+# github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
+## explicit; go 1.12
+github.com/araddon/dateparse
 # github.com/go-echarts/go-echarts/v2 v2.2.5
 ## explicit; go 1.15
 github.com/go-echarts/go-echarts/v2/actions
