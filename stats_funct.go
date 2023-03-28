@@ -61,16 +61,18 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		 compare_x_days_weeks_months_config_struct_slice = append(compare_x_days_weeks_months_config_struct_slice, compare_x_days_weeks_months_config_struct{"day",4,8,"week",mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_title, mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_description, mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_filename, mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_index_group, Linegraph_compare_x_days_weeks_months_index_order_int})
 	}
 	if mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_enabled {
-		fmt.Printf("%+v\n", mycurstat.Linegraph4weekinfo)
+		
 		linegraph_compare_x_days_weeks_months_parameters_slice := strings.Split(mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_parameters, "&")
-		linegraph_compare_x_days_weeks_months_title_slice := strings.Split(mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_title, ";")
+		linegraph_compare_x_days_weeks_months_title_slice := strings.Split(mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_title, "&")
 		Linegraph_compare_x_days_weeks_months_description_slice := strings.Split(mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_description, "&")
 		Linegraph_compare_x_days_weeks_months_filename_slice := strings.Split(mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_filename, "&")
 		Linegraph_compare_x_days_weeks_months_index_group_slice := strings.Split(mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_index_group, "&")
 		Linegraph_compare_x_days_weeks_months_index_order_slice := strings.Split(mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_index_order, "&")
 		indexnumber := 0
 		for _, linegraph_compare_x_days_weeks_months_parameters_slice_current := range linegraph_compare_x_days_weeks_months_parameters_slice {
+			
 			compare_x_days_weeks_months_parameters_parts = strings.Split(linegraph_compare_x_days_weeks_months_parameters_slice_current, ",")
+			fmt.Printf("parameters: %+v\n", compare_x_days_weeks_months_parameters_parts)
 			
 			compare_x_days_weeks_months_parameters_parts_1, _ := strconv.Atoi(compare_x_days_weeks_months_parameters_parts[1])
 			compare_x_days_weeks_months_parameters_parts_2, _ := strconv.Atoi(compare_x_days_weeks_months_parameters_parts[2])
