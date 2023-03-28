@@ -32,12 +32,12 @@ type Linegraphconfig struct {
 }
 
 type Linegraph4weekconfig struct {
-	Linegraph_compare4weeks_enabled     bool
-	Linegraph_compare4weeks_title       string
-	Linegraph_compare4weeks_description string
-	Linegraph_compare4weeks_filename    string
-	Linegraph_compare4weeks_index_group string
-	Linegraph_compare4weeks_index_order int
+	Linegraph_comparex_days_weeks_months_enabled     bool
+	Linegraph_comparex_days_weeks_months_title       string
+	Linegraph_comparex_days_weeks_months_description string
+	Linegraph_comparex_days_weeks_months_filename    string
+	Linegraph_comparex_days_weeks_months_index_group string
+	Linegraph_comparex_days_weeks_months_index_order int
 }
 
 type Statconfig struct {
@@ -142,15 +142,15 @@ func argblock(cfg *ini.File, configname string, whichstats string, outputs Outpu
 		}
 	}
 	if strings.Contains(whichstats, "4") {
-		linegraph_compare4weeks_enabled, _ := cfg.Section(configname).Key("linegraph_compare4weeks_enabled").Bool()
-		if stat_enabled && linegraph_compare4weeks_enabled {
+		linegraph_comparex_days_weeks_months_enabled, _ := cfg.Section(configname).Key("linegraph_comparex_days_weeks_months_enabled").Bool()
+		if stat_enabled && linegraph_comparex_days_weeks_months_enabled {
 			var mylinegraph4weekconfig Linegraph4weekconfig
-			mylinegraph4weekconfig.Linegraph_compare4weeks_enabled = true
-			mylinegraph4weekconfig.Linegraph_compare4weeks_title = splice_number_of_days_detailed_in(cfg.Section(configname).Key("linegraph_compare4weeks_title").String(), outputs.Number_of_days_detailed)
-			mylinegraph4weekconfig.Linegraph_compare4weeks_description = splice_number_of_days_detailed_in(cfg.Section(configname).Key("linegraph_compare4weeks_description").String(), outputs.Number_of_days_detailed)
-			mylinegraph4weekconfig.Linegraph_compare4weeks_filename = cfg.Section(configname).Key("linegraph_compare4weeks_filename").String()
-			mylinegraph4weekconfig.Linegraph_compare4weeks_index_group = cfg.Section(configname).Key("linegraph_compare4weeks_index_group").String()
-			mylinegraph4weekconfig.Linegraph_compare4weeks_index_order, _ = cfg.Section(configname).Key("linegraph_compare4weeks_index_order").Int()
+			mylinegraph4weekconfig.Linegraph_comparex_days_weeks_months_enabled = true
+			mylinegraph4weekconfig.Linegraph_comparex_days_weeks_months_title = splice_number_of_days_detailed_in(cfg.Section(configname).Key("linegraph_comparex_days_weeks_months_title").String(), outputs.Number_of_days_detailed)
+			mylinegraph4weekconfig.Linegraph_comparex_days_weeks_months_description = splice_number_of_days_detailed_in(cfg.Section(configname).Key("linegraph_comparex_days_weeks_months_description").String(), outputs.Number_of_days_detailed)
+			mylinegraph4weekconfig.Linegraph_comparex_days_weeks_months_filename = cfg.Section(configname).Key("linegraph_comparex_days_weeks_months_filename").String()
+			mylinegraph4weekconfig.Linegraph_comparex_days_weeks_months_index_group = cfg.Section(configname).Key("linegraph_comparex_days_weeks_months_index_group").String()
+			mylinegraph4weekconfig.Linegraph_comparex_days_weeks_months_index_order, _ = cfg.Section(configname).Key("linegraph_comparex_days_weeks_months_index_order").Int()
 			mystatconfig.Linegraph4weekinfo = mylinegraph4weekconfig
 			onedone = true
 		}

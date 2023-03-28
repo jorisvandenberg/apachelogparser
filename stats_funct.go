@@ -136,8 +136,8 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		createlinegraph(XValues_linegraph, YValues_linegraph, mycurstat.Linegraphinfo.Linegraph_title, mycurstat.Linegraphinfo.Linegraph_description, args, mycurstat.Linegraphinfo.Linegraph_filename, mycurstat.Linegraphinfo.Linegraph_index_group, mycurstat.Linegraphinfo.Linegraph_index_order)
 	}
 
-	if mycurstat.Linegraph4weekinfo.Linegraph_compare4weeks_enabled {
-		createlinegraph(XValues_linegraph_4weekcomp, YValues_linegraph_4weekcomp, mycurstat.Linegraph4weekinfo.Linegraph_compare4weeks_title, mycurstat.Linegraph4weekinfo.Linegraph_compare4weeks_description, args, mycurstat.Linegraph4weekinfo.Linegraph_compare4weeks_filename, mycurstat.Linegraph4weekinfo.Linegraph_compare4weeks_index_group, mycurstat.Linegraph4weekinfo.Linegraph_compare4weeks_index_order)
+	if mycurstat.Linegraph4weekinfo.Linegraph_comparex_days_weeks_months_enabled {
+		createlinegraph(XValues_linegraph_4weekcomp, YValues_linegraph_4weekcomp, mycurstat.Linegraph4weekinfo.Linegraph_comparex_days_weeks_months_title, mycurstat.Linegraph4weekinfo.Linegraph_comparex_days_weeks_months_description, args, mycurstat.Linegraph4weekinfo.Linegraph_comparex_days_weeks_months_filename, mycurstat.Linegraph4weekinfo.Linegraph_comparex_days_weeks_months_index_group, mycurstat.Linegraph4weekinfo.Linegraph_comparex_days_weeks_months_index_order)
 	}
 
 	logger("stopped " + string_for_log)
