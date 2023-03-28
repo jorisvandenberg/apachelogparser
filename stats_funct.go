@@ -7,7 +7,11 @@ import (
 	"strconv"
 )
 
-func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, xaxisfields []int, valuefield int, legende string) bool {
+func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, xaxisfields []int, valuefield int, legende string, what_hours_days_weeks_months string, number_of_days_weeks_months_compare int, number_of_days_weeks_months_compare_nbitems_inloop int, number_of_days_weeks_months_compare_legenda string) bool {
+	//what_hours_days_weeks_months : usually hour or day
+	//number_of_days_weeks_months_compare : usually 4
+	//number_of_days_weeks_months_compare_nbitems_inloop : 8 when your query is grouping by day and you want to compare weeks, 32 if you want to compare months, 25 if you group by hour and want to compare days,...
+	//number_of_days_weeks_months_compare_legenda: usually week if you group by day and have 8 items in loop
 	check_if_stats_is_slice := reflect.ValueOf(args).FieldByName("Stats")
 	foundcurstat := false
 	var mycurstat Statconfig
@@ -56,7 +60,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 
 	var XValues_linegraph []string
 	YValues_linegraph := make(map[string][]int)
-	XValues_linegraph_4weekcomp := []string{"today", "day-1", "day-2 ", "day-3", "day-4", "day-5", "day-6"}
+	XValues_linegraph_4weekcomp := []string{"today", what_hours_days_weeks_months +"-1", what_hours_days_weeks_months + "-2 ", what_hours_days_weeks_months +"-3", what_hours_days_weeks_months + "-4", what_hours_days_weeks_months + "-5", what_hours_days_weeks_months + "-6"}
 	YValues_linegraph_4weekcomp := make(map[string][]int)
 	weekcounter := 0
 	daycounter := 0
@@ -110,12 +114,12 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		XValues_linegraph = append(XValues_linegraph, titel)
 		YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
 		daycounter++
-		if daycounter == 8 {
+		if daycounter == number_of_days_weeks_months_compare_nbitems_inloop {
 			weekcounter++
 			daycounter = 1
 		}
-		if weekcounter < 4 {
-			YValues_linegraph_4weekcomp["week -"+strconv.Itoa(weekcounter)] = append(YValues_linegraph_4weekcomp["week -"+strconv.Itoa(weekcounter)], int(values[valuefield].(int64)))
+		if weekcounter < number_of_days_weeks_months_compare {
+			YValues_linegraph_4weekcomp[number_of_days_weeks_months_compare_legenda + " -"+strconv.Itoa(weekcounter)] = append(YValues_linegraph_4weekcomp[number_of_days_weeks_months_compare_legenda + " -"+strconv.Itoa(weekcounter)], int(values[valuefield].(int64)))
 		}
 
 	}
