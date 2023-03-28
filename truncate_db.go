@@ -42,5 +42,13 @@ func truncate_from(timestring string) {
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
+	
+	stmt_truncate_alreadyloaded := myquerydb["stmt_truncate_alreadyloaded"].stmt
+
+	_, err = stmt_truncate_alreadyloaded.Exec()
+	if err != nil {
+		fmt.Printf("%s\n", err.Error())
+	}
+	
 
 }
