@@ -38,6 +38,7 @@ type Linegraph4weekconfig struct {
 	Linegraph_compare_x_days_weeks_months_filename    string
 	Linegraph_compare_x_days_weeks_months_index_group string
 	Linegraph_compare_x_days_weeks_months_index_order int
+	Linegraph_compare_x_days_weeks_months_parameters string
 }
 
 type Statconfig struct {
@@ -151,6 +152,7 @@ func argblock(cfg *ini.File, configname string, whichstats string, outputs Outpu
 			mylinegraph4weekconfig.Linegraph_compare_x_days_weeks_months_filename = cfg.Section(configname).Key("linegraph_compare_x_days_weeks_months_filename").String()
 			mylinegraph4weekconfig.Linegraph_compare_x_days_weeks_months_index_group = cfg.Section(configname).Key("linegraph_compare_x_days_weeks_months_index_group").String()
 			mylinegraph4weekconfig.Linegraph_compare_x_days_weeks_months_index_order, _ = cfg.Section(configname).Key("linegraph_compare_x_days_weeks_months_index_order").Int()
+			mylinegraph4weekconfig.Linegraph_compare_x_days_weeks_months_parameters = cfg.Section(configname).Key("linegraph_compare_x_days_weeks_months_parameters").String()
 			mystatconfig.Linegraph4weekinfo = mylinegraph4weekconfig
 			onedone = true
 		}

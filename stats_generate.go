@@ -26,7 +26,7 @@ func generatestats(args Args) {
 	}
 	xaxisfields := []int{0, 1, 2}
 	valuefield := 3
-	genstats(args, "valid unique hits per day over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerDay_hits", "stmt_unique_PerDay_hits", parameters, tableheaders, xaxisfields, valuefield, "raw hits", "day",4,8,"week")
+	genstats(args, "valid unique hits per day over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerDay_hits", "stmt_unique_PerDay_hits", parameters, tableheaders, xaxisfields, valuefield, "raw hits")
 
 	/*
 		stat: raw 2xx and 3xx hits over the last 31 (default) days
@@ -42,7 +42,7 @@ func generatestats(args Args) {
 		"Title_3": "DAY",
 		"Title_4": "NB RAW HITS",
 	}
-	genstats(args, "valid raw hits per day over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_PerDay_hits", "stmt_raw_PerDay_hits", parameters, tableheaders, xaxisfields, valuefield, "unique hits", "day",4,8,"week")
+	genstats(args, "valid raw hits per day over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_PerDay_hits", "stmt_raw_PerDay_hits", parameters, tableheaders, xaxisfields, valuefield, "unique hits")
 
 	/*
 		stat: unique 2xx and 3xx hits per hour over the last 31 (default) days
@@ -60,7 +60,7 @@ func generatestats(args Args) {
 	}
 	xaxisfields = []int{0, 1, 2, 3}
 	valuefield = 4
-	genstats(args, "valid unique hits per hour over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_hits", "stmt_unique_PerHour_hits", parameters, tableheaders, xaxisfields, valuefield, "unique hits", "hour",7,25,"day")
+	genstats(args, "valid unique hits per hour over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_hits", "stmt_unique_PerHour_hits", parameters, tableheaders, xaxisfields, valuefield, "unique hits")
 
 	/*
 		stat: raw 2xx and 3xx hits per hour over the last 31 (default) days
@@ -75,7 +75,7 @@ func generatestats(args Args) {
 		"Title_4": "HOUR",
 		"Title_5": "NB RAW HITS",
 	}
-	genstats(args, "valid raw hits per hour over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_PerHour_hits", "stmt_raw_PerHour_hits", parameters, tableheaders, xaxisfields, valuefield, "raw hits", "hour",7,25,"day")
+	genstats(args, "valid raw hits per hour over the last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_PerHour_hits", "stmt_raw_PerHour_hits", parameters, tableheaders, xaxisfields, valuefield, "raw hits")
 
 	/*
 		stat: sum of raw hit per referrer over the last 31 (default) days
@@ -89,7 +89,7 @@ func generatestats(args Args) {
 	}
 	xaxisfields = []int{0}
 	valuefield = 1
-	genstats(args, "sum of raw hits per referrer over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_PerHour_ReferringUrls", "stmt_raw_PerHour_ReferringUrls", parameters, tableheaders, xaxisfields, valuefield, "", "hour",7,25,"day")
+	genstats(args, "sum of raw hits per referrer over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_PerHour_ReferringUrls", "stmt_raw_PerHour_ReferringUrls", parameters, tableheaders, xaxisfields, valuefield, "")
 
 	/*
 		stat: sum of unique hits per referrer over the last 31 (default) days
@@ -100,7 +100,7 @@ func generatestats(args Args) {
 		"Title_1": "REFERRER",
 		"Title_2": "NB of unique hits",
 	}
-	genstats(args, "sum of unique hits per referrer over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_ReferringUrls", "stmt_unique_PerHour_ReferringUrls", parameters, tableheaders, xaxisfields, valuefield, "", "hour",7,25,"day")
+	genstats(args, "sum of unique hits per referrer over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_ReferringUrls", "stmt_unique_PerHour_ReferringUrls", parameters, tableheaders, xaxisfields, valuefield, "")
 
 	/*
 		stat: sum of unique hits per referrer, non empty non self, over the last 31 (default) days
@@ -112,7 +112,7 @@ func generatestats(args Args) {
 		"Title_1": "REFERRER",
 		"Title_2": "NB of unique non self, non empty hits",
 	}
-	genstats(args, "sum of unique hits per referrer, non self non empty, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_RefferingUrlsNoEmptyOrSelf", "stmt_unique_PerHour_RefferingUrlsNoEmptyOrSelf", parameters, tableheaders, xaxisfields, valuefield, "", "hour",7,25,"day")
+	genstats(args, "sum of unique hits per referrer, non self non empty, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_RefferingUrlsNoEmptyOrSelf", "stmt_unique_PerHour_RefferingUrlsNoEmptyOrSelf", parameters, tableheaders, xaxisfields, valuefield, "")
 
 	/*
 		stat: sum of unique hits per referrer, non empty, non self, only tld over the last 31 (default) days
@@ -124,7 +124,7 @@ func generatestats(args Args) {
 		"Title_1": "REFERRER",
 		"Title_2": "NB of unique non self, non empty hits. TLDs",
 	}
-	genstats(args, "sum of unique hits per referrer, non self non empty, only tlds, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_RefferingUrlsNoEmptyOrSelfOnlyTld", "stmt_unique_PerHour_RefferingUrlsNoEmptyOrSelfOnlyTld", parameters, tableheaders, xaxisfields, valuefield, "", "hour",7,25,"day")
+	genstats(args, "sum of unique hits per referrer, non self non empty, only tlds, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_PerHour_RefferingUrlsNoEmptyOrSelfOnlyTld", "stmt_unique_PerHour_RefferingUrlsNoEmptyOrSelfOnlyTld", parameters, tableheaders, xaxisfields, valuefield, "")
 	logger("finished the function to generate statistics")
 
 	/*
@@ -137,7 +137,7 @@ func generatestats(args Args) {
 		"Title_1": "search egine",
 		"Title_2": "NB of raw se hits",
 	}
-	genstats(args, "sum of raw hits per search egine, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_XDaysTotal_HitsFromSearchEngines", "stmt_stat_raw_XDaysTotal_HitsFromSearchEngines", parameters, tableheaders, xaxisfields, valuefield, "", "day",4,8,"week")
+	genstats(args, "sum of raw hits per search egine, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_raw_XDaysTotal_HitsFromSearchEngines", "stmt_stat_raw_XDaysTotal_HitsFromSearchEngines", parameters, tableheaders, xaxisfields, valuefield, "")
 	logger("finished the function to generate statistics")
 
 	/*
@@ -150,7 +150,7 @@ func generatestats(args Args) {
 		"Title_1": "search egine",
 		"Title_2": "NB of unique se hits",
 	}
-	genstats(args, "sum of unique hits per search egine, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_HitsFromSearchEngines", "stmt_unique_XDaysTotal_HitsFromSearchEngines", parameters, tableheaders, xaxisfields, valuefield, "", "day",4,8,"week")
+	genstats(args, "sum of unique hits per search egine, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_HitsFromSearchEngines", "stmt_unique_XDaysTotal_HitsFromSearchEngines", parameters, tableheaders, xaxisfields, valuefield, "")
 	logger("finished the function to generate statistics")
 
 	/*
@@ -163,7 +163,7 @@ func generatestats(args Args) {
 		"Title_1": "entry page",
 		"Title_2": "count",
 	}
-	genstats(args, "sum of times page is used as entry page, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_Entrypages", "stmt_unique_XDaysTotal_Entrypages", parameters, tableheaders, xaxisfields, valuefield, "", "day",4,8,"week")
+	genstats(args, "sum of times page is used as entry page, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_Entrypages", "stmt_unique_XDaysTotal_Entrypages", parameters, tableheaders, xaxisfields, valuefield, "")
 
 	/*
 		stat: count number of times a page was used as an exit page over the last 31 (default) days
@@ -175,6 +175,6 @@ func generatestats(args Args) {
 		"Title_1": "exit page",
 		"Title_2": "count",
 	}
-	genstats(args, "sum of times page is used as exit page, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_Exitpages", "stmt_unique_XDaysTotal_Exitpages", parameters, tableheaders, xaxisfields, valuefield, "", "day",4,8,"week")
+	genstats(args, "sum of times page is used as exit page, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_Exitpages", "stmt_unique_XDaysTotal_Exitpages", parameters, tableheaders, xaxisfields, valuefield, "")
 	logger("finished the function to generate statistics")
 }

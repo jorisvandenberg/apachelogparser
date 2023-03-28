@@ -5,9 +5,10 @@ import (
 	"os"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
-func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, xaxisfields []int, valuefield int, legende string, what_hours_days_weeks_months string, number_of_days_weeks_months_compare int, number_of_days_weeks_months_compare_nbitems_inloop int, number_of_days_weeks_months_compare_legenda string) bool {
+func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, xaxisfields []int, valuefield int, legende string) bool {
 	//what_hours_days_weeks_months : usually hour or day
 	//number_of_days_weeks_months_compare : usually 4
 	//number_of_days_weeks_months_compare_nbitems_inloop : 8 when your query is grouping by day and you want to compare weeks, 32 if you want to compare months, 25 if you group by hour and want to compare days,...
@@ -38,6 +39,19 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		return false
 	}
 
+	var compare_x_days_weeks_months_parameters_string, what_hours_days_weeks_months, number_of_days_weeks_months_compare_legenda string
+	var number_of_days_weeks_months_compare, number_of_days_weeks_months_compare_nbitems_inloop int
+	var compare_x_days_weeks_months_parameters_parts []string
+	
+	if mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_enabled {
+		compare_x_days_weeks_months_parameters_string = mycurstat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_parameters
+		compare_x_days_weeks_months_parameters_parts = strings.Split(compare_x_days_weeks_months_parameters_string, ",")
+		what_hours_days_weeks_months = compare_x_days_weeks_months_parameters_parts[0]
+		number_of_days_weeks_months_compare, _ = strconv.Atoi(compare_x_days_weeks_months_parameters_parts[1])
+		number_of_days_weeks_months_compare_nbitems_inloop, _ = strconv.Atoi(compare_x_days_weeks_months_parameters_parts[2])
+		number_of_days_weeks_months_compare_legenda = compare_x_days_weeks_months_parameters_parts[3]
+	}
+	
 	logger("start " + string_for_log)
 	myQuery := myquerydb[querydb_key].stmt
 	rows, err := myQuery.Query(parameters...)
