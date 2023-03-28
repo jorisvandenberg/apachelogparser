@@ -105,7 +105,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 
 		var XValues_linegraph []string
 		YValues_linegraph := make(map[string][]int)
-		XValues_linegraph_4weekcomp := []string{"today", current_x_days_weeks_months.What_hours_days_weeks_months + "-1", current_x_days_weeks_months.What_hours_days_weeks_months + "-2 ", current_x_days_weeks_months.What_hours_days_weeks_months + "-3", current_x_days_weeks_months.What_hours_days_weeks_months + "-4", current_x_days_weeks_months.What_hours_days_weeks_months + "-5", current_x_days_weeks_months.What_hours_days_weeks_months + "-6"}
+		XValues_linegraph_4weekcomp := []string{"now", current_x_days_weeks_months.What_hours_days_weeks_months + "-1", current_x_days_weeks_months.What_hours_days_weeks_months + "-2 ", current_x_days_weeks_months.What_hours_days_weeks_months + "-3", current_x_days_weeks_months.What_hours_days_weeks_months + "-4", current_x_days_weeks_months.What_hours_days_weeks_months + "-5", current_x_days_weeks_months.What_hours_days_weeks_months + "-6"}
 		YValues_linegraph_4weekcomp := make(map[string][]int)
 		weekcounter := 0
 		daycounter := 0
