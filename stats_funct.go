@@ -20,7 +20,7 @@ type compare_x_days_weeks_months_config_struct struct {
 	Linegraph_compare_x_days_weeks_months_index_order  int
 }
 
-func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, xaxisfields []int, valuefield int, legende string) bool {
+func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, xaxisfields []int, valuefield int, legende string, first_3_records_year_month_day_for_limiting bool) bool {
 	//what_hours_days_weeks_months : usually hour or day
 	//number_of_days_weeks_months_compare : usually 4
 	//number_of_days_weeks_months_compare_nbitems_inloop : 8 when your query is grouping by day and you want to compare weeks, 32 if you want to compare months, 25 if you group by hour and want to compare days,...
