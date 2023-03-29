@@ -128,7 +128,6 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		for i := range values {
 			valuePtrs[i] = &values[i]
 		}
-		rownumber := 0
 		for rows.Next() {
 			
 			err := rows.Scan(valuePtrs...)
@@ -165,13 +164,14 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			}
 			//at this point, i cannot use the rownumber!!! i have to find a way to get the timestamp and compare it with the current timestamp minus nb of seconds in day * args.Outputs.Number_of_days_detailed
 			//if the query contains a timestamp, year month and day are always the first 3 scanned... maybe this is useable?
-			if rownumber < args.Outputs.Number_of_days_detailed {
-			//fmt.Printf("%d < %d\n", rownumber, args.Outputs.Number_of_days_detailed)
+			
+			//if previous comment is true, append
 			myTable.Data = append(myTable.Data, MyData)
 
 			XValues_linegraph = append(XValues_linegraph, titel)
 			YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
-			}
+			//stop appending to table and linegraph... 
+			//appending to x_days_weeks_months still has to happen, even if we're past 31 (default setting) days
 			
 			daycounter++
 			if daycounter == current_x_days_weeks_months.Number_of_days_weeks_months_compare_nbitems_inloop {
@@ -181,7 +181,6 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			if weekcounter < current_x_days_weeks_months.Number_of_days_weeks_months_compare {
 				YValues_linegraph_4weekcomp[current_x_days_weeks_months.Number_of_days_weeks_months_compare_legenda+" -"+strconv.Itoa(weekcounter)] = append(YValues_linegraph_4weekcomp[current_x_days_weeks_months.Number_of_days_weeks_months_compare_legenda+" -"+strconv.Itoa(weekcounter)], int(values[valuefield].(int64)))
 			}
-			rownumber = rownumber + 1
 		}
 		err = rows.Err()
 		if err != nil {
