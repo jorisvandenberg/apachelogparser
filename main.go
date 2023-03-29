@@ -7,7 +7,7 @@ import (
 var mylog []string
 
 func main() {
-	
+
 	logger("started the program")
 	logger("fetching the arguments from the ini file and the commandline")
 	args := getargs()
