@@ -162,6 +162,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			for _, xaxisfield := range xaxisfields {
 				titel += values[xaxisfield].(string)
 			}
+			//at this point, i cannot use the rownumber!!! i have to find a way to get the timestamp and compare it with the current timestamp minus nb of seconds in day * args.Outputs.Number_of_days_detailed
 			if rownumber < args.Outputs.Number_of_days_detailed {
 			//fmt.Printf("%d < %d\n", rownumber, args.Outputs.Number_of_days_detailed)
 			myTable.Data = append(myTable.Data, MyData)
