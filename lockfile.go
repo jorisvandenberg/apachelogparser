@@ -5,6 +5,9 @@ import (
 	"os"
 	"sync"
 	"path/filepath"
+	"encoding/json"
+    "hash/fnv"
+	"strconv"
 )
 
 var lockfile *os.File
@@ -21,7 +24,7 @@ func lockUnlock(lock bool, args Args) {
 		tmpDir := os.TempDir()
 
 		// Create the lock file path.
-		lockfilePath := filepath.Join(tmpDir, "myapp.lock")
+		lockfilePath := filepath.Join(tmpDir, "apachelogparser_" + strconv.FormatUint(HashStruct(args),10) + ".lock")
 
 		// Open the lock file for writing, creating it if it doesn't exist.
 		f, err := os.OpenFile(lockfilePath, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0666)
@@ -47,4 +50,26 @@ func lockUnlock(lock bool, args Args) {
 			os.Exit(1)
 		}
 	}
+}
+
+
+
+func HashStruct(s Args) uint64 {
+    // Convert struct to JSON byte slice
+    b, err := json.Marshal(s)
+    if err != nil {
+        panic(err)
+    }
+
+    // Create FNV-1a hash object
+    h := fnv.New64a()
+
+    // Write JSON byte slice to hash object
+    _, err = h.Write(b)
+    if err != nil {
+        panic(err)
+    }
+
+    // Return hash as uint64
+    return h.Sum64()
 }
