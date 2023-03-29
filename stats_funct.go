@@ -130,7 +130,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		}
 		rownumber := 0
 		for rows.Next() {
-			rownumber =+ 1
+			
 			err := rows.Scan(valuePtrs...)
 			if err != nil {
 				return false
@@ -163,6 +163,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 				titel += values[xaxisfield].(string)
 			}
 			if rownumber < args.Outputs.Number_of_days_detailed {
+			//fmt.Printf("%d < %d\n", rownumber, args.Outputs.Number_of_days_detailed)
 			myTable.Data = append(myTable.Data, MyData)
 
 			XValues_linegraph = append(XValues_linegraph, titel)
@@ -177,7 +178,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			if weekcounter < current_x_days_weeks_months.Number_of_days_weeks_months_compare {
 				YValues_linegraph_4weekcomp[current_x_days_weeks_months.Number_of_days_weeks_months_compare_legenda+" -"+strconv.Itoa(weekcounter)] = append(YValues_linegraph_4weekcomp[current_x_days_weeks_months.Number_of_days_weeks_months_compare_legenda+" -"+strconv.Itoa(weekcounter)], int(values[valuefield].(int64)))
 			}
-
+			rownumber = rownumber + 1
 		}
 		err = rows.Err()
 		if err != nil {
