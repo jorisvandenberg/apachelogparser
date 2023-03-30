@@ -19,7 +19,7 @@ func contains(s []string, str string) bool {
 }
 
 func ini_wizard(inpath string, outpath string) {
-	fmt.Println("hidden feature: if you rename the file template_defaultconf.txt to defaultconf.txt and edit the values therein, this wizard will automatically take those values if you opt for the minimal configuration. You'll be able to create a customised configscript just by pressing enter when running this wizard!!!\n")
+	fmt.Println("hidden feature: if you rename the file template_defaultconf.txt to defaultconf.txt and edit the values therein, this wizard will automatically take those values if you opt for the minimal configuration. You'll be able to create a customised configscript just by pressing enter when running this wizard!!!")
 	noskipdb := []string{"dbpath", "mydomain", "logfilepath", "logfileregex", "outputpath"}
 
 	var conf_dbpath, conf_mydomain, conf_logfilepath, conf_logfileregex, conf_outputpath string
