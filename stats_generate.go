@@ -8,11 +8,14 @@ import (
 )
 
 func getmaxdaysfromargs(args Args, configname string) int {
-	b, err := json.MarshalIndent(args, "", "    ")
+	for _, curStat := range args.Stats {
+		b, err := json.MarshalIndent(curStat, "", "    ")
     if err != nil {
         fmt.Println("error:", err)
     }
     fmt.Println(string(b))
+	}
+	
 	return 3650
 }
 
@@ -29,6 +32,7 @@ func generatestats(args Args) {
 		unique_PerDay_hits_linegraph.html
 		unique_PerHour_hits_4WeeksLinegraph.html
 	*/
+	getmaxdaysfromargs(args, "conf_stat_unique_PerDay_hits")
 	parameters := []interface{}{mintimestamp_Max_number_of_days}
 	tableheaders := map[string]string{
 		"Title_1": "YEAR",
