@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type compare_x_days_weeks_months_config_struct struct {
@@ -20,7 +21,7 @@ type compare_x_days_weeks_months_config_struct struct {
 	Linegraph_compare_x_days_weeks_months_index_order  int
 }
 
-func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, xaxisfields []int, valuefield int, legende string) bool {
+func genstats(args Args, string_for_log string, statname_from_conf string, querydb_key string, parameters []interface{}, tableheaders map[string]string, xaxisfields []int, valuefield int, legende string, first_3_records_year_month_day_for_limiting bool) bool {
 	//what_hours_days_weeks_months : usually hour or day
 	//number_of_days_weeks_months_compare : usually 4
 	//number_of_days_weeks_months_compare_nbitems_inloop : 8 when your query is grouping by day and you want to compare weeks, 32 if you want to compare months, 25 if you group by hour and want to compare days,...
@@ -128,7 +129,6 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 		for i := range values {
 			valuePtrs[i] = &values[i]
 		}
-
 		for rows.Next() {
 
 			err := rows.Scan(valuePtrs...)
@@ -162,10 +162,35 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			for _, xaxisfield := range xaxisfields {
 				titel += values[xaxisfield].(string)
 			}
-			myTable.Data = append(myTable.Data, MyData)
+			//at this point, i cannot use the rownumber!!! i have to find a way to get the timestamp and compare it with the current timestamp minus nb of seconds in day * args.Outputs.Number_of_days_detailed
+			//if the query contains a timestamp, year month and day are always the first 3 scanned... maybe this is useable?
+			if first_3_records_year_month_day_for_limiting {
+				//fmt.Printf("%+v\n", MyData)
+				MyYear, _ := strconv.Atoi(MyData["Value_0"])
+				MyMonth, _ := strconv.Atoi(MyData["Value_1"])
+				MyDay, _ := strconv.Atoi(MyData["Value_2"])
+				t := time.Date(MyYear, time.Month(MyMonth), MyDay, 0, 0, 0, 0, time.UTC)
+				unixTimestamp := int(t.Unix())
+				currentTime := time.Now()
+				currentunixTimestamp := int(currentTime.Unix())
+				timestamp_Number_of_days_detailed_ago := currentunixTimestamp - (args.Outputs.Number_of_days_detailed * 86400)
+				if unixTimestamp > timestamp_Number_of_days_detailed_ago {
+					myTable.Data = append(myTable.Data, MyData)
+					XValues_linegraph = append(XValues_linegraph, titel)
+					YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
+				} /*else {
+					fmt.Printf("unix timestamp %d (then unix timestamp of the record) was smaller than %d (the unix timestamp Number_of_days_detailed days ago). Skippin\n", unixTimestamp,timestamp_Number_of_days_detailed_ago )
+				}*/
+			} else {
+				myTable.Data = append(myTable.Data, MyData)
+				XValues_linegraph = append(XValues_linegraph, titel)
+				YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
+			}
+			//if previous comment is true, append
 
-			XValues_linegraph = append(XValues_linegraph, titel)
-			YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
+			//stop appending to table and linegraph...
+			//appending to x_days_weeks_months still has to happen, even if we're past 31 (default setting) days
+
 			daycounter++
 			if daycounter == current_x_days_weeks_months.Number_of_days_weeks_months_compare_nbitems_inloop {
 				weekcounter++
@@ -174,7 +199,6 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			if weekcounter < current_x_days_weeks_months.Number_of_days_weeks_months_compare {
 				YValues_linegraph_4weekcomp[current_x_days_weeks_months.Number_of_days_weeks_months_compare_legenda+" -"+strconv.Itoa(weekcounter)] = append(YValues_linegraph_4weekcomp[current_x_days_weeks_months.Number_of_days_weeks_months_compare_legenda+" -"+strconv.Itoa(weekcounter)], int(values[valuefield].(int64)))
 			}
-
 		}
 		err = rows.Err()
 		if err != nil {

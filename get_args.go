@@ -72,6 +72,7 @@ type Output struct {
 	Zipoutput               bool
 	Zippath                 string
 	Numberofreferrers       int
+	Max_number_of_days      int
 }
 
 type General struct {
@@ -287,6 +288,7 @@ func getargs() Args {
 	outputs.Outputpath = cfg.Section("output").Key("outputpath").String()
 	outputs.Assethost = cfg.Section("output").Key("assethost").String()
 	outputs.Number_of_days_detailed, _ = cfg.Section("output").Key("number_of_days_detailed").Int()
+	outputs.Max_number_of_days, _ = cfg.Section("output").Key("max_number_of_days").Int()
 	outputs.Emptyoutputpath, _ = cfg.Section("output").Key("emptyoutputpath").Bool()
 	outputs.Zipoutput, _ = cfg.Section("output").Key("zipoutput").Bool()
 	outputs.Zippath = cfg.Section("output").Key("zippath").String()
