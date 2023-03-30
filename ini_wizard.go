@@ -27,11 +27,11 @@ func ini_wizard(inpath string, outpath string) {
     file, err := os.Open("defaultconf.txt")
     if err != nil {
         // If the file does not exist, assign default values to the variables
-        conf_dbpath := ""
-        conf_mydomain := ""
-        conf_logfilepath := ""
-        conf_logfileregex := ""
-        conf_outputpath := ""
+        conf_dbpath = ""
+        conf_mydomain = ""
+        conf_logfilepath = ""
+        conf_logfileregex = ""
+        conf_outputpath = ""
     } else {
         // If the file exists, read its contents and assign them to the variables
         defer file.Close()
@@ -55,7 +55,6 @@ func ini_wizard(inpath string, outpath string) {
     }
         }
     }
-
 
 	// Open the INI file
 	cfg, err := ini.Load(inpath)
@@ -85,12 +84,41 @@ func ini_wizard(inpath string, outpath string) {
 		for _, key := range section.Keys() {
 			newValue := ""
 			if (contains(noskipdb, key.Name()) && skipstd) || !skipstd {
-				fmt.Printf("%s.%s [%s]: ", section.Name(), key.Name(), key.Value())
+				skipthisone := false
+				if key.Name() == "dbpath" && conf_dbpath != "" {
+						skipthisone = true
+						newValue = conf_dbpath
+					
+				} 
+				if key.Name() == "mydomain" && conf_mydomain != "" {
+					skipthisone = true
+					newValue = conf_mydomain
+				
+			} 
+			if key.Name() == "logfilepath" && conf_logfilepath != "" {
+				skipthisone = true
+				newValue = conf_logfilepath
+			
+		} 
+		if key.Name() == "logfileregex" && conf_logfileregex != "" {
+			skipthisone = true
+			newValue = conf_logfileregex
+		
+	} 
+	if key.Name() == "outputpath" && conf_outputpath != "" {
+		skipthisone = true
+		newValue = conf_outputpath
+	
+} 
+				if !skipthisone {
+					fmt.Printf("%s.%s [%s]: ", section.Name(), key.Name(), key.Value())
 				newValue, err = readStringFromUser()
 				if err != nil {
 					fmt.Printf("Error reading input: %v\n", err)
 					os.Exit(1)
 				}
+				}
+				
 
 			}
 			if newValue != "" {
