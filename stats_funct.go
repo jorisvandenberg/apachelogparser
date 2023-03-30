@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type compare_x_days_weeks_months_config_struct struct {
@@ -164,7 +165,19 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			}
 			//at this point, i cannot use the rownumber!!! i have to find a way to get the timestamp and compare it with the current timestamp minus nb of seconds in day * args.Outputs.Number_of_days_detailed
 			//if the query contains a timestamp, year month and day are always the first 3 scanned... maybe this is useable?
-			
+			if first_3_records_year_month_day_for_limiting {
+				fmt.Printf("%+v\n", MyData)
+				MyYear,_ := strconv.Atoi(MyData["Value_0"])
+				MyMonth,_ := strconv.Atoi(MyData["Value_1"])
+				MyDay,_ := strconv.Atoi(MyData["Value_2"])
+				t := time.Date(MyYear, time.Month(MyMonth), MyDay, 0, 0, 0, 0, time.UTC)
+				unixTimestamp := t.Unix()
+				currentTime := time.Now()
+    			currentunixTimestamp := currentTime.Unix()
+
+				fmt.Println(unixTimestamp)
+				fmt.Println(currentunixTimestamp)
+			}
 			//if previous comment is true, append
 			myTable.Data = append(myTable.Data, MyData)
 
