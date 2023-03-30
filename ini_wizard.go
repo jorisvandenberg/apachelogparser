@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"gopkg.in/ini.v1"
 	"os"
 	"strings"
-	"bufio"
-	"gopkg.in/ini.v1"
 )
 
 func contains(s []string, str string) bool {
@@ -23,38 +23,38 @@ func ini_wizard(inpath string, outpath string) {
 
 	var conf_dbpath, conf_mydomain, conf_logfilepath, conf_logfileregex, conf_outputpath string
 
-    // Attempt to open the config file
-    file, err := os.Open("defaultconf.txt")
-    if err != nil {
-        // If the file does not exist, assign default values to the variables
-        conf_dbpath = ""
-        conf_mydomain = ""
-        conf_logfilepath = ""
-        conf_logfileregex = ""
-        conf_outputpath = ""
-    } else {
-        // If the file exists, read its contents and assign them to the variables
-        defer file.Close()
-        scanner := bufio.NewScanner(file)
-        for scanner.Scan() {
-            line := scanner.Text()
-    parts := strings.Split(line, "=")
-    key := strings.TrimSpace(parts[0])
-    value := strings.TrimSpace(parts[1])
-    switch key {
-        case "dbpath":
-            conf_dbpath = value
-        case "mydomain":
-            conf_mydomain = value
-        case "logfilepath":
-            conf_logfilepath = value
-        case "logfileregex":
-            conf_logfileregex = value
-        case "outputpath":
-            conf_outputpath = value
-    }
-        }
-    }
+	// Attempt to open the config file
+	file, err := os.Open("defaultconf.txt")
+	if err != nil {
+		// If the file does not exist, assign default values to the variables
+		conf_dbpath = ""
+		conf_mydomain = ""
+		conf_logfilepath = ""
+		conf_logfileregex = ""
+		conf_outputpath = ""
+	} else {
+		// If the file exists, read its contents and assign them to the variables
+		defer file.Close()
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			line := scanner.Text()
+			parts := strings.Split(line, "=")
+			key := strings.TrimSpace(parts[0])
+			value := strings.TrimSpace(parts[1])
+			switch key {
+			case "dbpath":
+				conf_dbpath = value
+			case "mydomain":
+				conf_mydomain = value
+			case "logfilepath":
+				conf_logfilepath = value
+			case "logfileregex":
+				conf_logfileregex = value
+			case "outputpath":
+				conf_outputpath = value
+			}
+		}
+	}
 
 	// Open the INI file
 	cfg, err := ini.Load(inpath)
@@ -86,39 +86,38 @@ func ini_wizard(inpath string, outpath string) {
 			if (contains(noskipdb, key.Name()) && skipstd) || !skipstd {
 				skipthisone := false
 				if key.Name() == "dbpath" && conf_dbpath != "" {
-						skipthisone = true
-						newValue = conf_dbpath
-					
-				} 
+					skipthisone = true
+					newValue = conf_dbpath
+
+				}
 				if key.Name() == "mydomain" && conf_mydomain != "" {
 					skipthisone = true
 					newValue = conf_mydomain
-				
-			} 
-			if key.Name() == "logfilepath" && conf_logfilepath != "" {
-				skipthisone = true
-				newValue = conf_logfilepath
-			
-		} 
-		if key.Name() == "logfileregex" && conf_logfileregex != "" {
-			skipthisone = true
-			newValue = conf_logfileregex
-		
-	} 
-	if key.Name() == "outputpath" && conf_outputpath != "" {
-		skipthisone = true
-		newValue = conf_outputpath
-	
-} 
+
+				}
+				if key.Name() == "logfilepath" && conf_logfilepath != "" {
+					skipthisone = true
+					newValue = conf_logfilepath
+
+				}
+				if key.Name() == "logfileregex" && conf_logfileregex != "" {
+					skipthisone = true
+					newValue = conf_logfileregex
+
+				}
+				if key.Name() == "outputpath" && conf_outputpath != "" {
+					skipthisone = true
+					newValue = conf_outputpath
+
+				}
 				if !skipthisone {
 					fmt.Printf("%s.%s [%s]: ", section.Name(), key.Name(), key.Value())
-				newValue, err = readStringFromUser()
-				if err != nil {
-					fmt.Printf("Error reading input: %v\n", err)
-					os.Exit(1)
+					newValue, err = readStringFromUser()
+					if err != nil {
+						fmt.Printf("Error reading input: %v\n", err)
+						os.Exit(1)
+					}
 				}
-				}
-				
 
 			}
 			if newValue != "" {
