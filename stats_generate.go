@@ -163,7 +163,7 @@ func generatestats(args Args) {
 		"Title_1": "entry page",
 		"Title_2": "count",
 	}
-	genstats(args, "sum of times page is used as entry page, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_Entrypages", "stmt_unique_XDaysTotal_Entrypages", parameters, tableheaders, xaxisfields, valuefield, "",false)
+	genstats(args, "sum of times page is used as entry page, over last "+strconv.Itoa(args.Outputs.Number_of_days_detailed)+" days", "conf_stat_unique_XDaysTotal_Entrypages", "stmt_unique_XDaysTotal_Entrypages", parameters, tableheaders, xaxisfields, valuefield, "", false)
 
 	/*
 		stat: count number of times a page was used as an exit page over the last 31 (default) days

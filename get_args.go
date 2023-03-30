@@ -72,7 +72,7 @@ type Output struct {
 	Zipoutput               bool
 	Zippath                 string
 	Numberofreferrers       int
-	Max_number_of_days		int
+	Max_number_of_days      int
 }
 
 type General struct {

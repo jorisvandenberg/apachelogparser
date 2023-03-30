@@ -130,7 +130,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			valuePtrs[i] = &values[i]
 		}
 		for rows.Next() {
-			
+
 			err := rows.Scan(valuePtrs...)
 			if err != nil {
 				return false
@@ -156,8 +156,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 				counter++
 
 			}
-			
-			
+
 			titel := ""
 
 			for _, xaxisfield := range xaxisfields {
@@ -167,13 +166,13 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			//if the query contains a timestamp, year month and day are always the first 3 scanned... maybe this is useable?
 			if first_3_records_year_month_day_for_limiting {
 				//fmt.Printf("%+v\n", MyData)
-				MyYear,_ := strconv.Atoi(MyData["Value_0"])
-				MyMonth,_ := strconv.Atoi(MyData["Value_1"])
-				MyDay,_ := strconv.Atoi(MyData["Value_2"])
+				MyYear, _ := strconv.Atoi(MyData["Value_0"])
+				MyMonth, _ := strconv.Atoi(MyData["Value_1"])
+				MyDay, _ := strconv.Atoi(MyData["Value_2"])
 				t := time.Date(MyYear, time.Month(MyMonth), MyDay, 0, 0, 0, 0, time.UTC)
 				unixTimestamp := int(t.Unix())
 				currentTime := time.Now()
-    			currentunixTimestamp := int(currentTime.Unix())
+				currentunixTimestamp := int(currentTime.Unix())
 				timestamp_Number_of_days_detailed_ago := currentunixTimestamp - (args.Outputs.Number_of_days_detailed * 86400)
 				if unixTimestamp > timestamp_Number_of_days_detailed_ago {
 					myTable.Data = append(myTable.Data, MyData)
@@ -184,14 +183,14 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 				}*/
 			} else {
 				myTable.Data = append(myTable.Data, MyData)
-					XValues_linegraph = append(XValues_linegraph, titel)
-					YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
+				XValues_linegraph = append(XValues_linegraph, titel)
+				YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
 			}
 			//if previous comment is true, append
-			
-			//stop appending to table and linegraph... 
+
+			//stop appending to table and linegraph...
 			//appending to x_days_weeks_months still has to happen, even if we're past 31 (default setting) days
-			
+
 			daycounter++
 			if daycounter == current_x_days_weeks_months.Number_of_days_weeks_months_compare_nbitems_inloop {
 				weekcounter++
