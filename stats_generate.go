@@ -3,29 +3,42 @@ package main
 import (
 	"strconv"
 	"time"
-	"encoding/json"
-	"fmt"
+	"strings"
 )
 
 func getmaxdaysfromargs(args Args, configname string) int {
+	max_days_from_args := args.Outputs.Number_of_days_detailed
+	if args.Outputs.Max_number_of_days > max_days_from_args {
+		max_days_from_args = args.Outputs.Max_number_of_days
+	}
+
 	for _, curStat := range args.Stats {
 		if curStat.Statname == configname {
-			b, err := json.MarshalIndent(curStat, "", "    ")
-    if err != nil {
-        fmt.Println("error:", err)
-    }
-    fmt.Println(string(b))
+			if curStat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_enabled {
+				linegraph_compare_x_days_weeks_months_parameters_slice := strings.Split(curStat.Linegraph4weekinfo.Linegraph_compare_x_days_weeks_months_parameters, "&")
+				for _, linegraph_compare_x_days_weeks_months_parameters_slice_current := range linegraph_compare_x_days_weeks_months_parameters_slice {
+					compare_x_days_weeks_months_parameters_parts := strings.Split(linegraph_compare_x_days_weeks_months_parameters_slice_current, ",")
+					compare_x_days_weeks_months_parameters_parts_1, _ := strconv.Atoi(compare_x_days_weeks_months_parameters_parts[1])
+					compare_x_days_weeks_months_parameters_parts_2, _ := strconv.Atoi(compare_x_days_weeks_months_parameters_parts[2])
+					product_groupsize_nbgroups := compare_x_days_weeks_months_parameters_parts_1 * compare_x_days_weeks_months_parameters_parts_2
+					if product_groupsize_nbgroups > max_days_from_args {
+						max_days_from_args = product_groupsize_nbgroups
+					}
+
+				}
+			}
+			
 		}
 		
 	}
 	
-	return 3650
+	return max_days_from_args
 }
 
 func generatestats(args Args) {
 	logger("started the function to generate statistics")
 
-	mintimestamp_Max_number_of_days := int(time.Now().Unix()) - (args.Outputs.Max_number_of_days * 86400)
+	//mintimestamp_Max_number_of_days := int(time.Now().Unix()) - (args.Outputs.Max_number_of_days * 86400)
 	mintimestamp_Number_of_days_detailed := int(time.Now().Unix()) - (args.Outputs.Number_of_days_detailed * 86400)
 
 	/*
@@ -35,8 +48,8 @@ func generatestats(args Args) {
 		unique_PerDay_hits_linegraph.html
 		unique_PerHour_hits_4WeeksLinegraph.html
 	*/
-	getmaxdaysfromargs(args, "conf_stat_unique_PerDay_hits")
-	parameters := []interface{}{mintimestamp_Max_number_of_days}
+		//parameters := []interface{}{mintimestamp_Max_number_of_days}
+	parameters := []interface{}{getmaxdaysfromargs(args, "conf_stat_unique_PerDay_hits")}
 	tableheaders := map[string]string{
 		"Title_1": "YEAR",
 		"Title_2": "MONTH",
@@ -54,7 +67,7 @@ func generatestats(args Args) {
 		raw_PerDay_hits_linegraph.html
 		raw_PerDay_hits_4WeeksLinegraph.html
 	*/
-	//identical parameters, xaxisfields, valuefield as the stat above... not re-initialising!
+	parameters = []interface{}{getmaxdaysfromargs(args, "conf_stat_raw_PerDay_hits")}
 	tableheaders = map[string]string{
 		"Title_1": "YEAR",
 		"Title_2": "MONTH",
@@ -69,7 +82,7 @@ func generatestats(args Args) {
 		unique_PerHour_hits_table.html
 		unique_PerHour_hits_linegraph.html
 	*/
-
+	parameters = []interface{}{getmaxdaysfromargs(args, "conf_stat_unique_PerHour_hits")}
 	tableheaders = map[string]string{
 		"Title_1": "YEAR",
 		"Title_2": "MONTH",
@@ -87,6 +100,7 @@ func generatestats(args Args) {
 		raw_PerHour_hits_table.html
 		raw_PerHour_hits_linegraph.html
 	*/
+	parameters = []interface{}{getmaxdaysfromargs(args, "conf_stat_raw_PerHour_hits")}
 	tableheaders = map[string]string{
 		"Title_1": "YEAR",
 		"Title_2": "MONTH",
@@ -115,6 +129,7 @@ func generatestats(args Args) {
 		expecting 1 htmls:
 		unique_PerHour_ReferringUrls_table.html
 	*/
+	parameters = []interface{}{mintimestamp_Number_of_days_detailed, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "REFERRER",
 		"Title_2": "NB of unique hits",
