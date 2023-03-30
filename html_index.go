@@ -18,17 +18,17 @@ type page_forindex struct {
 var indexpages []page_forindex
 
 func removeDuplicates(pages []page_forindex) []page_forindex {
-    encountered := map[page_forindex]bool{} 
-    result := []page_forindex{} 
+	encountered := map[page_forindex]bool{}
+	result := []page_forindex{}
 
-    for _, page := range pages {
-        if encountered[page] == false { 
-            encountered[page] = true 
-            result = append(result, page) 
-        }
-    }
+	for _, page := range pages {
+		if encountered[page] == false {
+			encountered[page] = true
+			result = append(result, page)
+		}
+	}
 
-    return result // return the new slice with unique structs
+	return result // return the new slice with unique structs
 }
 
 func createindex(args Args) {

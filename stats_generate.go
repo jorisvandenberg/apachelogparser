@@ -2,8 +2,8 @@ package main
 
 import (
 	"strconv"
-	"time"
 	"strings"
+	"time"
 )
 
 func getmaxdaysfromargs(args Args, configname string) int {
@@ -27,11 +27,11 @@ func getmaxdaysfromargs(args Args, configname string) int {
 
 				}
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	return max_days_from_args
 }
 
@@ -48,7 +48,7 @@ func generatestats(args Args) {
 		unique_PerDay_hits_linegraph.html
 		unique_PerHour_hits_4WeeksLinegraph.html
 	*/
-		//parameters := []interface{}{mintimestamp_Max_number_of_days}
+	//parameters := []interface{}{mintimestamp_Max_number_of_days}
 	parameters := []interface{}{getmaxdaysfromargs(args, "conf_stat_unique_PerDay_hits")}
 	tableheaders := map[string]string{
 		"Title_1": "YEAR",
