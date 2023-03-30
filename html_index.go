@@ -17,8 +17,23 @@ type page_forindex struct {
 
 var indexpages []page_forindex
 
+func removeDuplicates(pages []page_forindex) []page_forindex {
+    encountered := map[page_forindex]bool{} 
+    result := []page_forindex{} 
+
+    for _, page := range pages {
+        if encountered[page] == false { 
+            encountered[page] = true 
+            result = append(result, page) 
+        }
+    }
+
+    return result // return the new slice with unique structs
+}
+
 func createindex(args Args) {
 	logger("creating an index file")
+	indexpages = removeDuplicates(indexpages)
 	sort.Slice(indexpages, func(i, j int) bool {
 		return indexpages[i].Order < indexpages[j].Order
 	})
