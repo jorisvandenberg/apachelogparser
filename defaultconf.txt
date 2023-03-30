@@ -1,0 +1,5 @@
+dbpath=./demologs/mydb.db
+mydomain=merel.mobi
+logfilepath=./demologs/
+logfileregex=^merel\.mobi\.acces.*
+outputpath=./output/

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
+	"bufio"
 	"gopkg.in/ini.v1"
 )
 
@@ -20,6 +20,43 @@ func contains(s []string, str string) bool {
 
 func ini_wizard(inpath string, outpath string) {
 	noskipdb := []string{"dbpath", "mydomain", "logfilepath", "logfileregex", "outputpath"}
+
+	var conf_dbpath, conf_mydomain, conf_logfilepath, conf_logfileregex, conf_outputpath string
+
+    // Attempt to open the config file
+    file, err := os.Open("defaultconf.txt")
+    if err != nil {
+        // If the file does not exist, assign default values to the variables
+        conf_dbpath := ""
+        conf_mydomain := ""
+        conf_logfilepath := ""
+        conf_logfileregex := ""
+        conf_outputpath := ""
+    } else {
+        // If the file exists, read its contents and assign them to the variables
+        defer file.Close()
+        scanner := bufio.NewScanner(file)
+        for scanner.Scan() {
+            line := scanner.Text()
+    parts := strings.Split(line, "=")
+    key := strings.TrimSpace(parts[0])
+    value := strings.TrimSpace(parts[1])
+    switch key {
+        case "dbpath":
+            conf_dbpath = value
+        case "mydomain":
+            conf_mydomain = value
+        case "logfilepath":
+            conf_logfilepath = value
+        case "logfileregex":
+            conf_logfileregex = value
+        case "outputpath":
+            conf_outputpath = value
+    }
+        }
+    }
+
+
 	// Open the INI file
 	cfg, err := ini.Load(inpath)
 	if err != nil {
