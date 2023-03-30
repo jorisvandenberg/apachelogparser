@@ -171,18 +171,20 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 				MyMonth,_ := strconv.Atoi(MyData["Value_1"])
 				MyDay,_ := strconv.Atoi(MyData["Value_2"])
 				t := time.Date(MyYear, time.Month(MyMonth), MyDay, 0, 0, 0, 0, time.UTC)
-				unixTimestamp := t.Unix()
+				unixTimestamp := int(t.Unix())
 				currentTime := time.Now()
-    			currentunixTimestamp := currentTime.Unix()
-
-				fmt.Println(unixTimestamp)
-				fmt.Println(currentunixTimestamp)
+    			currentunixTimestamp := int(currentTime.Unix())
+				timestamp_Number_of_days_detailed_ago := currentunixTimestamp - (args.Outputs.Number_of_days_detailed * 86400)
+				if unixTimestamp > timestamp_Number_of_days_detailed_ago {
+					myTable.Data = append(myTable.Data, MyData)
+					XValues_linegraph = append(XValues_linegraph, titel)
+					YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
+				} else {
+					fmt.Printf("unix timestamp %d (then unix timestamp of the record) was smaller than %d (the unix timestamp Number_of_days_detailed days ago). Skippin\n", unixTimestamp,timestamp_Number_of_days_detailed_ago )
+				}
 			}
 			//if previous comment is true, append
-			myTable.Data = append(myTable.Data, MyData)
-
-			XValues_linegraph = append(XValues_linegraph, titel)
-			YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
+			
 			//stop appending to table and linegraph... 
 			//appending to x_days_weeks_months still has to happen, even if we're past 31 (default setting) days
 			
