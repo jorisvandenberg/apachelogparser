@@ -166,7 +166,7 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 			//at this point, i cannot use the rownumber!!! i have to find a way to get the timestamp and compare it with the current timestamp minus nb of seconds in day * args.Outputs.Number_of_days_detailed
 			//if the query contains a timestamp, year month and day are always the first 3 scanned... maybe this is useable?
 			if first_3_records_year_month_day_for_limiting {
-				fmt.Printf("%+v\n", MyData)
+				//fmt.Printf("%+v\n", MyData)
 				MyYear,_ := strconv.Atoi(MyData["Value_0"])
 				MyMonth,_ := strconv.Atoi(MyData["Value_1"])
 				MyDay,_ := strconv.Atoi(MyData["Value_2"])
@@ -179,9 +179,13 @@ func genstats(args Args, string_for_log string, statname_from_conf string, query
 					myTable.Data = append(myTable.Data, MyData)
 					XValues_linegraph = append(XValues_linegraph, titel)
 					YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
-				} else {
+				} /*else {
 					fmt.Printf("unix timestamp %d (then unix timestamp of the record) was smaller than %d (the unix timestamp Number_of_days_detailed days ago). Skippin\n", unixTimestamp,timestamp_Number_of_days_detailed_ago )
-				}
+				}*/
+			} else {
+				myTable.Data = append(myTable.Data, MyData)
+					XValues_linegraph = append(XValues_linegraph, titel)
+					YValues_linegraph[legende] = append(YValues_linegraph[legende], int(values[valuefield].(int64)))
 			}
 			//if previous comment is true, append
 			
