@@ -3,12 +3,24 @@ package main
 import (
 	"strconv"
 	"time"
+	"encoding/json"
+	"fmt"
 )
+
+func getmaxdaysfromargs(args Args, configname string) int {
+	b, err := json.MarshalIndent(args, "", "    ")
+    if err != nil {
+        fmt.Println("error:", err)
+    }
+    fmt.Println(string(b))
+	return 3650
+}
 
 func generatestats(args Args) {
 	logger("started the function to generate statistics")
 
-	mintimestamp := int(time.Now().Unix()) - (args.Outputs.Max_number_of_days * 86400)
+	mintimestamp_Max_number_of_days := int(time.Now().Unix()) - (args.Outputs.Max_number_of_days * 86400)
+	mintimestamp_Number_of_days_detailed := int(time.Now().Unix()) - (args.Outputs.Number_of_days_detailed * 86400)
 
 	/*
 		stat: unique 2xx and 3xx hits over the last 31 (default) days
@@ -17,7 +29,7 @@ func generatestats(args Args) {
 		unique_PerDay_hits_linegraph.html
 		unique_PerHour_hits_4WeeksLinegraph.html
 	*/
-	parameters := []interface{}{mintimestamp}
+	parameters := []interface{}{mintimestamp_Max_number_of_days}
 	tableheaders := map[string]string{
 		"Title_1": "YEAR",
 		"Title_2": "MONTH",
@@ -82,7 +94,7 @@ func generatestats(args Args) {
 		expecting 1 htmls:
 		raw_PerHour_ReferringUrls_table.html
 	*/
-	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
+	parameters = []interface{}{mintimestamp_Number_of_days_detailed, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "REFERRER",
 		"Title_2": "NB of raw hits",
@@ -107,7 +119,7 @@ func generatestats(args Args) {
 		expecting 1 htmls:
 		nunique_PerHour_RefferingUrlsNoEmptyOrSelf_table.html
 	*/
-	parameters = []interface{}{mintimestamp, args.Generals.Mydomain, int(args.Outputs.Numberofreferrers)}
+	parameters = []interface{}{mintimestamp_Number_of_days_detailed, args.Generals.Mydomain, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "REFERRER",
 		"Title_2": "NB of unique non self, non empty hits",
@@ -119,7 +131,7 @@ func generatestats(args Args) {
 		expecting 1 htmls:
 		unique_PerHour_RefferingUrlsNoEmptyOrSelfOnlyTld_table.html
 	*/
-	parameters = []interface{}{mintimestamp, args.Generals.Mydomain, int(args.Outputs.Numberofreferrers)}
+	parameters = []interface{}{mintimestamp_Number_of_days_detailed, args.Generals.Mydomain, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "REFERRER",
 		"Title_2": "NB of unique non self, non empty hits. TLDs",
@@ -132,7 +144,7 @@ func generatestats(args Args) {
 		expecting 1 htmls:
 		raw_XDaysTotal_HitsFromSearchEngines_table.html
 	*/
-	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
+	parameters = []interface{}{mintimestamp_Number_of_days_detailed, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "search egine",
 		"Title_2": "NB of raw se hits",
@@ -145,7 +157,7 @@ func generatestats(args Args) {
 		expecting 1 htmls:
 		unique_XDaysTotal_HitsFromSearchEngines_table.html
 	*/
-	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
+	parameters = []interface{}{mintimestamp_Number_of_days_detailed, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "search egine",
 		"Title_2": "NB of unique se hits",
@@ -158,7 +170,7 @@ func generatestats(args Args) {
 		expecting 1 htmls:
 		unique_XDaysTotal_Entrypages_table.html
 	*/
-	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
+	parameters = []interface{}{mintimestamp_Number_of_days_detailed, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "entry page",
 		"Title_2": "count",
@@ -170,7 +182,7 @@ func generatestats(args Args) {
 		expecting 1 htmls:
 		unique_XDaysTotal_Exitpages_table.html
 	*/
-	parameters = []interface{}{mintimestamp, int(args.Outputs.Numberofreferrers)}
+	parameters = []interface{}{mintimestamp_Number_of_days_detailed, int(args.Outputs.Numberofreferrers)}
 	tableheaders = map[string]string{
 		"Title_1": "exit page",
 		"Title_2": "count",
