@@ -26,17 +26,17 @@ func ini_wizard(inpath string, outpath string) {
 		fmt.Printf("Failed to read config file: %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Println("Do you want to do a minimal config (all stats enabled, default output values. Only works with apache common log format). y/n [n]")
+	fmt.Println("Do you want to do a minimal config (all stats enabled, default output values. Only works with apache common log format). y/n [y]")
 	myChoice, err := readStringFromUser()
 	if err != nil {
 		fmt.Printf("Error reading input: %v\n", err)
 		os.Exit(1)
 	}
 	skipstd := false
-	if myChoice == "y" || myChoice == "Y" {
-		skipstd = true
-	} else {
+	if myChoice == "n" || myChoice == "N" {
 		skipstd = false
+	} else {
+		skipstd = true
 	}
 	// Prompt the user to change the settings
 	fmt.Println("Enter new values or leave blank to keep current settings.")
