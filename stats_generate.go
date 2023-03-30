@@ -9,11 +9,14 @@ import (
 
 func getmaxdaysfromargs(args Args, configname string) int {
 	for _, curStat := range args.Stats {
-		b, err := json.MarshalIndent(curStat, "", "    ")
+		if curStat.Statname == configname {
+			b, err := json.MarshalIndent(curStat, "", "    ")
     if err != nil {
         fmt.Println("error:", err)
     }
     fmt.Println(string(b))
+		}
+		
 	}
 	
 	return 3650
