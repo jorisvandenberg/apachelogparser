@@ -18,7 +18,10 @@ func createdb(dbnaam string) *sql.DB {
 
 func initialisedb(db *sql.DB) *sql.Tx {
 	var querylist []string
-	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `user` (`id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`ip`    TEXT NOT NULL,`useragent`     TEXT);")
+	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `user_ip` ( `id`    INTEGER NOT NULL, `ip`    TEXT NOT NULL, PRIMARY KEY(`id` AUTOINCREMENT));")
+	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `user_useragent` ( `id`    INTEGER NOT NULL, `useragent`     TEXT NOT NULL, PRIMARY KEY(`id` AUTOINCREMENT) );")
+	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `info` ( `key`   INTEGER, `value` TEXT );")
+	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `user` ( `id`    INTEGER NOT NULL, `ip`    INTEGER NOT NULL, `useragent`     INTEGER NOT NULL, FOREIGN KEY(`useragent`) REFERENCES `user_useragent`(`id`),  FOREIGN KEY(`ip`) REFERENCES `user_ip`(`id`),  PRIMARY KEY(`id` AUTOINCREMENT) )")
 	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `request` (`id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`request`       TEXT NOT NULL);")
 	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `referrer` (`id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`referrer`      TEXT NOT NULL);")
 	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `alreadyloaded` (`id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`hash`      TEXT NOT NULL);")
