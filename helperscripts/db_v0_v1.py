@@ -24,40 +24,53 @@ def main():
 		old_cursor = old_conn.cursor()
 		new_cursor = new_conn.cursor()
 
-		old_cursor.execute('SELECT DISTINCT ip, useragent FROM user')
+		old_cursor.execute('SELECT DISTINCT ip FROM user')
 		ip_useragent_rows = old_cursor.fetchall()
 
 		# insert unique ip values into new user_ip table
 		for row in ip_useragent_rows:
 			ip = row[0]
 			new_cursor.execute('INSERT OR IGNORE INTO user_ip (ip) VALUES (?)', (ip,))
-			
-		 # insert unique useragent values into new user_useragent table
+		new_conn.commit()
+		old_cursor.execute('SELECT DISTINCT useragent FROM user')
+		ip_useragent_rows = old_cursor.fetchall()
+
+		# insert unique ip values into new user_ip table
 		for row in ip_useragent_rows:
-			useragent = row[1]
+			useragent = row[0]
 			new_cursor.execute('INSERT OR IGNORE INTO user_useragent (useragent) VALUES (?)', (useragent,))
-		
+		new_conn.commit()
+		old_cursor.execute('SELECT id, ip, useragent FROM user')
+		for row in old_cursor.fetchall():
+			user_id = row[0]
+			user_ip = row[1]
+			user_useragent = row[2]
+			subquery = f"SELECT id FROM user_ip WHERE ip='{user_ip}'"
+			new_cursor.execute(subquery)
+			subquery_result = new_cursor.fetchall()
+			first_row = subquery_result[0]
+			ip_id = first_row[0]
+			subquery = f"SELECT id FROM user_useragent WHERE useragent='{user_useragent}'"
+			new_cursor.execute(subquery)
+			subquery_result = new_cursor.fetchall()
+			first_row = subquery_result[0]
+			useragent_id = first_row[0]
+			new_cursor.execute('INSERT OR IGNORE INTO user (id, ip,useragent) VALUES (?,?,?)', (user_id, ip_id, useragent_id))
+
 		# copy data from old tables to new tables
-		old_cursor.execute('SELECT * FROM request')
+		old_cursor.execute('SELECT id, request FROM request')
 		new_cursor.executemany('INSERT INTO request (id, request) VALUES (?, ?)', old_cursor.fetchall())
 		
-		old_cursor.execute('SELECT * FROM referrer')
+		old_cursor.execute('SELECT id, referrer FROM referrer')
 		new_cursor.executemany('INSERT INTO referrer (id, referrer) VALUES (?, ?)', old_cursor.fetchall())
 
-		old_cursor.execute('SELECT * FROM alreadyloaded')
+		old_cursor.execute('SELECT id, hash FROM alreadyloaded')
 		new_cursor.executemany('INSERT INTO alreadyloaded (id, hash) VALUES (?, ?)', old_cursor.fetchall())
-		"""
-		old_cursor.execute('SELECT * FROM visit')
-		for row in old_cursor.fetchall():
-			# get the new user_id by querying for the ip and useragent in the new tables
-			ip, useragent = row[3], row[4]
-			new_cursor.execute('SELECT id FROM user_ip WHERE ip = ?', (ip,))
-			ip_id = new_cursor.fetchone()[0]
-			new_cursor.execute('SELECT id FROM user_useragent WHERE useragent = ?', (useragent,))
-			useragent_id = new_cursor.fetchone()[0]
-			# insert the new visit row using the new user_id
-			new_cursor.execute('INSERT INTO visit (id, referrer, request, visit_timestamp, user, statuscode, httpsize) VALUES (?, ?, ?, ?, ?, ?, ?)', (row[0], row[1], row[2], row[5], useragent_id, row[6], row[7]))
- """
+		
+		old_cursor.execute('SELECT id, referrer, request, visit_timestamp,user, statuscode, httpsize FROM visit')
+		new_cursor.executemany('INSERT INTO visit (id, referrer, request, visit_timestamp,user, statuscode, httpsize) VALUES (?, ?,?,?,?,?,?)', old_cursor.fetchall())
+		
+
 		# commit changes and close connections
 		new_conn.commit()
 
