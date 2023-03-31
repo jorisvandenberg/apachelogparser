@@ -4,7 +4,7 @@ import sqlite3
 
 
 def main():
-	with sqlite3.connect('new_db.sqlite') as conn:
+	with sqlite3.connect('../../new_db.sqlite') as conn:
 		cursor = conn.cursor()
 		cursor.execute('''CREATE TABLE `request` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `request` TEXT NOT NULL )''')
 		cursor.execute(''' CREATE TABLE `referrer` ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`referrer` TEXT NOT NULL) ''')
@@ -20,7 +20,7 @@ def main():
 		cursor.execute(''' CREATE UNIQUE INDEX "ip_ip" ON "user_ip" ( "ip"    ASC ) ''')
 		conn.commit()
 
-	with sqlite3.connect('db_old.db') as old_conn, sqlite3.connect('new_db.sqlite') as new_conn:
+	with sqlite3.connect('../../db_old.db') as old_conn, sqlite3.connect('../../new_db.sqlite') as new_conn:
 		old_cursor = old_conn.cursor()
 		new_cursor = new_conn.cursor()
 
@@ -32,11 +32,11 @@ def main():
 			ip = row[0]
 			new_cursor.execute('INSERT OR IGNORE INTO user_ip (ip) VALUES (?)', (ip,))
 			
-		# insert unique useragent values into new user_useragent table
+		 # insert unique useragent values into new user_useragent table
 		for row in ip_useragent_rows:
 			useragent = row[1]
 			new_cursor.execute('INSERT OR IGNORE INTO user_useragent (useragent) VALUES (?)', (useragent,))
-
+		"""
 		# copy data from old tables to new tables
 		old_cursor.execute('SELECT * FROM request')
 		new_cursor.executemany('INSERT INTO request (id, request) VALUES (?, ?)', old_cursor.fetchall())
@@ -57,11 +57,9 @@ def main():
 			useragent_id = new_cursor.fetchone()[0]
 			# insert the new visit row using the new user_id
 			new_cursor.execute('INSERT INTO visit (id, referrer, request, visit_timestamp, user, statuscode, httpsize) VALUES (?, ?, ?, ?, ?, ?, ?)', (row[0], row[1], row[2], row[5], useragent_id, row[6], row[7]))
-
+ """
 		# commit changes and close connections
-		new_db.commit()
-		old_db.close()
-		new_db.close()
+		new_conn.commit()
 
 if __name__ == "__main__":
 	main()
