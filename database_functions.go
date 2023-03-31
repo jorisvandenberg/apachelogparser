@@ -16,46 +16,45 @@ func createdb(dbnaam string) *sql.DB {
 	return db
 }
 
-func check_correct_version(db *sql.DB)  {
+func check_correct_version(db *sql.DB) {
 	var count int
-    err := db.QueryRow("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='visit'").Scan(&count)
-    if err != nil {
-        os.Exit(1)
-    }
-    if count == 1 {
-        //it's not a new database... Continueing
+	err := db.QueryRow("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='visit'").Scan(&count)
+	if err != nil {
+		os.Exit(1)
+	}
+	if count == 1 {
+		//it's not a new database... Continueing
 		var count int
-    err := db.QueryRow("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='info'").Scan(&count)
-    if err != nil {
-        os.Exit(1)
-    }
-    if count == 0 {
-		fmt.Printf("%s\n", "incorrect database version... You need version 1 and now you're on 0... There's a helper script that might help you out in the helperscript directory!!! (only works if your current version is higher than v0.0.2)")
-        os.Exit(1)
-    }
-	var version int
-    err = db.QueryRow("SELECT value FROM info WHERE key='dbversion'").Scan(&version)
-    if err != nil {
-		fmt.Printf("%s\n", "incorrect database version... You need version 1... There's a helper script that **might** help you out in the helperscript directory!!! (only works if your current version is higher than v0.0.2)")
-        os.Exit(1)
-    }
-    if version != 1 {
-	fmt.Printf("%s\n", "incorrect database version... You need version 1... There's a helper script that **might** help you out in the helperscript directory!!! (only works if your current version is higher than v0.0.2")
-        os.Exit(1)
-    }
-    } else {
+		err := db.QueryRow("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='info'").Scan(&count)
+		if err != nil {
+			os.Exit(1)
+		}
+		if count == 0 {
+			fmt.Printf("%s\n", "incorrect database version... You need version 1 and now you're on 0... There's a helper script that might help you out in the helperscript directory!!! (only works if your current version is higher than v0.0.2)")
+			os.Exit(1)
+		}
+		var version int
+		err = db.QueryRow("SELECT value FROM info WHERE key='dbversion'").Scan(&version)
+		if err != nil {
+			fmt.Printf("%s\n", "incorrect database version... You need version 1... There's a helper script that **might** help you out in the helperscript directory!!! (only works if your current version is higher than v0.0.2)")
+			os.Exit(1)
+		}
+		if version != 1 {
+			fmt.Printf("%s\n", "incorrect database version... You need version 1... There's a helper script that **might** help you out in the helperscript directory!!! (only works if your current version is higher than v0.0.2")
+			os.Exit(1)
+		}
+	} else {
 		_, err := db.Exec("CREATE TABLE IF NOT EXISTS `info` ( `key`   INTEGER, `value` TEXT );")
 		if err != nil {
 			fmt.Printf("%s\n", err.Error())
 			os.Exit(1)
 		}
-	_, err = db.Exec("insert into info (key, value) values ('dbversion','1');")
+		_, err = db.Exec("insert into info (key, value) values ('dbversion','1');")
 		if err != nil {
 			fmt.Printf("%s\n", err.Error())
 			os.Exit(1)
 		}
 	}
-	
 
 }
 
@@ -64,7 +63,7 @@ func initialisedb(db *sql.DB) *sql.Tx {
 	var querylist []string
 	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `user_ip` ( `id`    INTEGER NOT NULL, `ip`    TEXT NOT NULL, PRIMARY KEY(`id` AUTOINCREMENT));")
 	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `user_useragent` ( `id`    INTEGER NOT NULL, `useragent`     TEXT NOT NULL, PRIMARY KEY(`id` AUTOINCREMENT) );")
-	
+
 	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `user` ( `id`    INTEGER NOT NULL, `ip`    INTEGER NOT NULL, `useragent`     INTEGER NOT NULL, FOREIGN KEY(`useragent`) REFERENCES `user_useragent`(`id`),  FOREIGN KEY(`ip`) REFERENCES `user_ip`(`id`),  PRIMARY KEY(`id` AUTOINCREMENT) )")
 	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `request` (`id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`request`       TEXT NOT NULL);")
 	querylist = append(querylist, "CREATE TABLE IF NOT EXISTS `referrer` (`id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`referrer`      TEXT NOT NULL);")
