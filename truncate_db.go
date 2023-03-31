@@ -49,7 +49,7 @@ func truncate_from(timestring string) {
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
-	
+
 	stmt_truncatevisit_clean_user_useragent := myquerydb["stmt_truncatevisit_clean_user_useragent"].stmt
 
 	_, err = stmt_truncatevisit_clean_user_useragent.Exec()
