@@ -4,7 +4,7 @@ import sqlite3
 
 
 def main():
-	with sqlite3.connect('../../new_db.sqlite') as conn:
+	with sqlite3.connect('../../db_new.db') as conn:
 		cursor = conn.cursor()
 		cursor.execute('''CREATE TABLE `request` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `request` TEXT NOT NULL )''')
 		cursor.execute(''' CREATE TABLE `referrer` ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`referrer` TEXT NOT NULL) ''')
@@ -20,7 +20,7 @@ def main():
 		cursor.execute(''' CREATE UNIQUE INDEX "ip_ip" ON "user_ip" ( "ip"    ASC ) ''')
 		conn.commit()
 
-	with sqlite3.connect('../../db_old.db') as old_conn, sqlite3.connect('../../new_db.sqlite') as new_conn:
+	with sqlite3.connect('../../db_old.db') as old_conn, sqlite3.connect('../../db_new.db') as new_conn:
 		old_cursor = old_conn.cursor()
 		new_cursor = new_conn.cursor()
 
@@ -36,17 +36,17 @@ def main():
 		for row in ip_useragent_rows:
 			useragent = row[1]
 			new_cursor.execute('INSERT OR IGNORE INTO user_useragent (useragent) VALUES (?)', (useragent,))
-		"""
+		
 		# copy data from old tables to new tables
 		old_cursor.execute('SELECT * FROM request')
 		new_cursor.executemany('INSERT INTO request (id, request) VALUES (?, ?)', old_cursor.fetchall())
-
+		
 		old_cursor.execute('SELECT * FROM referrer')
 		new_cursor.executemany('INSERT INTO referrer (id, referrer) VALUES (?, ?)', old_cursor.fetchall())
 
 		old_cursor.execute('SELECT * FROM alreadyloaded')
 		new_cursor.executemany('INSERT INTO alreadyloaded (id, hash) VALUES (?, ?)', old_cursor.fetchall())
-
+		"""
 		old_cursor.execute('SELECT * FROM visit')
 		for row in old_cursor.fetchall():
 			# get the new user_id by querying for the ip and useragent in the new tables
