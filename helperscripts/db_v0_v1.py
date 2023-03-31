@@ -83,7 +83,7 @@ def main():
 		old_cursor.execute('SELECT id, referrer, request, visit_timestamp,user, statuscode, httpsize FROM visit')
 		new_cursor.executemany('INSERT INTO visit (id, referrer, request, visit_timestamp,user, statuscode, httpsize) VALUES (?, ?,?,?,?,?,?)', old_cursor.fetchall())
 		
-
+		new_cursor.execute("insert into info (key, value) values ('dbversion','1')")
 		# commit changes and close connections
 		new_conn.commit()
 
