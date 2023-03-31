@@ -1,10 +1,23 @@
 #!/usr/bin/python3
 import sqlite3
-
+import argparse
+import os
 
 
 def main():
-	with sqlite3.connect('../../db_new.db') as conn:
+	parser = argparse.ArgumentParser(description='Description of your script')
+	parser.add_argument('--inputdb', type=str, help='Path to the input file', required=True)
+	parser.add_argument('--outputdb', type=str, help='Path to the output file', required=True)
+	args = parser.parse_args()
+	# Check if input file exists
+	if not os.path.isfile(args.inputdb):
+		print("Error: Input file does not exist!")
+		exit()
+	# Check if output file does not exist
+	if os.path.isfile(args.outputdb):
+		print("Error: Output file already exists!")
+		exit()
+	with sqlite3.connect(args.outputdb) as conn:
 		cursor = conn.cursor()
 		cursor.execute('''CREATE TABLE `request` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `request` TEXT NOT NULL )''')
 		cursor.execute(''' CREATE TABLE `referrer` ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,`referrer` TEXT NOT NULL) ''')
@@ -20,7 +33,7 @@ def main():
 		cursor.execute(''' CREATE UNIQUE INDEX "ip_ip" ON "user_ip" ( "ip"    ASC ) ''')
 		conn.commit()
 
-	with sqlite3.connect('../../db_old.db') as old_conn, sqlite3.connect('../../db_new.db') as new_conn:
+	with sqlite3.connect(args.inputdb) as old_conn, sqlite3.connect(args.outputdb) as new_conn:
 		old_cursor = old_conn.cursor()
 		new_cursor = new_conn.cursor()
 
