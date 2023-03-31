@@ -310,6 +310,7 @@ func loadquerydb(tx *sql.Tx) {
 			fmt.Printf("%s\n", err.Error())
 			os.Exit(1)
 		}
+		fmt.Printf("%s\n\n", sql)
 		myquery.querynaam = naam
 		myquery.sqlcode = sql
 		myquery.stmt = stmt
