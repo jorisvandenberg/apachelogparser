@@ -78,5 +78,5 @@ func main() {
 	if args.Outputs.Zipoutput {
 		ZipWriter(args.Outputs.Outputpath, args.Outputs.Zippath)
 	}
-	lockUnlock(false, args)
+	//lockUnlock(false, args)
 }
