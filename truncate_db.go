@@ -43,16 +43,16 @@ func truncate_from(timestring string) {
 		fmt.Printf("%s\n", err.Error())
 	}
 
-	stmt_truncatevisit_clean_user := myquerydb["stmt_truncatevisit_clean_user_ip"].stmt
+	stmt_truncatevisit_clean_user_ip := myquerydb["stmt_truncatevisit_clean_user_ip"].stmt
 
-	_, err = stmt_truncatevisit_clean_user.Exec()
+	_, err = stmt_truncatevisit_clean_user_ip.Exec()
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
 	
-	stmt_truncatevisit_clean_user := myquerydb["stmt_truncatevisit_clean_user_useragent"].stmt
+	stmt_truncatevisit_clean_user_useragent := myquerydb["stmt_truncatevisit_clean_user_useragent"].stmt
 
-	_, err = stmt_truncatevisit_clean_user.Exec()
+	_, err = stmt_truncatevisit_clean_user_useragent.Exec()
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
 	}
