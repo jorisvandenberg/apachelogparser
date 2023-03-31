@@ -20,6 +20,12 @@ func loadquerydb(tx *sql.Tx) {
 
 	querymap := make(map[string]string)
 	querymap["stmt_insertuser"] = "insert into user(ip, useragent) values (?,?)"                                                                                              //insert a new user
+	querymap["stmt_insertuser_ip"] = "insert into user_ip(ip) values (?)"                                                                                              //insert a new user
+	querymap["stmt_countuserips"] = "select count(*) from user_ip where ip = ?"                                                                                              //insert a new user
+	querymap["stmt_countuseragents"] = "select count(*) from user_useragent where useragent = ?"                                                                                              //insert a new user
+	querymap["stmt_selectusersipid"] = "select id from user_ip where ip = ?"                                                                                              //insert a new user
+	querymap["stmt_selectuseragentsid"] = "select id from user_useragent where useragent = ?"                                                                                              //insert a new user
+	querymap["stmt_insertuser_agent"] = "insert into user_useragent(useragent) values (?)"                                                                                              //insert a new user
 	querymap["stmt_insertrequest"] = "insert into request(request) values (?)"                                                                                                //insert a new request
 	querymap["stmt_countreferrer"] = "select count(*) from referrer where referrer = ?"                                                                                       //count wether or not a certain referrer already exists
 	querymap["stmt_selectreferrerid"] = "select id from referrer where referrer = ?"                                                                                          //return the id of a unique referrer
@@ -37,6 +43,8 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_truncatevisit_clean_referrer"] = "DELETE FROM referrer WHERE id NOT IN (SELECT referrer FROM visit)"                                                       //truncate the alreadyloaded table so the system doesn't know wether a file was already loaded in the past
 	querymap["stmt_truncatevisit_clean_request"] = "DELETE FROM request WHERE id NOT IN (SELECT request FROM visit)"                                                          //truncate the alreadyloaded table so the system doesn't know wether a file was already loaded in the past
 	querymap["stmt_truncatevisit_clean_user"] = "DELETE FROM user WHERE id NOT IN (SELECT user FROM visit)"                                                                   //truncate the alreadyloaded table so the system doesn't know wether a file was already loaded in the past
+	querymap["stmt_truncatevisit_clean_user"] = "DELETE FROM user_ip WHERE id NOT IN (SELECT ip FROM user)"                                                                   //truncate the alreadyloaded table so the system doesn't know wether a file was already loaded in the past
+	querymap["stmt_truncatevisit_clean_user"] = "DELETE FROM user_useragent WHERE id NOT IN (SELECT useragent FROM user)"                                                                   //truncate the alreadyloaded table so the system doesn't know wether a file was already loaded in the past
 	querymap["stmt_truncate_alreadyloaded"] = "DELETE FROM alreadyloaded"                                                                                                     //truncate the alreadyloaded table so the system doesn't know wether a file was already loaded in the past
 	querymap["stmt_maxvisittimestamp"] = "select max(visit_timestamp) from visit"                                                                                             //select the latest succesfully added record's timestamp to skip older records when loading
 	querymap["stmt_raw_PerHour_hits"] = " SELECT"                                                                                                                             //select
@@ -302,7 +310,6 @@ func loadquerydb(tx *sql.Tx) {
 			fmt.Printf("%s\n", err.Error())
 			os.Exit(1)
 		}
-		fmt.Printf("%s\n", sql)
 		myquery.querynaam = naam
 		myquery.sqlcode = sql
 		myquery.stmt = stmt

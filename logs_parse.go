@@ -80,19 +80,66 @@ func insertrow(ip string, datumtijd string, method string, request string, httpv
 	}
 
 	if int(epoch) > maxtimestamp || parse_even_if_old {
+		stmt_countuserips := myquerydb["stmt_countuserips"].stmt
+		var numberuserips int
+		stmt_countuserips.QueryRow(ip).Scan(&numberuserips)
+		
+		var useripid int
+		if numberuserips > 0 {
+			//ip already exists... get its id
+			stmt_selectusersipid := myquerydb["stmt_selectusersipid"].stmt
+			stmt_selectusersipid.QueryRow(ip).Scan(&useripid)
+			
+		} else {
+			//userip does not exist... create the bugger
+			stmt_insertuser_ip := myquerydb["stmt_insertuser_ip"].stmt
+			stmt_insertuser_ip_result, err := stmt_insertuser_ip.Exec(ip)
+			if err != nil {
+				fmt.Printf("%s\n", err.Error())
+				os.Exit(1)
+			}
+			var id64 int64
+			id64, err = stmt_insertuser_ip_result.LastInsertId()
+			useripid = int(id64)
+		}
+		
+		stmt_countuseragents := myquerydb["stmt_countuseragents"].stmt
+		var numberuseragents int
+		stmt_countuseragents.QueryRow(useragent).Scan(&numberuseragents)
+		
+		var useragentid int
+		if numberuseragents > 0 {
+			//useragent already exists... get its id
+			stmt_selectuseragentsid := myquerydb["stmt_selectuseragentsid"].stmt
+			stmt_selectuseragentsid.QueryRow(useragent).Scan(&useragentid)
+			
+		} else {
+			//userip does not exist... create the bugger
+			stmt_insertuser_agent := myquerydb["stmt_insertuser_agent"].stmt
+			stmt_insertuser_agent_result, err := stmt_insertuser_agent.Exec(useragent)
+			if err != nil {
+				fmt.Printf("%s\n", err.Error())
+				os.Exit(1)
+			}
+			var id64 int64
+			id64, err = stmt_insertuser_agent_result.LastInsertId()
+			useragentid = int(id64)
+		}
+		
+		
 		stmt_countusers := myquerydb["stmt_countusers"].stmt
 		var numberofusers int
-		stmt_countusers.QueryRow(ip, useragent).Scan(&numberofusers)
+		stmt_countusers.QueryRow(useripid, useragentid).Scan(&numberofusers)
 
 		var userid int
 		if numberofusers > 0 {
 			//user already exists... get his id :)
 			stmt_selectuserid := myquerydb["stmt_selectuserid"].stmt
-			stmt_selectuserid.QueryRow(ip, useragent).Scan(&userid)
+			stmt_selectuserid.QueryRow(useripid, useragentid).Scan(&userid)
 		} else {
 			//user does not exist... create the bugger
 			stmt_insertuser := myquerydb["stmt_insertuser"].stmt
-			stmt_insertuser_result, err := stmt_insertuser.Exec(ip, useragent)
+			stmt_insertuser_result, err := stmt_insertuser.Exec(useripid, useragentid)
 			if err != nil {
 				fmt.Printf("%s\n", err.Error())
 				os.Exit(1)
