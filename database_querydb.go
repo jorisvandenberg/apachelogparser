@@ -140,18 +140,6 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_raw_PerHour_ReferringUrls"] += "   aantal desc"
 	querymap["stmt_raw_PerHour_ReferringUrls"] += " LIMIT ?"
 	
-	querymap["stmt_raw_PerHour_ReferringUrls"] += "  UNION"
-	querymap["stmt_raw_PerHour_ReferringUrls"] += "    SELECT"
-	querymap["stmt_raw_PerHour_ReferringUrls"] += "      'All the rest' as subreferrer, COUNT(*) as aantal"
-	querymap["stmt_raw_PerHour_ReferringUrls"] += "    FROM"
-	querymap["stmt_raw_PerHour_ReferringUrls"] += "      referrer r, visit v"
-	querymap["stmt_raw_PerHour_ReferringUrls"] += " WHERE"
-	querymap["stmt_raw_PerHour_ReferringUrls"] += "   r.id = v.referrer"
-	querymap["stmt_raw_PerHour_ReferringUrls"] += "   and v.visit_timestamp > ?"
-	querymap["stmt_raw_PerHour_ReferringUrls"] += "   and v.statuscode > 199"
-	querymap["stmt_raw_PerHour_ReferringUrls"] += "   and v.statuscode < 400"
-	querymap["stmt_raw_PerHour_ReferringUrls"] += "   and v.referrer NOT IN (select referrer from referrer group by referrer order by count(*) limit 30)"
-
 	querymap["stmt_unique_PerHour_ReferringUrls"] = " SELECT"
 	querymap["stmt_unique_PerHour_ReferringUrls"] += "   CASE"
 	querymap["stmt_unique_PerHour_ReferringUrls"] += "     WHEN instr(r.referrer, '??') > 0 THEN REPLACE(RTRIM(substr(r.referrer, 1, instr(r.referrer, '??') - 1), '/'), '//', '/')"
