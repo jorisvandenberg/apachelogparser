@@ -12,6 +12,9 @@ func createboxplot(XValues []string, YValues map[string][][]int, args Args, titl
 	bp.Renderer = newSnippetRenderer(bp, bp.Validate)
 	bp.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{Title: title}),
+		charts.WithInitializationOpts(opts.Initialization{
+			AssetsHost: args.Outputs.Assethost,
+		}),
 	)
 
 	for serienaam, serievalues := range YValues {
