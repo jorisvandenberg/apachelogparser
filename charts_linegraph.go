@@ -16,6 +16,9 @@ func createlinegraph(XValues []string, YValues map[string][]int, title string, s
 			Subtitle: subtitle,
 			//Link:     "https://github.com/go-echarts/go-echarts",
 		}),
+		charts.WithInitializationOpts(opts.Initialization{
+			AssetsHost: args.Outputs.Assethost,
+		}),
 	)
 	for serienaam, serievalues := range YValues {
 		items := make([]opts.LineData, 0)
