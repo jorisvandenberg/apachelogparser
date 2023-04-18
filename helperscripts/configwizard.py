@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3.11
 
 import os
 import configparser
@@ -73,14 +73,22 @@ def get_default_log_path():
 def fill_input_section():
 	osdefault = get_default_log_path()
 	global ini_data
+	domain = ini_data['general']['mydomain']
+	pattern = pattern = r'^' + re.escape(domain) + r'.*'
 	questions = [
 		inquirer.Path('logfile_dir', message="Where can i find the logfiles?", path_type=inquirer.Path.DIRECTORY, default=osdefault),
+		inquirer.Text('logfileregex', message="Regex which logiles i need to parse", default=pattern),
+		inquirer.Text('parseregex', message="regex to match log format values (or clf)", default='clf'),
 	]
 	
 	answers = inquirer.prompt(questions)
 	logfile_dir = answers['logfile_dir']
+	logfileregex = answers['logfileregex']
+	parseregex = answers['parseregex']
 	ini_data['input'] = {
         'logfilepath': logfile_dir,
+		'logfileregex': logfileregex,
+		'parseregex': parseregex,
     }
 
 def fill_general_section():
@@ -90,7 +98,7 @@ def fill_general_section():
 		inquirer.Text('database_file', message="What is the name of the database (ending in .db)", validate=validate_file_extension_db_sqlite3),
 		inquirer.Text('timeformat', message="enter a valid timeformat", default="02/Jan/2006:15:04:05 -0700"),
 		inquirer.Text('mydomain', message="enter your top level domain (mydomain.com)"),
-		inquirer.List("writelog", message="Do i need to write logfiles to the output directory?", choices=["yes", "no"], default="no"),
+		inquirer.List("writelog", message="Do i need to write logfiles?", choices=["yes", "no"], default="yes"),
 	]
 	answers = inquirer.prompt(questions)
 	
@@ -131,59 +139,7 @@ def main():
 	config_filename = get_configfilename()
 	fill_general_section()
 	fill_input_section()
-	
 	write_ini_file(config_filename)
-"""
-config = configparser.ConfigParser()
 
-# Add sections to the INI file
-config.add_section('Section1')
-config.add_section('Section2')
-
-# Add options to the sections
-config.set('Section1', 'Option1', 'Value1')
-config.set('Section1', 'Option2', 'Value2')
-config.set('Section2', 'Option1', 'Value3')
-config.set('Section2', 'Option2', 'Value4')
-
-# Write the INI file to disk
-with open('example.ini', 'w') as configfile:
-    config.write(configfile)
-	"""
-	
-	
-	
-"""
-	questions = [
-		inquirer.Text('config_file', message="Enter the path and name for the config file", default='config.ini'),
-		inquirer.Path('data_dir', message="Select the path to the data directory", path_type=inquirer.Path.DIRECTORY),
-		inquirer.Path('output_dir', message="Select the path to the output directory", path_type=inquirer.Path.DIRECTORY),
-		inquirer.Path('database_dir', message="Where is the database (full path)", path_type=inquirer.Path.FILE, validate=validate_file_extension),
-		inquirer.Confirm('debug', message="Enable debugging?", default=False),
-	]
-
-	# Run the wizard and get the user's answers
-	answers = inquirer.prompt(questions)
-
-	# Verify that the directories and files exist
-	if not os.path.isdir(answers['data_dir']):
-		print("Error: The data directory does not exist.")
-		exit()
-
-	if not os.path.isdir(answers['output_dir']):
-		print("Error: The output directory does not exist.")
-		exit()
-
-	# Write the config file
-	config = configparser.ConfigParser()
-	config['DEFAULT'] = {
-		'data_dir': answers['data_dir'],
-		'output_dir': answers['output_dir'],
-		'debug': str(answers['debug']),
-	}
-
-	with open(answers['config_file'], 'w') as f:
-		config.write(f)
-"""
 if __name__ == "__main__":
 	main()
