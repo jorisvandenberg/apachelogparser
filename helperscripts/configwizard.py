@@ -34,15 +34,18 @@ def get_default_log_path():
 	distrodb = {
 		'win': {
 			'list': ['Windows'],
-			'path': 'C:\\Program Files\\Apache\\Apache2.4\\logs\\'
+			'logpath': 'C:\\Program Files\\Apache\\Apache2.4\\logs\\',
+			'outputpath': 'C:\\Program Files\\Apache\\Apache2.4\\www\\',
 		},
 		'apache2': {
 			'list': ['Darwin', 'Ubuntu', 'SUSE', 'OpenSUSE', 'Debian GNU/Linux', 'debian'],
-			'path': '/var/log/apache2/'
+			'logpath': '/var/log/apache2/',
+			'outputpath': '/var/www/html/',
 		},
 		'httpd': {
 			'list': ['Fedora', 'CentOS', 'RHEL', 'Red Hat Enterprise Linux (RHEL)'],
-			'path': '/var/log/apache2/'
+			'logpath': '/var/log/apache2/',
+			'outputpath': '/var/www/html/',
 		}
 	}
 	
@@ -65,9 +68,9 @@ def get_default_log_path():
 	
 	for key, value in distrodb.items():
 		if distro in value['list']:
-			return value['path']
+			return [value['logpath'], value['outputpath']]
 	
-	return ""
+	return ["", ""]
 
 	
 def fill_input_section():
@@ -76,10 +79,11 @@ def fill_input_section():
 	domain = ini_data['general']['mydomain']
 	pattern = pattern = r'^' + re.escape(domain) + r'.*'
 	questions = [
-		inquirer.Path('logfile_dir', message="Where can i find the logfiles?", path_type=inquirer.Path.DIRECTORY, default=osdefault),
+		inquirer.Path('logfile_dir', message="Where can i find the logfiles?", path_type=inquirer.Path.DIRECTORY, default=osdefault[0]),
 		inquirer.Text('logfileregex', message="Regex which logiles i need to parse", default=pattern),
 		inquirer.Text('parseregex', message="regex to match log format values (or clf)", default='clf'),
 		inquirer.List("fullloadcheck", message="Do i need to parse every line of every logfile? (false = only lines newer than last load)", choices=["true", "false"], default="false"),
+		inquirer.Text('order', message="the order in which the regex will find the necessary fields", default='123456789'),
 	]
 	
 	answers = inquirer.prompt(questions)
@@ -87,11 +91,37 @@ def fill_input_section():
 	logfileregex = answers['logfileregex']
 	parseregex = answers['parseregex']
 	fullloadcheck = answers['fullloadcheck']
+	order = answers['order']
 	ini_data['input'] = {
         'logfilepath': logfile_dir,
 		'logfileregex': logfileregex,
 		'parseregex': parseregex,
 		'fullloadcheck': fullloadcheck,
+		'parserfield_ip': order[0],
+		'parserfield_datetime': order[1],
+		'parserfield_method': order[2],
+		'parserfield_request': order[3],
+		'parserfield_httpversion': order[4],
+		'parserfield_returncode': order[5],
+		'parserfield_httpsize': order[6],
+		'parserfield_referrer': order[7],
+		'parserfield_useragent': order[8],
+    }
+	
+def fill_output_section():
+	osdefault = get_default_log_path()
+	global ini_data
+	questions = [
+		inquirer.Path('outputpath', message="Where do i need to write the output to?", path_type=inquirer.Path.DIRECTORY, default=osdefault[1]),
+		inquirer.List("emptyoutputpath", message="Do i need to remove all html files from the output before creating new ones?", choices=["true", "false"], default="true"),
+	]
+	
+	answers = inquirer.prompt(questions)
+	outputpath = answers['outputpath']
+	emptyoutputpath = answers['emptyoutputpath']
+	ini_data['output'] = {
+        'outputpath': outputpath,
+        'emptyoutputpath': emptyoutputpath,
     }
 
 def fill_general_section():
@@ -137,6 +167,7 @@ def main():
 	config_filename = get_configfilename()
 	fill_general_section()
 	fill_input_section()
+	fill_output_section()
 	write_ini_file(config_filename)
 
 if __name__ == "__main__":
