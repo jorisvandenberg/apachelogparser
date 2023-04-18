@@ -114,14 +114,20 @@ def fill_output_section():
 	questions = [
 		inquirer.Path('outputpath', message="Where do i need to write the output to?", path_type=inquirer.Path.DIRECTORY, default=osdefault[1]),
 		inquirer.List("emptyoutputpath", message="Do i need to remove all html files from the output before creating new ones?", choices=["true", "false"], default="true"),
+		inquirer.Text('number_of_days_detailed', message="how many days to return detailed info for (in tables)", default='31'),
+		inquirer.Text('max_number_of_days', message="how many days to return as a fallback", default='124'),
 	]
 	
 	answers = inquirer.prompt(questions)
 	outputpath = answers['outputpath']
 	emptyoutputpath = answers['emptyoutputpath']
+	number_of_days_detailed = answers['number_of_days_detailed']
+	max_number_of_days = answers['max_number_of_days']
 	ini_data['output'] = {
         'outputpath': outputpath,
         'emptyoutputpath': emptyoutputpath,
+        'number_of_days_detailed': number_of_days_detailed,
+        'max_number_of_days': max_number_of_days,
     }
 
 def fill_general_section():
