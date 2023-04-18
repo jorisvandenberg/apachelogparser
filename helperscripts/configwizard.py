@@ -206,6 +206,27 @@ def fill_ignorereferrers_section():
 		for key, value in answers.items():
 			ini_data['ignorereferrers'][key] = [value][0]
 
+def fill_ignoredrequests_section():
+	global ini_data
+	ini_data['ignoredrequests'] = {}
+	answers = {}
+	print("add as many requests you want to ignore while parsing as you want..\n")
+	print("globs welcome!!!..\n")
+	print("when finished, leave the prompts blank!\n")
+	while True:
+		questions = [
+			inquirer.Text('key', message="reference"),
+			inquirer.Text('value', message="request to ignore")
+		]
+		response = inquirer.prompt(questions)
+
+		if not response['key'] and not response['value']:
+			break
+
+		answers[response['key']] = response['value']
+		for key, value in answers.items():
+			ini_data['ignoredrequests'][key] = [value][0]
+
 def fill_general_section():
 	global ini_data
 	questions = [
@@ -253,6 +274,7 @@ def main():
 	fill_ignorevisitorips_section()
 	fill_ignorehostagents_section()
 	fill_ignorereferrers_section()
+	fill_ignoredrequests_section()
 	write_ini_file(config_filename)
 
 if __name__ == "__main__":
