@@ -5,6 +5,8 @@ import configparser
 import inquirer
 import re
 import sys
+import platform
+
 ini_data = {}
 
 def write_ini_file(filename):
@@ -27,6 +29,59 @@ def get_configfilename():
 	configfile_dir = answers['configfile_dir']
 	configfile_name = answers['configfile_name']
 	return configfile_dir+configfile_name
+
+def get_default_log_path():
+	distrodb = {
+		'win': {
+			'list': ['Windows'],
+			'path': 'C:\\Program Files\\Apache\\Apache2.4\\logs\\'
+		},
+		'apache2': {
+			'list': ['Darwin', 'Ubuntu', 'SUSE', 'OpenSUSE', 'Debian GNU/Linux', 'debian'],
+			'path': '/var/log/apache2/'
+		},
+		'httpd': {
+			'list': ['Fedora', 'CentOS', 'RHEL', 'Red Hat Enterprise Linux (RHEL)'],
+			'path': '/var/log/apache2/'
+		}
+	}
+	
+	os_name = platform.system()
+
+	# Detect the Linux distribution, if applicable
+	if os_name == 'Linux':
+		try:
+			with open('/etc/os-release', 'r') as f:
+				distro_info = {}
+				for line in f:
+					if '=' in line:
+						key, value = line.strip().split('=', 1)
+						distro_info[key.lower()] = value.strip().strip('"')
+				distro = distro_info.get('name') or distro_info.get('id')
+		except:
+			distro = None
+	else:
+		distro = os_name
+	
+	for key, value in distrodb.items():
+		if distro in value['list']:
+			return value['path']
+	
+	return ""
+
+	
+def fill_input_section():
+	osdefault = get_default_log_path()
+	global ini_data
+	questions = [
+		inquirer.Path('logfile_dir', message="Where can i find the logfiles?", path_type=inquirer.Path.DIRECTORY, default=osdefault),
+	]
+	
+	answers = inquirer.prompt(questions)
+	logfile_dir = answers['logfile_dir']
+	ini_data['input'] = {
+        'logfilepath': logfile_dir,
+    }
 
 def fill_general_section():
 	global ini_data
@@ -75,6 +130,7 @@ def validate_file_extension_db_sqlite3(answers, current):
 def main():
 	config_filename = get_configfilename()
 	fill_general_section()
+	fill_input_section()
 	
 	write_ini_file(config_filename)
 """
