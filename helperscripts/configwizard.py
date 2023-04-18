@@ -128,6 +128,8 @@ def fill_output_section():
 	max_number_of_days = answers['max_number_of_days']
 	assethost = answers['assethost']
 	zipoutput = answers['zipoutput']
+	zippath = answers['zippath']
+	
 	ini_data['output'] = {
         'outputpath': outputpath,
         'emptyoutputpath': emptyoutputpath,
@@ -135,6 +137,7 @@ def fill_output_section():
         'max_number_of_days': max_number_of_days,
         'assethost': assethost,
         'zipoutput': zipoutput,
+        'zippath': zippath,
     }
 
 def fill_general_section():
