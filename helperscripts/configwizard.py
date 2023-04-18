@@ -79,18 +79,19 @@ def fill_input_section():
 		inquirer.Path('logfile_dir', message="Where can i find the logfiles?", path_type=inquirer.Path.DIRECTORY, default=osdefault),
 		inquirer.Text('logfileregex', message="Regex which logiles i need to parse", default=pattern),
 		inquirer.Text('parseregex', message="regex to match log format values (or clf)", default='clf'),
-		inquirer.List("writelog", message="Do i need to parse every line of every logfile? (false = only lines newer than last load)", choices=["true", "false"], default="false"),
+		inquirer.List("fullloadcheck", message="Do i need to parse every line of every logfile? (false = only lines newer than last load)", choices=["true", "false"], default="false"),
 	]
 	
 	answers = inquirer.prompt(questions)
 	logfile_dir = answers['logfile_dir']
 	logfileregex = answers['logfileregex']
 	parseregex = answers['parseregex']
-	writelog = answers['writelog']
+	fullloadcheck = answers['fullloadcheck']
 	ini_data['input'] = {
         'logfilepath': logfile_dir,
 		'logfileregex': logfileregex,
-		'writelog': writelog,
+		'parseregex': parseregex,
+		'fullloadcheck': fullloadcheck,
     }
 
 def fill_general_section():
