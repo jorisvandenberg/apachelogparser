@@ -269,39 +269,92 @@ def fill_allstats_sections():
 	global ini_data
 	statdb = {
 		'conf_stat_raw_PerHour_hits': {
-			'enabled': {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enabled?'},
-			'table_enabled': {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enable table output?'},
-			'table_title': {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table title'},
-			'table_description' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table description'},
-			'table_pagecontent' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table pagecontent'},
-			'table_pagefooter' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table pagefooter'},
-			'table_filename' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table filename'},
-			'table_index_name' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table indexfile linktext'},
-			'table_index_group' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table indexfile group'},
-			'table_index_order' : {'type': 'int', 'validate': '', 'default': '', 'helpmessage': 'table indexfile order'},
-			'linegraph_enabled' : {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enable linegrapht output?'},
-			'linegraph_title' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph title'},
-			'linegraph_description' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph description'},
-			'linegraph_filename' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph filename'},
-			'linegraph_index_group' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph indexfile group'},
-			'linegraph_index_order' : {'type': 'int', 'validate': '', 'default': '', 'helpmessage': 'linegraph indexfile order'},
-			'linegraph_compare_x_days_weeks_months_enabled' : {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enable comparable linegraphs?'},
+			'enabled': {'type': 'bool', 'validate': '', 'default': 'true', 'helpmessage': 'enabled?'},
+			'table_enabled': {'type': 'bool', 'validate': '', 'default': 'true', 'helpmessage': 'enable table output?'},
+			'table_title': {'type': 'string', 'validate': '', 'default': 'Number of raw hits per hour over th last |number_of_days_detailed| days', 'helpmessage': 'table title'},
+			'table_description' : {'type': 'string', 'validate': '', 'default': 'Count of all raw sucessfull hits per hour.', 'helpmessage': 'table description'},
+			'table_pagecontent' : {'type': 'string', 'validate': '', 'default': 'We limit the output to the number of days that were defined in your config.ini file with a sliding window (so if you run this tool at 15:34 you\'ll get stats untill 15:34 x days ago).', 'helpmessage': 'table pagecontent'},
+			'table_pagefooter' : {'type': 'string', 'validate': '', 'default': 'only hits that were actually loaded are shown, so if you filtered out certain lines in your config.ini they\'ll never be shown!', 'helpmessage': 'table pagefooter'},
+			'table_filename' : {'type': 'string', 'validate': '', 'default': 'raw_PerHour_hits_table.html', 'helpmessage': 'table filename'},
+			'table_index_name' : {'type': 'string', 'validate': '', 'default': 'table raw hits per hour last |number_of_days_detailed| days', 'helpmessage': 'table indexfile linktext'},
+			'table_index_group' : {'type': 'string', 'validate': '', 'default': 'raw hits', 'helpmessage': 'table indexfile group'},
+			'table_index_order' : {'type': 'int', 'validate': '', 'default': '1', 'helpmessage': 'table indexfile order'},
+			'linegraph_enabled' : {'type': 'bool', 'validate': '', 'default': 'true', 'helpmessage': 'enable linegrapht output?'},
+			'linegraph_title' : {'type': 'string', 'validate': '', 'default': 'linegraph raw hits per hour last |number_of_days_detailed| days', 'helpmessage': 'linegraph title'},
+			'linegraph_description' : {'type': 'string', 'validate': '', 'default': 'Count of all raw succesfull hits per hour.', 'helpmessage': 'linegraph description'},
+			'linegraph_filename' : {'type': 'string', 'validate': '', 'default': 'raw_PerHour_hits_linegraph.html', 'helpmessage': 'linegraph filename'},
+			'linegraph_index_group' : {'type': 'string', 'validate': '', 'default': 'raw hits', 'helpmessage': 'linegraph indexfile group'},
+			'linegraph_index_order' : {'type': 'int', 'validate': '', 'default': '15', 'helpmessage': 'linegraph indexfile order'},
+			'linegraph_compare_x_days_weeks_months_enabled' : {'type': 'bool', 'validate': '', 'default': 'false', 'helpmessage': 'enable comparable linegraphs?'},
 			'linegraph_compare_x_days_weeks_months_title' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs title'},
 			'linegraph_compare_x_days_weeks_months_description' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs description'},
 			'linegraph_compare_x_days_weeks_months_filename' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs filename'},
 			'linegraph_compare_x_days_weeks_months_index_group' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs indexpage group'},
 			'linegraph_compare_x_days_weeks_months_index_order' : {'type': 'list_int', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs indexpage order'},
 			'linegraph_compare_x_days_weeks_months_parameters' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs parameters'},
+		},
+		'conf_stat_unique_PerDay_hits': {
+			'enabled': {'type': 'bool', 'validate': '', 'default': 'true', 'helpmessage': 'enabled?'},
+			'table_enabled': {'type': 'bool', 'validate': '', 'default': 'true', 'helpmessage': 'enable table output?'},
+			'table_title': {'type': 'string', 'validate': '', 'default': 'Number of unique hits per day over th last |number_of_days_detailed| days', 'helpmessage': 'table title'},
+			'table_description' : {'type': 'string', 'validate': '', 'default': 'Count of all unique sucessfull hits per day.', 'helpmessage': 'table description'},
+			'table_pagecontent' : {'type': 'string', 'validate': '', 'default': 'Unique hit = the first hit of one user this day|We limit the output to the number of days that were defined in your config.ini file with a sliding window (so if you run this tool at 15:34 you\'ll get stats untill 15:34 x days ago).', 'helpmessage': 'table pagecontent'},
+			'table_pagefooter' : {'type': 'string', 'validate': '', 'default': 'only hits that were actually loaded are shown, so if you filtered out certain lines in your config.ini they\'ll never be shown!', 'helpmessage': 'table pagefooter'},
+			'table_filename' : {'type': 'string', 'validate': '', 'default': 'unique_PerDay_hits_table.html', 'helpmessage': 'table filename'},
+			'table_index_name' : {'type': 'string', 'validate': '', 'default': 'table unique hits per day last |number_of_days_detailed| days', 'helpmessage': 'table indexfile linktext'},
+			'table_index_group' : {'type': 'string', 'validate': '', 'default': 'unique hits', 'helpmessage': 'table indexfile group'},
+			'table_index_order' : {'type': 'int', 'validate': '', 'default': '3', 'helpmessage': 'table indexfile order'},
+			'linegraph_enabled' : {'type': 'bool', 'validate': '', 'default': 'true', 'helpmessage': 'enable linegrapht output?'},
+			'linegraph_title' : {'type': 'string', 'validate': '', 'default': 'linegraph unique hits per day last |number_of_days_detailed| days', 'helpmessage': 'linegraph title'},
+			'linegraph_description' : {'type': 'string', 'validate': '', 'default': 'Count of all unique succesfull hits per day.', 'helpmessage': 'linegraph description'},
+			'linegraph_filename' : {'type': 'string', 'validate': '', 'default': 'unique_PerDay_hits_linegraph.html', 'helpmessage': 'linegraph filename'},
+			'linegraph_index_group' : {'type': 'string', 'validate': '', 'default': 'unique hits', 'helpmessage': 'linegraph indexfile group'},
+			'linegraph_index_order' : {'type': 'int', 'validate': '', 'default': '3', 'helpmessage': 'linegraph indexfile order'},
+			'linegraph_compare_x_days_weeks_months_enabled' : {'type': 'bool', 'validate': '', 'default': 'true', 'helpmessage': 'enable comparable linegraphs?'},
+			'linegraph_compare_x_days_weeks_months_title' : {'type': 'list_string', 'validate': '', 'default': 'linegraph unique hits per day, week by week last 4 weeks&linegraph unique hits per day, month by month last 4 months', 'helpmessage': 'comparable linegraphs title'},
+			'linegraph_compare_x_days_weeks_months_description' : {'type': 'list_string', 'validate': '', 'default': '4 week comparison of all unique succesfull hits.&4 month comparison of all unique succesfull hits.', 'helpmessage': 'comparable linegraphs description'},
+			'linegraph_compare_x_days_weeks_months_filename' : {'type': 'list_string', 'validate': '', 'default': 'unique_PerHour_hits_4WeeksLinegraph.html&unique_PerHour_hits_4MonthsLinegraph.html', 'helpmessage': 'comparable linegraphs filename'},
+			'linegraph_compare_x_days_weeks_months_index_group' : {'type': 'list_string', 'validate': '', 'default': 'unique hits&unique hits', 'helpmessage': 'comparable linegraphs indexpage group'},
+			'linegraph_compare_x_days_weeks_months_index_order' : {'type': 'list_int', 'validate': '', 'default': '5&6', 'helpmessage': 'comparable linegraphs indexpage order'},
+			'linegraph_compare_x_days_weeks_months_parameters' : {'type': 'list_string', 'validate': '', 'default': 'day,4,8,week&day,4,32,month', 'helpmessage': 'comparable linegraphs parameters'},
 		}
+		# 'conf_stat_raw_PerHour_hits': {
+			# 'enabled': {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enabled?'},
+			# 'table_enabled': {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enable table output?'},
+			# 'table_title': {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table title'},
+			# 'table_description' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table description'},
+			# 'table_pagecontent' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table pagecontent'},
+			# 'table_pagefooter' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table pagefooter'},
+			# 'table_filename' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table filename'},
+			# 'table_index_name' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table indexfile linktext'},
+			# 'table_index_group' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table indexfile group'},
+			# 'table_index_order' : {'type': 'int', 'validate': '', 'default': '', 'helpmessage': 'table indexfile order'},
+			# 'linegraph_enabled' : {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enable linegrapht output?'},
+			# 'linegraph_title' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph title'},
+			# 'linegraph_description' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph description'},
+			# 'linegraph_filename' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph filename'},
+			# 'linegraph_index_group' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph indexfile group'},
+			# 'linegraph_index_order' : {'type': 'int', 'validate': '', 'default': '', 'helpmessage': 'linegraph indexfile order'},
+			# 'linegraph_compare_x_days_weeks_months_enabled' : {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enable comparable linegraphs?'},
+			# 'linegraph_compare_x_days_weeks_months_title' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs title'},
+			# 'linegraph_compare_x_days_weeks_months_description' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs description'},
+			# 'linegraph_compare_x_days_weeks_months_filename' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs filename'},
+			# 'linegraph_compare_x_days_weeks_months_index_group' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs indexpage group'},
+			# 'linegraph_compare_x_days_weeks_months_index_order' : {'type': 'list_int', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs indexpage order'},
+			# 'linegraph_compare_x_days_weeks_months_parameters' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs parameters'},
+		# }
 	}
 	for section, sectiondb in statdb.items():
 		print(f"section: {section}")
 		questions = []
 		for key, valuedb in sectiondb.items():
-			#print(f"key: {key}")
-			#print(f"value: {valuedb}")
-			currentquestion = inquirer.Text(key, message=valuedb['helpmessage'], default=valuedb['default'])
-			questions.append(currentquestion)
+			if valuedb['type'] == 'bool':
+				questions.append(inquirer.List(key, message=valuedb['helpmessage'], choices=["true", "false"], default=valuedb['default']))
+			elif valuedb['type'] in ['string', 'int', 'list_string', 'list_int']:
+				questions.append(inquirer.Text(key, message=valuedb['helpmessage'], default=valuedb['default']))
+			else:
+				questions.append(inquirer.Text(key, message=valuedb['helpmessage'], default=valuedb['default']))
+		print("%s" % questions)
 		answers = inquirer.prompt(questions)
 		ini_data[section] = {}
 			
