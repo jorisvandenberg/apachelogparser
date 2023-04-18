@@ -294,11 +294,11 @@ def fill_allstats_sections():
 			'linegraph_compare_x_days_weeks_months_parameters' : {'type': 'list_string', 'validate': '', 'default': ''},
 		}
 	}
-	for key, value in statdb.items():
-		print(f"Key: {key}")
-		for subkey, subvalue in value.items():
-			print(f"Subkey: {subkey}")
-			print(f"Subvalue: {subvalue}")
+	for section, sectiondb in statdb.items():
+		print(f"section: {section}")
+		for key, value in sectiondb.items():
+			print(f"key: {key}")
+			print(f"value: {value}")
 
 def main():
 	config_filename = get_configfilename()
