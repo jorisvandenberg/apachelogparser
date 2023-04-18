@@ -116,6 +116,9 @@ def fill_output_section():
 		inquirer.List("emptyoutputpath", message="Do i need to remove all html files from the output before creating new ones?", choices=["true", "false"], default="true"),
 		inquirer.Text('number_of_days_detailed', message="how many days to return detailed info for (in tables)", default='31'),
 		inquirer.Text('max_number_of_days', message="how many days to return as a fallback", default='124'),
+		inquirer.Text('assethost', message="where do i find go-echarts javascript files?", default='https://go-echarts.github.io/go-echarts-assets/assets/'),
+		inquirer.List("zipoutput", message="Do i need to create a zipfile with the output?", choices=["true", "false"], default="false"),
+		inquirer.Text("zippath", message="If i create a zipfile with the output, can you give me the full path?", default="./output.zip"),
 	]
 	
 	answers = inquirer.prompt(questions)
@@ -123,11 +126,15 @@ def fill_output_section():
 	emptyoutputpath = answers['emptyoutputpath']
 	number_of_days_detailed = answers['number_of_days_detailed']
 	max_number_of_days = answers['max_number_of_days']
+	assethost = answers['assethost']
+	zipoutput = answers['zipoutput']
 	ini_data['output'] = {
         'outputpath': outputpath,
         'emptyoutputpath': emptyoutputpath,
         'number_of_days_detailed': number_of_days_detailed,
         'max_number_of_days': max_number_of_days,
+        'assethost': assethost,
+        'zipoutput': zipoutput,
     }
 
 def fill_general_section():
