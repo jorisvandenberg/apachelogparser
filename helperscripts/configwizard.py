@@ -79,16 +79,18 @@ def fill_input_section():
 		inquirer.Path('logfile_dir', message="Where can i find the logfiles?", path_type=inquirer.Path.DIRECTORY, default=osdefault),
 		inquirer.Text('logfileregex', message="Regex which logiles i need to parse", default=pattern),
 		inquirer.Text('parseregex', message="regex to match log format values (or clf)", default='clf'),
+		inquirer.List("writelog", message="Do i need to parse every line of every logfile? (false = only lines newer than last load)", choices=["true", "false"], default="false"),
 	]
 	
 	answers = inquirer.prompt(questions)
 	logfile_dir = answers['logfile_dir']
 	logfileregex = answers['logfileregex']
 	parseregex = answers['parseregex']
+	writelog = answers['writelog']
 	ini_data['input'] = {
         'logfilepath': logfile_dir,
 		'logfileregex': logfileregex,
-		'parseregex': parseregex,
+		'writelog': writelog,
     }
 
 def fill_general_section():
@@ -98,7 +100,7 @@ def fill_general_section():
 		inquirer.Text('database_file', message="What is the name of the database (ending in .db)", validate=validate_file_extension_db_sqlite3),
 		inquirer.Text('timeformat', message="enter a valid timeformat", default="02/Jan/2006:15:04:05 -0700"),
 		inquirer.Text('mydomain', message="enter your top level domain (mydomain.com)"),
-		inquirer.List("writelog", message="Do i need to write logfiles?", choices=["yes", "no"], default="yes"),
+		inquirer.List("writelog", message="Do i need to write logfiles?", choices=["true", "false"], default="true"),
 	]
 	answers = inquirer.prompt(questions)
 	
@@ -106,12 +108,7 @@ def fill_general_section():
 	database_file = answers['database_file']
 	timeformat = answers['timeformat']
 	mydomain = answers['mydomain']
-	writelog = answers['writelog']
-	
-	if writelog == "yes":
-		writelog_output = 'true'
-	else:
-		writelog_output = 'false'
+	writelog_output = answers['writelog']
 
 	# check if the file exists
 	"""
