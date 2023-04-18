@@ -72,7 +72,6 @@ def get_default_log_path():
 			return [value['logpath'], value['outputpath']]
 	
 	return ["", ""]
-
 	
 def fill_input_section():
 	osdefault = get_default_log_path()
