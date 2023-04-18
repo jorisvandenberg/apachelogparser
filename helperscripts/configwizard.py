@@ -15,14 +15,15 @@ def write_ini_file(filename):
 	for section, options in ini_data.items():
 		config.add_section(section)
 		for option, value in options.items():
+			#print("%s %s\n" % (config,value))
 			config.set(section, option, value)
 	with open(filename, 'w') as f:
 		config.write(f)
 
 def get_configfilename():
 	questions = [
-		inquirer.Path('configfile_dir', message="Where is the config file dir (existing full path)", path_type=inquirer.Path.DIRECTORY,),
-		inquirer.Text('configfile_name', message="What is the name of the configfile (ending in .ini)", validate=validate_file_extension_ini),
+		inquirer.Path('configfile_dir', message="Where is the config file dir (existing full path)", path_type=inquirer.Path.DIRECTORY, default="/root/"),
+		inquirer.Text('configfile_name', message="What is the name of the configfile (ending in .ini)", validate=validate_file_extension_ini, default="test.ini"),
 	]
 	answers = inquirer.prompt(questions)
 	
@@ -119,6 +120,7 @@ def fill_output_section():
 		inquirer.Text('assethost', message="where do i find go-echarts javascript files?", default='https://go-echarts.github.io/go-echarts-assets/assets/'),
 		inquirer.List("zipoutput", message="Do i need to create a zipfile with the output?", choices=["true", "false"], default="false"),
 		inquirer.Text("zippath", message="If i create a zipfile with the output, can you give me the full path?", default="./output.zip"),
+		inquirer.Text("numberofreferrers", message="limit number of refferers in table", default="31"),
 	]
 	
 	answers = inquirer.prompt(questions)
@@ -129,6 +131,7 @@ def fill_output_section():
 	assethost = answers['assethost']
 	zipoutput = answers['zipoutput']
 	zippath = answers['zippath']
+	numberofreferrers = answers['numberofreferrers']
 	
 	ini_data['output'] = {
         'outputpath': outputpath,
@@ -138,15 +141,39 @@ def fill_output_section():
         'assethost': assethost,
         'zipoutput': zipoutput,
         'zippath': zippath,
+        'numberofreferrers': numberofreferrers,
     }
+
+def fill_ignorevisitorips_section():
+	global ini_data
+	ini_data['ignorevisitorips'] = {}
+	answers = {}
+	print("add as many ip's you want to ignore while parsing as you want..\n")
+	print("when finished, leave the prompts blank!\n")
+	while True:
+		questions = [
+			inquirer.Text('key', message="reference"),
+			inquirer.Text('value', message="ip to ignore")
+		]
+		response = inquirer.prompt(questions)
+
+		# If the user entered an empty newline, exit the loop
+		if not response['key'] and not response['value']:
+			break
+
+
+		# Otherwise, add the key-value pair to the answers dictionary
+		answers[response['key']] = response['value']
+		for key, value in answers.items():
+			ini_data['ignorevisitorips'][key] = [value][0]
 
 def fill_general_section():
 	global ini_data
 	questions = [
-		inquirer.Path('database_dir', message="Where is the database (existing full path)", path_type=inquirer.Path.DIRECTORY,),
-		inquirer.Text('database_file', message="What is the name of the database (ending in .db)", validate=validate_file_extension_db_sqlite3),
+		inquirer.Path('database_dir', message="Where is the database (existing full path)", path_type=inquirer.Path.DIRECTORY, default="/root/"),
+		inquirer.Text('database_file', message="What is the name of the database (ending in .db)", validate=validate_file_extension_db_sqlite3, default="db.db"),
 		inquirer.Text('timeformat', message="enter a valid timeformat", default="02/Jan/2006:15:04:05 -0700"),
-		inquirer.Text('mydomain', message="enter your top level domain (mydomain.com)"),
+		inquirer.Text('mydomain', message="enter your top level domain (mydomain.com)", default="merel.mobi"),
 		inquirer.List("writelog", message="Do i need to write logfiles?", choices=["true", "false"], default="true"),
 	]
 	answers = inquirer.prompt(questions)
@@ -184,6 +211,7 @@ def main():
 	fill_general_section()
 	fill_input_section()
 	fill_output_section()
+	fill_ignorevisitorips_section()
 	write_ini_file(config_filename)
 
 if __name__ == "__main__":
