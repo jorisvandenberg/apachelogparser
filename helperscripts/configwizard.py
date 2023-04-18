@@ -265,6 +265,41 @@ def validate_file_extension_db_sqlite3(answers, current):
 		raise inquirer.errors.ValidationError("", reason="I don't like database filename!")
 	return True
 
+def fill_allstats_sections():
+	global ini_data
+	statdb = {
+		'conf_stat_raw_PerHour_hits': {
+			'enabled': {'type': 'bool', 'validate': '', 'default': ''},
+			'table_enabled': {'type': 'bool', 'validate': '', 'default': ''},
+			'table_title': {'type': 'string', 'validate': '', 'default': ''},
+			'table_description' : {'type': 'string', 'validate': '', 'default': ''},
+			'table_pagecontent' : {'type': 'string', 'validate': '', 'default': ''},
+			'table_pagefooter' : {'type': 'string', 'validate': '', 'default': ''},
+			'table_filename' : {'type': 'string', 'validate': '', 'default': ''},
+			'table_index_name' : {'type': 'string', 'validate': '', 'default': ''},
+			'table_index_group' : {'type': 'string', 'validate': '', 'default': ''},
+			'table_index_order' : {'type': 'int', 'validate': '', 'default': ''},
+			'linegraph_enabled' : {'type': 'bool', 'validate': '', 'default': ''},
+			'linegraph_title' : {'type': 'string', 'validate': '', 'default': ''},
+			'linegraph_description' : {'type': 'string', 'validate': '', 'default': ''},
+			'linegraph_filename' : {'type': 'string', 'validate': '', 'default': ''},
+			'linegraph_index_group' : {'type': 'string', 'validate': '', 'default': ''},
+			'linegraph_index_order' : {'type': 'int', 'validate': '', 'default': ''},
+			'linegraph_compare_x_days_weeks_months_enabled' : {'type': 'bool', 'validate': '', 'default': ''},
+			'linegraph_compare_x_days_weeks_months_title' : {'type': 'list_string', 'validate': '', 'default': ''},
+			'linegraph_compare_x_days_weeks_months_description' : {'type': 'list_string', 'validate': '', 'default': ''},
+			'linegraph_compare_x_days_weeks_months_filename' : {'type': 'list_string', 'validate': '', 'default': ''},
+			'linegraph_compare_x_days_weeks_months_index_group' : {'type': 'list_string', 'validate': '', 'default': ''},
+			'linegraph_compare_x_days_weeks_months_index_order' : {'type': 'list_int', 'validate': '', 'default': ''},
+			'linegraph_compare_x_days_weeks_months_parameters' : {'type': 'list_string', 'validate': '', 'default': ''},
+		}
+	}
+	for key, value in statdb.items():
+		print(f"Key: {key}")
+		for subkey, subvalue in value.items():
+			print(f"Subkey: {subkey}")
+			print(f"Subvalue: {subvalue}")
+
 def main():
 	config_filename = get_configfilename()
 	fill_general_section()
@@ -274,6 +309,7 @@ def main():
 	fill_ignorehostagents_section()
 	fill_ignorereferrers_section()
 	fill_ignoredrequests_section()
+	fill_allstats_sections()
 	write_ini_file(config_filename)
 
 if __name__ == "__main__":
