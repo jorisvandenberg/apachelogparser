@@ -269,36 +269,42 @@ def fill_allstats_sections():
 	global ini_data
 	statdb = {
 		'conf_stat_raw_PerHour_hits': {
-			'enabled': {'type': 'bool', 'validate': '', 'default': ''},
-			'table_enabled': {'type': 'bool', 'validate': '', 'default': ''},
-			'table_title': {'type': 'string', 'validate': '', 'default': ''},
-			'table_description' : {'type': 'string', 'validate': '', 'default': ''},
-			'table_pagecontent' : {'type': 'string', 'validate': '', 'default': ''},
-			'table_pagefooter' : {'type': 'string', 'validate': '', 'default': ''},
-			'table_filename' : {'type': 'string', 'validate': '', 'default': ''},
-			'table_index_name' : {'type': 'string', 'validate': '', 'default': ''},
-			'table_index_group' : {'type': 'string', 'validate': '', 'default': ''},
-			'table_index_order' : {'type': 'int', 'validate': '', 'default': ''},
-			'linegraph_enabled' : {'type': 'bool', 'validate': '', 'default': ''},
-			'linegraph_title' : {'type': 'string', 'validate': '', 'default': ''},
-			'linegraph_description' : {'type': 'string', 'validate': '', 'default': ''},
-			'linegraph_filename' : {'type': 'string', 'validate': '', 'default': ''},
-			'linegraph_index_group' : {'type': 'string', 'validate': '', 'default': ''},
-			'linegraph_index_order' : {'type': 'int', 'validate': '', 'default': ''},
-			'linegraph_compare_x_days_weeks_months_enabled' : {'type': 'bool', 'validate': '', 'default': ''},
-			'linegraph_compare_x_days_weeks_months_title' : {'type': 'list_string', 'validate': '', 'default': ''},
-			'linegraph_compare_x_days_weeks_months_description' : {'type': 'list_string', 'validate': '', 'default': ''},
-			'linegraph_compare_x_days_weeks_months_filename' : {'type': 'list_string', 'validate': '', 'default': ''},
-			'linegraph_compare_x_days_weeks_months_index_group' : {'type': 'list_string', 'validate': '', 'default': ''},
-			'linegraph_compare_x_days_weeks_months_index_order' : {'type': 'list_int', 'validate': '', 'default': ''},
-			'linegraph_compare_x_days_weeks_months_parameters' : {'type': 'list_string', 'validate': '', 'default': ''},
+			'enabled': {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enabled?'},
+			'table_enabled': {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enable table output?'},
+			'table_title': {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table title'},
+			'table_description' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table description'},
+			'table_pagecontent' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table pagecontent'},
+			'table_pagefooter' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table pagefooter'},
+			'table_filename' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table filename'},
+			'table_index_name' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table indexfile linktext'},
+			'table_index_group' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'table indexfile group'},
+			'table_index_order' : {'type': 'int', 'validate': '', 'default': '', 'helpmessage': 'table indexfile order'},
+			'linegraph_enabled' : {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enable linegrapht output?'},
+			'linegraph_title' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph title'},
+			'linegraph_description' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph description'},
+			'linegraph_filename' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph filename'},
+			'linegraph_index_group' : {'type': 'string', 'validate': '', 'default': '', 'helpmessage': 'linegraph indexfile group'},
+			'linegraph_index_order' : {'type': 'int', 'validate': '', 'default': '', 'helpmessage': 'linegraph indexfile order'},
+			'linegraph_compare_x_days_weeks_months_enabled' : {'type': 'bool', 'validate': '', 'default': '', 'helpmessage': 'enable comparable linegraphs?'},
+			'linegraph_compare_x_days_weeks_months_title' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs title'},
+			'linegraph_compare_x_days_weeks_months_description' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs description'},
+			'linegraph_compare_x_days_weeks_months_filename' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs filename'},
+			'linegraph_compare_x_days_weeks_months_index_group' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs indexpage group'},
+			'linegraph_compare_x_days_weeks_months_index_order' : {'type': 'list_int', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs indexpage order'},
+			'linegraph_compare_x_days_weeks_months_parameters' : {'type': 'list_string', 'validate': '', 'default': '', 'helpmessage': 'comparable linegraphs parameters'},
 		}
 	}
 	for section, sectiondb in statdb.items():
 		print(f"section: {section}")
-		for key, value in sectiondb.items():
-			print(f"key: {key}")
-			print(f"value: {value}")
+		questions = []
+		for key, valuedb in sectiondb.items():
+			#print(f"key: {key}")
+			#print(f"value: {valuedb}")
+			currentquestion = inquirer.Text(key, message=valuedb['helpmessage'], default=valuedb['default'])
+			questions.append(currentquestion)
+		answers = inquirer.prompt(questions)
+		ini_data[section] = {}
+			
 
 def main():
 	config_filename = get_configfilename()
