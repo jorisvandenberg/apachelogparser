@@ -139,7 +139,7 @@ func loadquerydb(tx *sql.Tx) {
 	querymap["stmt_raw_PerHour_ReferringUrls"] += " ORDER BY"
 	querymap["stmt_raw_PerHour_ReferringUrls"] += "   aantal desc"
 	querymap["stmt_raw_PerHour_ReferringUrls"] += " LIMIT ?"
-
+	
 	querymap["stmt_unique_PerHour_ReferringUrls"] = " SELECT"
 	querymap["stmt_unique_PerHour_ReferringUrls"] += "   CASE"
 	querymap["stmt_unique_PerHour_ReferringUrls"] += "     WHEN instr(r.referrer, '??') > 0 THEN REPLACE(RTRIM(substr(r.referrer, 1, instr(r.referrer, '??') - 1), '/'), '//', '/')"

@@ -12,6 +12,9 @@ func createpiechart(XValues []string, YValues map[string]int, title string, subt
 	pie.Renderer = newSnippetRenderer(pie, pie.Validate)
 	pie.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{Title: title}),
+		charts.WithInitializationOpts(opts.Initialization{
+			AssetsHost: args.Outputs.Assethost,
+		}),
 	)
 
 	items := make([]opts.PieData, 0)
