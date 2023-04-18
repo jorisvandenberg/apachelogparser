@@ -157,15 +157,33 @@ def fill_ignorevisitorips_section():
 		]
 		response = inquirer.prompt(questions)
 
-		# If the user entered an empty newline, exit the loop
 		if not response['key'] and not response['value']:
 			break
 
-
-		# Otherwise, add the key-value pair to the answers dictionary
 		answers[response['key']] = response['value']
 		for key, value in answers.items():
 			ini_data['ignorevisitorips'][key] = [value][0]
+
+def fill_ignorehostagents_section():
+	global ini_data
+	ini_data['ignorehostagents'] = {}
+	answers = {}
+	print("add as many hostagentss you want to ignore while parsing as you want..\n")
+	print("globs welcome!!!..\n")
+	print("when finished, leave the prompts blank!\n")
+	while True:
+		questions = [
+			inquirer.Text('key', message="reference"),
+			inquirer.Text('value', message="hostagent to ignore")
+		]
+		response = inquirer.prompt(questions)
+
+		if not response['key'] and not response['value']:
+			break
+
+		answers[response['key']] = response['value']
+		for key, value in answers.items():
+			ini_data['ignorehostagents'][key] = [value][0]
 
 def fill_general_section():
 	global ini_data
@@ -212,6 +230,7 @@ def main():
 	fill_input_section()
 	fill_output_section()
 	fill_ignorevisitorips_section()
+	fill_ignorehostagents_section()
 	write_ini_file(config_filename)
 
 if __name__ == "__main__":
