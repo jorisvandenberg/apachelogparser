@@ -10,7 +10,7 @@ func writelog(args Args) {
 		newpage.Pagetitle = "detailed runlogs of the statistics application"
 		newpage.Pagedescription = "here are the logs :)"
 		newpage.Paragraphs = mylog
-		createhtmltable(args, "logs.html", newpage, "logs", 999)
+		createhtmltable(args, "logs.html", newpage, "9. logs", 999)
 	}
 	if args.Commandlines.Debug {
 		for _, printdebug := range mylog {
