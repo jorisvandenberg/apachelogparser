@@ -19,7 +19,7 @@ cp template_config.ini builds/template_config.ini
 
 #compressing binarys for supported os's and architectures
 tar cvzf builds/apachelogparser-v$1-linux-amd64.tar.gz builds/apachelogparser builds/config.ini builds/template_config.ini
-7zr a builds/apachelogparser-v$1-windows-amd64.zip builds/apachelogparser.exe builds/config.ini builds/template_config.ini
+7zr a builds/apachelogparser-v$1-windows-amd64.7z builds/apachelogparser.exe builds/config.ini builds/template_config.ini
 
 #create the nfpm.yaml including my current version 
 sed "s/vmyversion/v$1/" nfpm.yaml.template > nfpm.yaml
@@ -33,7 +33,7 @@ rpmsign --addsign builds/*.rpm
 gpg --detach-sign builds/*.deb
 gpg --detach-sign builds/*.rpm
 gpg --detach-sign builds/apachelogparser-v$1-linux-amd64.tar.gz
-gpg --detach-sign builds/apachelogparser-v$1-windows-amd64.zip
+gpg --detach-sign builds/apachelogparser-v$1-windows-amd64.7z
 
 #cleaning stuff i don't need anymore
 rm ./builds/apachelogparser
