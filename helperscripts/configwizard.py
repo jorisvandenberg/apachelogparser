@@ -604,9 +604,8 @@ def fill_allstats_sections():
 				questions.append(inquirer.Text(key, message=valuedb['helpmessage'], default=valuedb['default']))
 			else:
 				questions.append(inquirer.Text(key, message=valuedb['helpmessage'], default=valuedb['default']))
-		#print("%s" % questions)
 		answers = inquirer.prompt(questions)
-		ini_data[section] = {}
+		ini_data[section] = answers
 			
 
 def main():
