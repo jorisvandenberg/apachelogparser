@@ -3,7 +3,6 @@ image: golang
 stages:
   - test
   - build
-  - deploy
 
 format:
   stage: test
@@ -19,16 +18,11 @@ compile:
   stage: build
   script:
     - mkdir -p mybinaries
-    - go build -o mybinaries ./...
+    - go build -o mybinaries/apachelogparser ./main.go
+    - tar czf apachelogparser.tar.gz mybinaries
   artifacts:
     paths:
-      - mybinaries
-  tags:
-    - hostnamaste
-
-deploy:
-  stage: deploy
-  script: echo "Define your deployment script!"
-  environment: production
+      - apachelogparser.tar.gz
+    expire_in: 1 month
   tags:
     - hostnamaste
