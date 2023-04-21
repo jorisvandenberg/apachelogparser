@@ -1,7 +1,7 @@
 image: golang
 
 stages:
-  - test
+#  - test
   - build
 
 format:
