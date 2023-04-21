@@ -18,7 +18,8 @@ compile:
   stage: build
   script:
     - mkdir -p mybinaries
-    - go build -o mybinaries/apachelogparser ./main.go
+    - go install github.com/mattn/go-sqlite3
+    - go build -o mybinaries/apachelogparser .
     - tar czf apachelogparser.tar.gz mybinaries
   artifacts:
     paths:
