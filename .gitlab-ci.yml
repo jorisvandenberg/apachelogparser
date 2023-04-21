@@ -19,7 +19,7 @@ compile:
   stage: build
   script:
     - mkdir -p mybinaries
-    - go build . -o mybinaries ./...
+    - go build -o mybinaries ./...
   artifacts:
     paths:
       - mybinaries
