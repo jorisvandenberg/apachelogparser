@@ -33,15 +33,3 @@ compile:
     expire_in: 1 month
   tags:
     - hostnamaste
-
-docker:
-  image: golang
-  services:
-    - docker:dind
-  before_script:
-    - docker info
-  variables:
-    DOCKER_DRIVER: overlay2
-  # Map the cache directory inside the container to a directory on the host machine
-  volumes:
-    - /dockercache:/cache
